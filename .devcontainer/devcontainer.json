@@ -1,0 +1,28 @@
+{
+  "name": "tin+topo Environment",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "remoteUser": "vscode",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Anthropic.claude",
+        "OpenAI.chatgpt",
+        "Google.geminicodeassist",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "charliermarsh.ruff",
+        "mechatroner.rainbow-csv",
+        "GitHub.vscode-pull-request-github",
+        "github.vscode-github-actions",
+        "redhat.vscode-yaml",
+        "DavidAnson.vscode-markdownlint",
+        "EditorConfig.EditorConfig",
+        "ms-azuretools.vscode-containers"
+      ]
+    }
+  },
+
+  "postCreateCommand": "python -m venv .venv && .venv/bin/python -m pip install --upgrade pip && .venv/bin/python -m pip install --no-cache-dir -r requirements-dev.txt"
+}

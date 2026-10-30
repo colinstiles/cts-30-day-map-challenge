@@ -1,0 +1,17 @@
+# =============================================================================
+# Development Dependencies
+#
+# These packages extend the production environment with local development,
+# testing, and analysis tools.
+#
+# To install: pip install -r requirements-dev.txt
+# =============================================================================
+
+-r requirements.txt
+
+jupyterlab==3.6.8
+
+# Code Quality & Formatting
+ruff==0.4.8
+pytest==8.2.2
+pre-commit==3.7.1
