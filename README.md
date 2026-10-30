@@ -1,6 +1,6 @@
 # [Project Title Here]
 
-**tin+topo**
+**colin@colinstiles.com**
 
 [![Python](https://img.shields.io/badge/Python-3.x-blue.svg)](https://www.python.org/)
 [![Geopandas](https://img.shields.io/badge/Geopandas-Active-success.svg)](https://geopandas.org/)
