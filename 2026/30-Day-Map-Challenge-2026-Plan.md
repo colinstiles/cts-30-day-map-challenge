@@ -29,30 +29,30 @@
 | 4 | Nov 4 | Clusters | Historical wildfire incidents in Southern Group; heatmap or bins | Moderate |
 | 5 | Nov 5 | Senses: Sight | 3D interactive animation view from Cherokee Forest Service firetower at (82.3820370°W 36.2084546°N) | High |
 | 6 | Nov 6 | Vintage | Historic Tennessee topo map with hillshade | Moderate |
-| 7 | Nov 7 | 10 minute map | 10 minute interactive animation made in 10 minutes | High |
-| 8 | Nov 8 | Utopia | Ideal forest coverage in Tennessee | High |
+| 7 | Nov 7 | 10 minute map | 10 minute interactive animation made in 10 minutes - time the process | High |
+| 8 | Nov 8 | Utopia | Ideal distribution of American Chestnut | High |
 | 9 | Nov 9 | Urban-rural | Wildland-Urban Interface in Tennessee | Moderate |
 | 10 | Nov 10 | Prompting only | AI-generated mapping workflow | Moderate |
 | 11 | Nov 11 | Senses: Sound | Interstate high-sound corridors through Chattanooga | Moderate |
 | 12 | Nov 12 | Power | Incan/Aztec controlled areas throughout time | Moderate |
 | 13 | Nov 13 | Interactions | Forest-development interactions | High |
-| 14 | Nov 14 | Borgesian map | One watershed mapped to absurd detail | High |
+| 14 | Nov 14 | Borgesian map | Map of a single tree | Low |
 | 15 | Nov 15 | Inside out | Inverted terrain / landscape | Moderate |
 | 16 | Nov 16 | Collaborative map | Declassified CIA map of Konar Valley, Afghanistan | Moderate |
-| 17 | Nov 17 | Light & dark | Dramatic terrain and hillshade | Moderate |
+| 17 | Nov 17 | Light & dark | Bird migrations through Tennessee day vs. night | Moderate |
 | 18 | Nov 18 | NULL | Map the missing data | Moderate |
-| 19 | Nov 19 | Senses: Smell | Forest / smoke / land-use odors | Moderate |
+| 19 | Nov 19 | Senses: Smell | Distribution of Ponderosa Pine | Moderate |
 | 20 | Nov 20 | Hexagons | Wildfire Potential Hazard | Moderate |
 | 21 | Nov 21 | OpenStreetMap | Per capita choropleth of countries that contribute to OSM | Moderate |
-| 22 | Nov 22 | Projections | Tennessee through multiple projections | Moderate |
-| 23 | Nov 23 | Senses: Taste | Tennessee agriculture / food distribution to globe | Moderate |
-| 24 | Nov 24 | Network | Forest-road or stream network | High |
-| 25 | Nov 25 | Is this a map? | Abstract geographic visualization | High |
+| 22 | Nov 22 | Projections | Create a new projection | Moderate |
+| 23 | Nov 23 | Senses: Taste | Tennessee agriculture/food distribution to globe | Moderate |
+| 24 | Nov 24 | Network | Flow of crypto funds throughout the world | High |
+| 25 | Nov 25 | Is this a map? | Make a map in a non-mapping software (pandas dataframe, Notion, etc.) | High |
 | 26 | Nov 26 | Water | Watershed of North Chick Creek Gorge | High |
 | 27 | Nov 27 | New tool | something made in Sketchfab | High |
 | 28 | Nov 28 | Senses: Feeling | 3D hydro model of recent flooding in Nepal | High |
 | 29 | Nov 29 | Raster | Wildfire Suppression Difficulty Index | Moderate |
-| 30 | Nov 30 | Pen & paper | Hand-drawn Tennessee map | Low |
+| 30 | Nov 30 | Pen & paper | Hand-drawn with my left hand | Low |
 
 ---
 
