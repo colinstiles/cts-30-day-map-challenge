@@ -61,10 +61,10 @@
 ## Day 1 — Points
 **Date:** November 1  
 **Concept:** **Mars Caves**
-**Tool:** **ArcGIS Pro; Python
+**Tool:** ArcGIS Pro; Python
 
 ### Map ideas
-1. **Caves on Mars** — cave point locations on Mars Astro Tharsis
+- **Caves on Mars** — cave point locations on Mars Astro Tharsis
 
 ### Hyperlink
 https://www.usgs.gov/news/caves-mars
