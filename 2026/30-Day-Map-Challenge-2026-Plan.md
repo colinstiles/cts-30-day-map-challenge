@@ -2,7 +2,7 @@
 
 **Challenge:** #30DayMapChallenge 2026  
 **Dates:** November 1–30, 2026  
-**Tools:** ArcGIS Pro, Python, AGOL, GeoLibre, Sketchfab, Blender, Cesium  
+**Tools:** ArcGIS Pro, Python, AGOL, GeoLibre, Sketchfab, Blender, Cesium, kepler.gl  
 **Geographic emphasis:** Tennessee, Southeast US, forestry, water, landscape, infrastructure, planetary  
 **Planning approach:** Favor original, visually strong maps that also let me experiment with cartography, analysis, and new tools.
 
