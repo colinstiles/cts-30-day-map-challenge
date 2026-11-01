@@ -23,28 +23,28 @@
 
 | Day | Date | Official Theme | Primary Concept | Expected Effort |
 |---:|---|---|---|---|
-| 1 | Nov 1 | Points | Cave locations on Mars Astro Tharsis (USGS data) | Moderate |
+| 1 | Nov 1 | Points | Cave locations on Mars Astro Tharsis | Moderate |
 | 2 | Nov 2 | Lines | Contours and Cumber Trail lines | Moderate |
 | 3 | Nov 3 | Polygons | Descending watersheds, from HUC2 down to HUC12 | Low |
 | 4 | Nov 4 | Clusters | Historical wildfire incidents in Southern Group; heatmap or bins | Moderate |
 | 5 | Nov 5 | Senses: Sight | 3D interactive animation view from Cherokee Forest Service firetower at (82.3820370°W 36.2084546°N) | High |
 | 6 | Nov 6 | Vintage | Historic Tennessee topo map with hillshade | Moderate |
-| 7 | Nov 7 | 10 minute map | 10 minute interactive animation made in 10 minutes - time the process | High |
+| 7 | Nov 7 | 10 minute map | 10-minute animated flyover of an actual wildfire incident (maybe the Sevier County wildfire), with an on-screen build-time stamp | High |
 | 8 | Nov 8 | Utopia | Ideal distribution of American Chestnut | High |
 | 9 | Nov 9 | Urban-rural | Wildland-Urban Interface in Tennessee | Moderate |
-| 10 | Nov 10 | Prompting only | AI-generated mapping workflow | Moderate |
+| 10 | Nov 10 | Prompting only | AI creates a fictional place/world from scratch, purely via prompting | Moderate |
 | 11 | Nov 11 | Senses: Sound | Interstate high-sound corridors through Chattanooga | Moderate |
 | 12 | Nov 12 | Power | Incan/Aztec controlled areas throughout time | Moderate |
-| 13 | Nov 13 | Interactions | Forest-development interactions | High |
+| 13 | Nov 13 | Interactions | Emerald Ash Borer spread along Tennessee's interstate corridors | High |
 | 14 | Nov 14 | Borgesian map | Map of a single tree | Low |
-| 15 | Nov 15 | Inside out | Inverted terrain / landscape | Moderate |
+| 15 | Nov 15 | Inside out | North Chickamauga Creek Gorge: inverted terrain + inverted forest/developed figure-ground | Moderate |
 | 16 | Nov 16 | Collaborative map | Declassified CIA map of Konar Valley, Afghanistan | Moderate |
 | 17 | Nov 17 | Light & dark | Sri Chinmoy Self-Transcendence Race | Moderate |
 | 18 | Nov 18 | NULL | 1994 Marathon des Sables, Mauro Prosperi gets blown 291km off course | Moderate |
 | 19 | Nov 19 | Senses: Smell | Distribution of Ponderosa Pine | Moderate |
 | 20 | Nov 20 | Hexagons | Wildfire Potential Hazard | Moderate |
 | 21 | Nov 21 | OpenStreetMap | Per capita choropleth of countries that contribute to OSM | Moderate |
-| 22 | Nov 22 | Projections | Create a new projection | Moderate |
+| 22 | Nov 22 | Projections | A new projection built for Day 10's fictional world | Moderate |
 | 23 | Nov 23 | Senses: Taste | Tennessee agriculture/food distribution to globe | Moderate |
 | 24 | Nov 24 | Network | Flow of crypto funds throughout the world | High |
 | 25 | Nov 25 | Is this a map? | Make a map in a non-mapping software (pandas dataframe, Notion, etc.) | High |
@@ -176,18 +176,18 @@ Focus on cartographic styling rather than historical data sourcing — apply vin
 
 ## Day 7 — 10 Minute Map
 **Date:** November 7  
-**Concept:** **10-Minute Interactive Animation**
+**Concept:** **10-Minute Animated Flyover of a Real Wildfire Incident**
 
 ### Map ideas
-1. A short interactive animation (web map or GIF) built start-to-finish in 10 minutes.
-2. Animate a simple Tennessee dataset you already have on hand (e.g., counties, rivers, cities).
-3. A time-lapse or sequential-reveal animation of a straightforward theme.
+1. A short animated camera flyover of an actual wildfire incident's perimeter and progression, built start-to-finish in 10 minutes — possibly the Sevier County wildfire.
+2. Use ArcGIS Pro's animation timeline with camera keyframes draped over terrain, with the fire perimeter (and growth over time, if the data supports it) as the subject.
+3. Burn a visible stopwatch/timer overlay into the exported video showing exactly how long the build took.
 
 ### Rule
-Set a timer for **10 minutes** and stop. Do not polish afterward.
+Set a timer for **10 minutes** and stop. Do not polish afterward. The on-screen timer stamp is the proof.
 
 ### Recommended direction
-Use a dataset and tool you already know well so the full process — including making it interactive/animated — fits inside the 10-minute window. The constraint is the point, not the complexity.
+Pick one well-documented incident with an existing perimeter dataset so no new data sourcing eats into the window — just basemap, perimeter/incident data, and camera keyframes. The constraint (and the honest timer burned into the video) is the point, not the complexity.
 
 **Expected effort:** **High**
 
@@ -235,23 +235,20 @@ Use the standard WUI classification (interface vs. intermix) rather than a gener
 
 ## Day 10 — Prompting Only
 **Date:** November 10  
-**Concept:** **AI Makes a Map**
+**Concept:** **AI Creates a Fictional World From Scratch**
 
 ### Experiment
-Use AI from start to finish for the mapping workflow, ideally through a chat or command-line workflow, and document the result.
+Use AI from start to finish, purely through prompting, to invent an entirely fictional place — or an entire fictional world — with no real-world data involved. Document the prompt chain alongside the result.
 
 ### Possible challenge
-Ask AI to produce a complete map specification or script for a Tennessee subject such as:
-- forest cover
-- streams
-- wildfire
-- elevation
-- county population
-
-Then execute the generated workflow with minimal manual intervention.
+Prompt an AI to generate the geography, coastlines, terrain, place names, and political boundaries of a world that doesn't exist, then execute whatever workflow it proposes (scripted procedural generation, a drawn/rendered map, etc.) with minimal manual intervention.
 
 ### Recommended direction
-Treat this as an experiment. The interesting output is both the map **and** what the workflow reveals about AI-generated cartography.
+Treat this as a two-day arc: the fictional world built here becomes the basis for Day 22's custom map projection, so keep whatever geographic data or geometry comes out of this day (coordinate system, extent, coastline geometry) in a reusable form.
+
+### Technical opportunity
+- Procedural/fictional terrain or coastline generation via AI-authored code
+- A defined (even if informal) coordinate reference frame for the fictional world, to carry into Day 22
 
 **Expected effort:** **Moderate**
 
@@ -299,22 +296,20 @@ This is a historical-boundary mapping exercise, not an infrastructure map. Focus
 
 ## Day 13 — Interactions
 **Date:** November 13  
-**Concept:** **Where Forests Meet Development**
+**Concept:** **Emerald Ash Borer Spread Along Tennessee's Interstate Corridors**
 
 ### Map ideas
-1. Forest loss around expanding urban areas.
-2. Roads interacting with forest fragmentation.
-3. Development pressure near protected lands.
-4. Streams interacting with development and agriculture.
+1. Emerald Ash Borer (EAB) detection locations over time, layered against Tennessee's interstate network.
+2. A spread-over-time animation or small multiples showing infestation following transportation corridors outward from initial detection points.
+3. Proximity analysis: distance from interstate/highway vs. EAB detection density.
 
 ### Recommended direction
-Make the map about **relationships**, not just two datasets shown together.
+Make the map about the **relationship** between an invasive forest pest and the infrastructure that spreads it — EAB moves largely via firewood and nursery stock transported along major roads, so the interstate network isn't just a basemap layer, it's the mechanism being mapped.
 
 ### Technical opportunity
-- Overlay analysis
-- Fragmentation metrics
-- Proximity analysis
-- Spatial joins
+- USDA APHIS / Forest Service EAB detection records
+- TDOT interstate/highway network
+- Proximity and spread-over-time analysis
 
 **Expected effort:** **High**
 
@@ -341,16 +336,19 @@ The point is Borges' map-as-territory idea taken literally at the smallest possi
 
 ## Day 15 — Inside Out
 **Date:** November 15  
-**Concept:** **Turn Tennessee's Landscape Inside Out**
+**Concept:** **North Chickamauga Creek Gorge, Inverted**
 
 ### Map ideas
-1. Invert an elevation model so valleys become peaks.
-2. Reverse hillshade illumination.
-3. Create an upside-down or inverted terrain visualization.
-4. Show the negative space of watersheds instead of watersheds themselves.
+1. Invert the gorge's elevation model so the gorge walls read as peaks and the ridgelines read as a valley.
+2. A companion figure/ground inversion: render developed land as the visible "shape" and forest as the void, instead of the usual other way around.
+3. Pair the two inversions (terrain and land-cover) side by side as a diptych for the day.
 
 ### Recommended direction
-Use a familiar landscape and make the cartographic logic subtly wrong.
+Build two inversions of the same place rather than one: an inverted terrain relief of the gorge itself, and an inverted forest-vs-developed figure/ground treatment of the surrounding land cover. Together they make "inside out" a method, not just a visual trick, and set up Day 26's right-side-up treatment of the same gorge as a quiet callback.
+
+### Technical opportunity
+- DEM of North Chickamauga Creek Gorge, elevation-inverted
+- Land cover classification (forest vs. developed/non-forest) rendered as an inverted figure/ground composition
 
 **Expected effort:** **Moderate**
 
@@ -377,18 +375,15 @@ Use a familiar landscape and make the cartographic logic subtly wrong.
 
 ## Day 17 — Light & Dark
 **Date:** November 17  
-**Concept:** **Tennessee Bird Migration, Day vs. Night**
+**Concept:** **Sri Chinmoy Self-Transcendence Race**
 
 ### Map ideas
-1. Migratory bird flight paths through Tennessee split into day vs. night movement.
-2. A light/dark palette distinguishing diurnal and nocturnal migration intensity.
-3. Overlay with light-pollution data to show how night migration interacts with artificial light.
+1. Map the race's short city-block loop course, run continuously day and night for over 50 days straight, with a light/dark treatment showing runner activity across the full day-night cycle.
+2. A time-of-day ring or spiral visualization of lap activity around the loop, distinguishing daylight hours from night hours.
+3. Pair the tiny physical course with the enormous cumulative distance (3,100 miles) covered by looping it thousands of times, day and night without stopping, as the "light & dark" contrast.
 
 ### Recommended direction
-Use a light-vs-dark visual treatment to literally separate day and night migration patterns, rather than a generic hillshade light/dark map.
-
-### Potential data
-- BirdCast / eBird migration data, Cornell Lab of Ornithology
+The race's defining feature is that it runs continuously through day and night for weeks at a time — use that literal day/night cycle, not a generic hillshade or lighting treatment, as the organizing idea for the map.
 
 **Expected effort:** **Moderate**
 
@@ -396,16 +391,15 @@ Use a light-vs-dark visual treatment to literally separate day and night migrati
 
 ## Day 18 — NULL
 **Date:** November 18  
-**Concept:** **Mapping What We Don't Know**
+**Concept:** **1994 Marathon des Sables: Mauro Prosperi's 291km Off Course**
 
 ### Map ideas
-1. Data gaps in a statewide dataset.
-2. NULL / unknown attribute values.
-3. Areas with no observations.
-4. A map emphasizing the geography of missing data.
+1. The known race route of the 1994 Marathon des Sables alongside Mauro Prosperi's last known position before he vanished into a sandstorm.
+2. A map showing the gap between where he was last tracked and where he was eventually found — roughly 291km away in Algeria — with the days in between rendered as a literal unknown/NULL region rather than a reconstructed line.
+3. Treat the missing week of his actual path as the map's subject: known start, known end, true path NULL.
 
 ### Recommended direction
-Do not treat NULL as a nuisance. Make the **absence of information** the subject of the map.
+Tie this directly to the NULL theme: his real position was genuinely unknown for over a week. Resist the urge to fully reconstruct his path — the honest map is the one that shows the known points and leaves the gap in between empty.
 
 **Expected effort:** **Moderate**
 
@@ -471,18 +465,18 @@ Pull OSM contributor/edit statistics normalized by country population, and build
 
 ## Day 22 — Projections
 **Date:** November 22  
-**Concept:** **Designing a New Map Projection**
+**Concept:** **A New Projection for Day 10's Fictional World**
 
 ### Map ideas
-1. Derive and implement an original map projection (a mathematical transformation of latitude/longitude).
-2. Apply the new projection to a world or Tennessee basemap and compare distortion to standard projections.
-3. Document the math and design intent behind the new projection alongside the map.
+1. Derive and implement an original map projection (a mathematical transformation of coordinates) built specifically for the fictional world created on Day 10.
+2. Render that world using the new projection and compare its distortion to standard real-world projections applied to the same geometry.
+3. Document the math and design intent behind the projection alongside the map, closing the two-day arc that started with Day 10's AI-generated world.
 
 ### Recommended direction
-This is the most technical day of the month — actually define a projection's transformation equations (even a novel variant or hybrid of existing ones) and render a map using it, rather than just comparing existing projections.
+This is the most technical day of the month — actually define a projection's transformation equations (even a novel variant or hybrid of existing ones), fitted to the fictional world's own shape and extent rather than to Earth. Reusing Day 10's invented geography means the projection's distortion characteristics are being designed for a world nobody has ever had to project before.
 
 ### Technical opportunity
-- Custom projection math (e.g., via a Python/PROJ pipeline or a pyproj custom CRS)
+- Custom projection math (e.g., via a Python/PROJ pipeline or a pyproj custom CRS) fit to Day 10's fictional coordinate frame
 - Distortion comparison (Tissot's indicatrix) against the new projection
 
 **Expected effort:** **Moderate**
