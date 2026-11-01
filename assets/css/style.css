@@ -1,0 +1,192 @@
+:root {
+  /* Dark-theme variant of the colinstiles.com brand palette
+     (olive green / saddle brown / cream) on a true dark background. */
+  --primary-color: #9CBB74; /* Lightened Dark Olive Green, for contrast on dark bg */
+  --primary-color-rgb: 156, 187, 116;
+  --secondary-color: #D99A5B; /* Lightened Saddle Brown */
+  --text-color: #F2EFE4; /* Beige/cream */
+  --text-color-muted: #B8B5A8;
+  --background-page: #15150F; /* Near-black, warm undertone */
+  --background-panel: #1E2017;
+  --background-panel-hover: #262819;
+  --border-color: #3A3B2D;
+
+  --font-family-base: 'Lato', sans-serif;
+  --font-size-base: 17px;
+  --font-size-small: 0.9em;
+  --font-weight-light: 300;
+  --font-weight-bold: 900;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  background: var(--background-page);
+  color: var(--text-color);
+}
+
+a {
+  color: var(--primary-color);
+}
+
+.challenge-shell {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 40px 18px 56px;
+}
+
+.challenge-header {
+  margin-bottom: 28px;
+}
+
+.challenge-back {
+  color: var(--text-color-muted);
+  font-size: var(--font-size-small);
+  text-decoration: none;
+}
+
+.challenge-back:hover {
+  color: var(--primary-color);
+}
+
+.challenge-header h1 {
+  margin: 8px 0 8px;
+  font-size: 2.2em;
+  font-weight: var(--font-weight-light);
+  color: var(--primary-color);
+}
+
+.challenge-header p {
+  margin: 0 0 20px;
+  color: var(--text-color-muted);
+  max-width: 70ch;
+}
+
+.challenge-header a.plan-link {
+  color: var(--secondary-color);
+  font-size: var(--font-size-small);
+}
+
+.year-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.year-tabs a {
+  padding: 8px 16px;
+  border-radius: 4px;
+  background: var(--background-panel);
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  font-size: var(--font-size-small);
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.year-tabs a:hover {
+  background: var(--primary-color);
+  color: var(--background-page);
+}
+
+.year-tabs a.active {
+  background: var(--primary-color);
+  color: var(--background-page);
+}
+
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 22px;
+  margin-top: 28px;
+}
+
+.day-card {
+  background: var(--background-panel);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.day-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35);
+  background: var(--background-panel-hover);
+}
+
+.day-frame {
+  display: block;
+  aspect-ratio: 4 / 3;
+  background: #0E0E0A;
+}
+
+.day-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.day-frame--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 16px;
+}
+
+.day-placeholder-text {
+  color: var(--text-color-muted);
+  font-size: var(--font-size-small);
+  font-style: italic;
+}
+
+.day-meta {
+  padding: 14px 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.day-number {
+  color: var(--secondary-color);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-small);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.day-theme {
+  color: var(--text-color-muted);
+  font-size: var(--font-size-small);
+}
+
+.day-concept {
+  margin: 4px 0 2px;
+  font-size: 1.05em;
+  font-weight: var(--font-weight-light);
+  color: var(--text-color);
+}
+
+.day-date {
+  color: var(--text-color-muted);
+  font-size: var(--font-size-small);
+}
+
+@media (max-width: 600px) {
+  .challenge-shell {
+    padding: 24px 14px 40px;
+  }
+
+  .day-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+}

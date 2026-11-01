@@ -19,7 +19,7 @@
 
 ---
 
-## 30-Day Plan at a Glance
+## 30 Days of Maps
 
 | Day | Date | Official Theme | Primary Concept | Expected Effort |
 |---:|---|---|---|---|
@@ -81,20 +81,19 @@ Use a curated set of Tennessee forestry-related places rather than simply plotti
 
 ## Day 2 — Lines
 **Date:** November 2  
-**Concept:** **Tennessee's Stream Network**
+**Concept:** **Cumberland Trail Contours**
 
 ### Map ideas
-1. Stream network styled by **stream order**.
-2. A hierarchical map showing **headwaters → major tributaries → Tennessee River system**.
-3. A highly simplified statewide hydrographic map where line weight creates the visual hierarchy.
+1. Cumberland Trail route styled over contour lines showing elevation change along the trail.
+2. An elevation profile of the Cumberland Trail paired with a contour map of the terrain it crosses.
+3. Contour-line cartography emphasizing the terrain the trail passes through, segment by segment.
 
 ### Recommended direction
-Build a cartographic stream-network map with almost no competing layers. Use line hierarchy, subtle terrain, and a restrained palette.
+Build a cartographic map centered on the Cumberland Trail's path through Tennessee terrain, with contour lines as the primary structuring element. Keep competing layers minimal and let line hierarchy between trail and topography carry the design.
 
 ### Potential data
-- NHD / 3DHP hydrography
-- TDEC / Tennessee stream datasets
-- DEM-derived stream network
+- Cumberland Trail Conference / Tennessee State Parks trail GIS data
+- USGS contours / DEM-derived contour lines
 
 **Expected effort:** **Moderate**
 
@@ -102,33 +101,37 @@ Build a cartographic stream-network map with almost no competing layers. Use lin
 
 ## Day 3 — Polygons
 **Date:** November 3  
-**Concept:** **Tennessee Forest Landscape**
+**Concept:** **Tennessee Watersheds, HUC2 to HUC12**
 
 ### Map ideas
-1. Forest cover or forest-type polygons.
-2. Tennessee physiographic regions.
-3. Ecological sections / ecoregions.
-4. Protected lands as a polygon composition.
+1. A nested polygon map descending from HUC2 region down through HUC12 subwatersheds.
+2. Small multiples showing the same area at each HUC level (2 / 4 / 6 / 8 / 10 / 12).
+3. A single composite map using transparency and line weight to show watershed nesting.
 
 ### Recommended direction
-A forest-type or ecological-region map will connect directly to your professional work while giving you an opportunity to create a sophisticated polygon-focused design.
+Treat this as a polygon-hierarchy exercise. Use consistent symbology across HUC levels so viewers can see how the delineation changes as scale increases.
 
-**Expected effort:** **Moderate**
+### Potential data
+- USGS Watershed Boundary Dataset (WBD), HUC2 through HUC12
+
+**Expected effort:** **Low**
 
 ---
 
 ## Day 4 — Clusters
 **Date:** November 4  
-**Concept:** **Where Forest Disturbance Clusters**
+**Concept:** **Wildfire Incident Clusters, Southern Group**
 
 ### Map ideas
-1. Wildfire ignition clusters.
-2. Storm-damage clusters.
-3. Forest pest or invasive-species observations.
-4. FIA disturbance observations aggregated into hotspots.
+1. A point-cluster or hexbin map of historical wildfire incidents across the USFS Southern Group.
+2. A kernel-density heatmap of ignition points.
+3. Binned aggregation (hex or grid) comparing incident density by area.
 
 ### Recommended direction
-Use a real clustering method rather than simply making a point-density map. A statewide or regional hotspot map could be especially compelling.
+Use a real clustering or binning method — heatmap or hex bins — rather than raw points. The goal is to reveal where fire activity concentrates across the Southern Group.
+
+### Potential data
+- USFS / NIFC historical wildfire occurrence data for the Southern Group
 
 **Expected effort:** **Moderate**
 
@@ -136,21 +139,20 @@ Use a real clustering method rather than simply making a point-density map. A st
 
 ## Day 5 — Senses: Sight
 **Date:** November 5  
-**Concept:** **What Can a Tennessee Lookout See?**
+**Concept:** **View from the Cherokee Fire Tower**
 
 ### Map ideas
-1. Viewshed from a fire tower.
-2. Viewshed from a Tennessee mountain summit.
-3. Visibility from a forest overlook.
-4. A cumulative viewshed from several scenic locations.
+1. A 3D interactive fly-around / animation rendered from the firetower's exact coordinates (82.3820370°W, 36.2084546°N).
+2. A 3D viewshed draped over terrain, animated as a rotating or panning camera.
+3. Pair the animation with a static viewshed map as a companion piece.
 
 ### Recommended direction
-A fire-tower viewshed is the strongest match to your forestry background. Pair the viewshed with a subtle DEM and terrain shading.
+Build a 3D interactive animation — not just a static viewshed — from the Cherokee fire tower location, using DEM-derived terrain. This is a good fit for ArcGIS Pro's 3D scene and animation tools, exported as a short video or interactive web scene.
 
 ### Technical opportunity
-- ArcGIS Pro Viewshed / Geodesic Viewshed
-- DEM and landform context
-- Optional horizon-distance analysis
+- ArcGIS Pro 3D Scene + Animation timeline
+- DEM-draped terrain at the exact coordinates
+- Optional geodesic viewshed as an overlay/companion layer
 
 **Expected effort:** **High**
 
@@ -158,59 +160,55 @@ A fire-tower viewshed is the strongest match to your forestry background. Pair t
 
 ## Day 6 — Vintage
 **Date:** November 6  
-**Concept:** **Tennessee Forestry, 1930s–1950s**
+**Concept:** **Historic Tennessee Topo + Hillshade**
 
 ### Map ideas
-1. Re-create the appearance of an old Tennessee topographic or forestry map.
-2. Style a modern forest map like an early USGS sheet.
-3. Use historical roads, counties, rivers, and forests to build a genuinely historical map.
+1. Recreate the look of a historic USGS Tennessee topographic sheet.
+2. Pair vintage topo styling with a modern hillshade for depth.
+3. Use period typography, contour styling, and a muted historical palette over current terrain data.
 
 ### Recommended direction
-Make this a cartographic exercise rather than simply placing a vintage basemap underneath modern data. Use period typography, paper texture, muted inks, and historical symbology.
+Focus on cartographic styling rather than historical data sourcing — apply vintage topo symbology and labeling conventions to a hillshade-based terrain map of Tennessee.
 
-**Expected effort:** **High**
+**Expected effort:** **Moderate**
 
 ---
 
 ## Day 7 — 10 Minute Map
 **Date:** November 7  
-**Concept:** **The Tennessee Map I Can Make in 10 Minutes**
+**Concept:** **10-Minute Interactive Animation**
 
 ### Map ideas
-1. Tennessee counties with one simple quantitative variable.
-2. Major rivers and cities.
-3. Annual precipitation by county.
-4. A simple elevation choropleth.
+1. A short interactive animation (web map or GIF) built start-to-finish in 10 minutes.
+2. Animate a simple Tennessee dataset you already have on hand (e.g., counties, rivers, cities).
+3. A time-lapse or sequential-reveal animation of a straightforward theme.
 
 ### Rule
 Set a timer for **10 minutes** and stop. Do not polish afterward.
 
 ### Recommended direction
-Use a dataset you already have. The value of this map is the constraint, not the complexity.
+Use a dataset and tool you already know well so the full process — including making it interactive/animated — fits inside the 10-minute window. The constraint is the point, not the complexity.
 
-**Expected effort:** **Very Low**
+**Expected effort:** **High**
 
 ---
 
 ## Day 8 — Utopia
 **Date:** November 8  
-**Concept:** **A Tennessee Where Everyone Has Access to Forests**
+**Concept:** **A Tennessee With Chestnuts Restored**
 
 ### Map ideas
-1. Every community within 15/30 minutes of a public forest or park.
-2. Proposed network of new forests or greenways connecting population centers.
-3. Ideal statewide conservation corridors.
-4. A hypothetical statewide forest-access system.
+1. An idealized/restored range map for the American Chestnut across Tennessee.
+2. Historic chestnut range vs. a hypothetical restored distribution.
+3. A suitable-habitat model for reintroduction sites.
 
 ### Recommended direction
-Make a map of something that **could exist**, not simply a map of something that already exists.
+Make this a map of what could be — a hypothetical ideal distribution of the American Chestnut if blight-resistant restoration succeeds, grounded in historic range and current habitat suitability.
 
 ### Technical opportunity
-- Network analysis
-- Service areas
-- Population data
-- Existing public lands
-- Hypothetical suitability analysis
+- Historic range data / species distribution modeling
+- Habitat suitability analysis (climate, soil, elevation)
+- American Chestnut Foundation restoration data
 
 **Expected effort:** **High**
 
@@ -218,16 +216,18 @@ Make a map of something that **could exist**, not simply a map of something that
 
 ## Day 9 — Urban-rural
 **Date:** November 9  
-**Concept:** **The Tennessee Urban-Rural Gradient**
+**Concept:** **Tennessee's Wildland-Urban Interface**
 
 ### Map ideas
-1. Population density transitioning from urban cores to rural areas.
-2. Impervious surface vs. forest cover.
-3. A continuous urban-rural index.
-4. Map the landscape around Nashville, Memphis, Knoxville, and Chattanooga as a series of gradients.
+1. A statewide WUI classification map (interface, intermix, non-WUI).
+2. WUI growth/change over time, if historical data is available.
+3. WUI overlaid with wildfire risk or forest cover.
 
 ### Recommended direction
-Avoid a simple binary urban/rural classification. A continuous gradient would be more cartographically interesting.
+Use the standard WUI classification (interface vs. intermix) rather than a generic urban/rural gradient — this connects directly to forestry and wildfire-risk work.
+
+### Potential data
+- USFS / SILVIS Wildland-Urban Interface datasets
 
 **Expected effort:** **Moderate**
 
@@ -259,16 +259,20 @@ Treat this as an experiment. The interesting output is both the map **and** what
 
 ## Day 11 — Senses: Sound
 **Date:** November 11  
-**Concept:** **Tennessee Soundscape**
+**Concept:** **High-Sound Interstate Corridors in Chattanooga**
 
 ### Map ideas
-1. Transportation noise around major cities.
-2. Natural soundscape: rivers, waterfalls, forests, birds, or protected areas.
-3. A conceptual map of where Tennessee is loudest and quietest.
-4. Distance from major noise sources.
+1. Interstate corridors through Chattanooga styled or ranked by estimated traffic noise.
+2. Buffer zones around interstates showing noise falloff distance.
+3. Overlay noise corridors with neighborhoods or land use to show exposure.
 
 ### Recommended direction
-A natural soundscape map would be more distinctive than a conventional noise-pollution map.
+Focus specifically on Chattanooga's interstate network (I-24 / I-75 / I-59) and model or symbolize relative noise intensity along those corridors, rather than a generic statewide soundscape.
+
+### Potential data
+- FHWA traffic volume data
+- TDOT interstate network
+- Noise modeling approximations (distance/volume-based proxy if no modeled noise data exists)
 
 **Expected effort:** **Moderate**
 
@@ -276,16 +280,18 @@ A natural soundscape map would be more distinctive than a conventional noise-pol
 
 ## Day 12 — Power
 **Date:** November 12  
-**Concept:** **Tennessee's Power Network**
+**Concept:** **Incan and Aztec Territorial Power Over Time**
 
 ### Map ideas
-1. Transmission lines and substations.
-2. Electricity generation facilities.
-3. Hydroelectric infrastructure.
-4. A map of energy production and transmission density.
+1. Small multiples or an animated sequence showing Incan empire extent over time.
+2. The same treatment for Aztec-controlled territory.
+3. A side-by-side comparison of both empires at their peak extents.
 
 ### Recommended direction
-Use infrastructure as the literal interpretation, but make the visual hierarchy dramatic.
+This is a historical-boundary mapping exercise, not an infrastructure map. Focus on sourcing credible historical extent data and showing change over time clearly through small multiples or animation.
+
+### Potential data
+- Published historical GIS boundary compilations for Incan and Aztec territorial extent
 
 **Expected effort:** **Moderate**
 
@@ -316,20 +322,20 @@ Make the map about **relationships**, not just two datasets shown together.
 
 ## Day 14 — Borgesian Map
 **Date:** November 14  
-**Concept:** **A Map That Becomes the Territory**
+**Concept:** **The Map of a Single Tree**
 
 ### Map ideas
-1. Map one small watershed at absurdly detailed scale.
-2. Show every stream segment, road, culvert, contour, parcel, tree, building, and land-cover transition available.
-3. Build a map that deliberately approaches the impossible ideal described by Borges.
+1. An extremely detailed "map" of one individual tree — branches, canopy extent, root zone — as if it were a landscape.
+2. Treat the tree's structure (trunk, limbs, canopy) with map conventions: contours, labels, scale.
+3. A conceptual piece where tree anatomy is rendered using cartographic symbology (elevation = height, "watersheds" = branch structure).
 
 ### Recommended direction
-Choose a **small Tennessee watershed** and go very deep rather than mapping the whole state.
+Pick one real or representative tree and go absurdly deep — treat its canopy and branch structure the way you would treat terrain, applying genuine cartographic techniques (contour-like lines, hierarchy, labeling) to a non-geographic subject.
 
 ### Design concept
-The final map should feel almost excessive: dense, detailed, intricate, and slightly absurd.
+The point is Borges' map-as-territory idea taken literally at the smallest possible scale: a single tree treated with the full apparatus of a detailed topographic map.
 
-**Expected effort:** **Very High**
+**Expected effort:** **Low**
 
 ---
 
@@ -352,16 +358,18 @@ Use a familiar landscape and make the cartographic logic subtly wrong.
 
 ## Day 16 — Collaborative Map
 **Date:** November 16  
-**Concept:** **Tennessee Through Two GIS Perspectives**
+**Concept:** **Reworking a Declassified CIA Map of Konar Valley**
 
-### Collaboration options
-1. Make a map with another GIS professional.
-2. Ask a forester to choose the subject and you handle cartography.
-3. Let a colleague choose the design while you provide the analysis.
-4. Build a map where each contributor owns half of the workflow.
+### Map ideas
+1. Source a declassified CIA map of the Konar Valley, Afghanistan, and reinterpret or redraw it with modern cartographic technique.
+2. Georeference the historical map and overlay modern data for comparison.
+3. Collaborate with someone else by splitting the work: one person handles georeferencing/sourcing, the other handles redesign.
 
 ### Recommended direction
-A division of labor will make the collaboration genuinely visible in the final product.
+"Collaborative" here can mean collaborating across time with the original cartographer — source the declassified map, georeference it, and produce a modern reinterpretation or direct comparison.
+
+### Potential data
+- CIA / declassified map archives (e.g., University of Texas Perry-Castañeda Library historical map collection)
 
 **Expected effort:** **Moderate**
 
@@ -369,16 +377,18 @@ A division of labor will make the collaboration genuinely visible in the final p
 
 ## Day 17 — Light & Dark
 **Date:** November 17  
-**Concept:** **Tennessee in Light and Shadow**
+**Concept:** **Tennessee Bird Migration, Day vs. Night**
 
 ### Map ideas
-1. Dramatic hillshade over Appalachian terrain.
-2. Terrain illuminated from an unusual direction.
-3. Light pollution vs. dark-sky areas.
-4. A mostly monochrome elevation map with extreme light/shadow treatment.
+1. Migratory bird flight paths through Tennessee split into day vs. night movement.
+2. A light/dark palette distinguishing diurnal and nocturnal migration intensity.
+3. Overlay with light-pollution data to show how night migration interacts with artificial light.
 
 ### Recommended direction
-This is a strong opportunity to build on the natural-earth hillshade style you've been developing in ArcGIS Pro.
+Use a light-vs-dark visual treatment to literally separate day and night migration patterns, rather than a generic hillshade light/dark map.
+
+### Potential data
+- BirdCast / eBird migration data, Cornell Lab of Ornithology
 
 **Expected effort:** **Moderate**
 
@@ -403,17 +413,18 @@ Do not treat NULL as a nuisance. Make the **absence of information** the subject
 
 ## Day 19 — Senses: Smell
 **Date:** November 19  
-**Concept:** **What Does Tennessee Smell Like?**
+**Concept:** **Distribution of Ponderosa Pine**
 
 ### Map ideas
-1. Forests and aromatic plants.
-2. Wildfire smoke / burned landscapes.
-3. Agricultural areas associated with recognizable odors.
-4. Industrial / wastewater / landfill odor sources.
-5. A playful seasonal scent map.
+1. A range map of Ponderosa Pine across its natural distribution.
+2. A Ponderosa Pine density/abundance surface.
+3. Pair the distribution map with a note on its distinctive vanilla/butterscotch bark scent as the "smell" connection.
 
 ### Recommended direction
-This is one of the best days to intentionally depart from conventional GIS and make something conceptual.
+Make this a straightforward, well-executed species distribution map. The "smell" theme is carried by Ponderosa Pine's famously scented bark, so let the map focus on range and density.
+
+### Potential data
+- USFS FIA / USGS tree species range data
 
 **Expected effort:** **Moderate**
 
@@ -421,17 +432,18 @@ This is one of the best days to intentionally depart from conventional GIS and m
 
 ## Day 20 — Hexagons
 **Date:** November 20  
-**Concept:** **A Hexagonal Tennessee**
+**Concept:** **Wildfire Potential Hazard in Hexagons**
 
 ### Map ideas
-1. Population density in hexagons.
-2. Forest cover by hexagon.
-3. Wildfire occurrence by hexagon.
-4. Water quality observations aggregated into hexagons.
-5. FIA plot density or forest characteristics.
+1. Wildfire Hazard Potential (WHP) data aggregated into a hex grid.
+2. A hexbin comparison of hazard level across regions.
+3. A hexagon map blending hazard score with forest cover or WUI.
 
 ### Recommended direction
-Choose a variable with enough spatial variation to make the hexagonal pattern visually meaningful.
+Use the USFS Wildfire Hazard Potential dataset directly, aggregated to hexagons, so the hex pattern reflects a real, meaningful hazard gradient.
+
+### Potential data
+- USFS Wildfire Hazard Potential (WHP) raster
 
 **Expected effort:** **Moderate**
 
@@ -439,17 +451,19 @@ Choose a variable with enough spatial variation to make the hexagonal pattern vi
 
 ## Day 21 — OpenStreetMap
 **Date:** November 21  
-**Concept:** **Tennessee Built Environment from OpenStreetMap**
+**Concept:** **Who Contributes to OpenStreetMap, Per Capita**
 
 ### Map ideas
-1. Buildings in a selected Tennessee city.
-2. Trails and paths in a forest area.
-3. Bridges and waterways.
-4. A map of all OSM features within one small Tennessee community.
-5. OSM road density around public lands.
+1. A world choropleth of OSM contributors or edits per capita by country.
+2. Compare raw contributor counts vs. per-capita rates.
+3. Highlight outlier countries with unusually high or low per-capita contribution.
 
 ### Recommended direction
-A **small-area, high-detail OSM map** will likely be more visually interesting than a statewide overview.
+Pull OSM contributor/edit statistics normalized by country population, and build a global choropleth rather than a local Tennessee map.
+
+### Potential data
+- OpenStreetMap contributor statistics
+- World Bank population data
 
 **Expected effort:** **Moderate**
 
@@ -457,16 +471,19 @@ A **small-area, high-detail OSM map** will likely be more visually interesting t
 
 ## Day 22 — Projections
 **Date:** November 22  
-**Concept:** **Tennessee in Different Worlds**
+**Concept:** **Designing a New Map Projection**
 
 ### Map ideas
-1. Show the same Tennessee map in 4–6 projections.
-2. Compare area, shape, and distance distortions.
-3. Use an unusual projection that makes Tennessee visually unexpected.
-4. Create a gallery of projections using identical symbology.
+1. Derive and implement an original map projection (a mathematical transformation of latitude/longitude).
+2. Apply the new projection to a world or Tennessee basemap and compare distortion to standard projections.
+3. Document the math and design intent behind the new projection alongside the map.
 
 ### Recommended direction
-Make this both educational and beautiful. Consistency between panels will make the projection differences immediately apparent.
+This is the most technical day of the month — actually define a projection's transformation equations (even a novel variant or hybrid of existing ones) and render a map using it, rather than just comparing existing projections.
+
+### Technical opportunity
+- Custom projection math (e.g., via a Python/PROJ pipeline or a pyproj custom CRS)
+- Distortion comparison (Tissot's indicatrix) against the new projection
 
 **Expected effort:** **Moderate**
 
@@ -474,17 +491,19 @@ Make this both educational and beautiful. Consistency between panels will make t
 
 ## Day 23 — Senses: Taste
 **Date:** November 23  
-**Concept:** **The Taste of Tennessee**
+**Concept:** **Tennessee Food Exports to the World**
 
 ### Map ideas
-1. Agricultural commodities by county.
-2. Tennessee crops and specialty crops.
-3. Barbecue / food traditions.
-4. Orchards, wineries, breweries, farmers markets, or other food destinations.
-5. A map showing where recognizable Tennessee foods originate.
+1. A flow map of Tennessee agricultural exports to global destinations.
+2. A choropleth of countries receiving Tennessee commodities.
+3. Combine a Tennessee-side production map with a world-side destination map.
 
 ### Recommended direction
-A map connecting agriculture to place would provide a strong Tennessee-specific interpretation.
+Build on the agriculture angle but push it outward — show where Tennessee-grown food actually goes globally, using flow lines or a paired origin/destination map.
+
+### Potential data
+- USDA / Tennessee Department of Agriculture export statistics
+- USA Trade Online
 
 **Expected effort:** **Moderate**
 
@@ -492,17 +511,19 @@ A map connecting agriculture to place would provide a strong Tennessee-specific 
 
 ## Day 24 — Network
 **Date:** November 24  
-**Concept:** **A Tennessee Network**
+**Concept:** **Global Crypto Fund Flows**
 
 ### Map ideas
-1. Forest-road network.
-2. Stream network with accumulated flow.
-3. Wildlife movement corridors.
-4. Transportation or evacuation routes.
-5. A statewide network of public forests and connecting corridors.
+1. A network/flow map of cryptocurrency transaction volume between countries or exchanges.
+2. A node-link diagram sized by transaction volume, with arcs showing flow direction.
+3. Highlight major hubs (exchanges, mining regions) as network nodes.
 
 ### Recommended direction
-A forest-road or stream network would be most aligned with your existing GIS work while still allowing advanced cartography.
+This is a global network map, not a Tennessee-specific one. Focus on clean node-link/flow-map design since the data — and the audience interest — is inherently about global movement.
+
+### Potential data
+- Blockchain analytics providers (e.g., public Chainalysis reports)
+- On-chain flow data, if accessible
 
 **Expected effort:** **High**
 
@@ -510,17 +531,15 @@ A forest-road or stream network would be most aligned with your existing GIS wor
 
 ## Day 25 — Is This a Map?
 **Date:** November 25  
-**Concept:** **Turn Geographic Data Into Art**
+**Concept:** **A Map Made Without Mapping Software**
 
 ### Map ideas
-1. Turn a stream network into an abstract artwork.
-2. Use forest boundaries to create a geometric composition.
-3. Generate a raster landscape from geographic relationships.
-4. Convert a Tennessee dataset into a visually recognizable non-map object.
-5. Create a map where geographic orientation is intentionally ambiguous.
+1. Render a recognizable map purely as a styled pandas DataFrame (ASCII/HTML table as "map").
+2. Build a spatial layout inside Notion, Excel, or another non-GIS tool.
+3. Use conditional formatting or grid layout to represent geography without any GIS engine.
 
 ### Recommended direction
-Do not worry about conventional north arrows, scale bars, or labels. The question is whether the result still feels geographic.
+Pick one non-mapping tool — pandas DataFrame output, a spreadsheet grid, or Notion — and constrain yourself to it entirely. The challenge is making it still read as a map despite having no cartographic engine behind it.
 
 **Expected effort:** **High**
 
@@ -528,17 +547,19 @@ Do not worry about conventional north arrows, scale bars, or labels. The questio
 
 ## Day 26 — Water
 **Date:** November 26  
-**Concept:** **Tennessee's Watershed Story**
+**Concept:** **North Chickamauga Creek Gorge Watershed**
 
 ### Map ideas
-1. Watershed hierarchy from tiny headwaters to major river basins.
-2. Flow accumulation and stream order.
-3. Water quality measurements by watershed.
-4. Lakes, rivers, wetlands, and floodplains.
-5. A natural-earth hydrology map with detailed terrain.
+1. A detailed watershed delineation for North Chickamauga Creek Gorge.
+2. Flow accumulation and stream order within the gorge watershed.
+3. Pair the watershed map with terrain/hillshade to show the gorge's relief.
 
 ### Recommended direction
-This is a major opportunity for a signature map. Build a polished hydrology-focused composition with your strongest hillshade/basemap treatment.
+Make this the month's signature hydrology map — a tightly focused, highly polished watershed map of North Chickamauga Creek Gorge with your strongest hillshade/basemap treatment.
+
+### Potential data
+- USGS NHD / 3DHP hydrography
+- DEM for the gorge area
 
 **Expected effort:** **High**
 
@@ -546,20 +567,15 @@ This is a major opportunity for a signature map. Build a polished hydrology-focu
 
 ## Day 27 — New Tool
 **Date:** November 27  
-**Concept:** **Learn Something New**
+**Concept:** **A 3D Model in Sketchfab**
 
-### Candidate tools
-- QGIS technique you've never used
-- Mapbox Studio
-- MapLibre
-- kepler.gl
-- Observable / JavaScript visualization
-- Python cartography workflow
-- A new ArcGIS Pro geoprocessing tool
-- A new raster or 3D workflow
+### Map ideas
+1. Build and publish a 3D terrain or landscape model in Sketchfab.
+2. Convert a DEM or a 3D scene export into a Sketchfab-hosted interactive model.
+3. Pair the Sketchfab model with a short write-up of the workflow (e.g., ArcGIS Pro to Sketchfab).
 
 ### Recommended direction
-Choose something that you genuinely want to add to your GIS toolbox beyond the challenge.
+Commit to Sketchfab specifically as the new tool. Export a 3D terrain/landscape model (e.g., from ArcGIS Pro or Blender) and publish it as an interactive Sketchfab embed.
 
 **Expected effort:** **High**
 
@@ -567,26 +583,20 @@ Choose something that you genuinely want to add to your GIS toolbox beyond the c
 
 ## Day 28 — Senses: Feeling
 **Date:** November 28  
-**Concept:** **Map a Feeling**
-
-### Possible feelings
-- Isolation
-- Calm
-- Danger
-- Nostalgia
-- Wonder
-- Tension
-- Wildness
-- Remoteness
+**Concept:** **3D Hydro Model of Recent Nepal Flooding**
 
 ### Map ideas
-1. A remoteness map designed to evoke solitude.
-2. A wilderness map designed to evoke awe.
-3. A nighttime landscape designed to feel isolated.
-4. A storm-impact map designed to feel chaotic.
+1. A 3D visualization of flood extent/depth from a recent Nepal flooding event.
+2. An animated or interactive 3D hydro model showing water rise over terrain.
+3. Pair the 3D model with before/after imagery or flood extent data.
 
 ### Recommended direction
-Start with the intended emotional response, then choose data and visual language to support it.
+Source recent flood extent data for Nepal and build a 3D hydrological model over terrain. The emotional weight comes from the real event, not a generic "feeling" concept.
+
+### Technical opportunity
+- Flood extent data (e.g., Copernicus EMS, satellite-derived)
+- DEM of the affected Nepal region
+- 3D scene/animation to show water depth and rise
 
 **Expected effort:** **High**
 
@@ -594,17 +604,19 @@ Start with the intended emotional response, then choose data and visual language
 
 ## Day 29 — Raster
 **Date:** November 29  
-**Concept:** **Raster Landscape Art**
+**Concept:** **Wildfire Suppression Difficulty Index**
 
 ### Map ideas
-1. DEM art using terrain-derived rasters.
-2. Forest canopy height as an artistic surface.
-3. Multispectral imagery rendered as an abstract landscape.
-4. Wildfire severity as a raster composition.
-5. Combine multiple raster variables into a painterly Tennessee landscape.
+1. A raster composite of terrain, access, and fuel factors forming a Suppression Difficulty Index.
+2. Render the index as a painterly raster surface rather than a conventional hazard map.
+3. Compare the index raster against known fire incident locations.
 
 ### Recommended direction
-Make the raster itself the visual subject rather than simply using raster data as a background.
+Build or source a Suppression Difficulty Index raster (terrain slope, road access, fuel type) and treat the raster itself as the visual subject, pushed toward an artistic rendering rather than a standard hazard map style.
+
+### Potential data
+- USFS Suppression Difficulty Index (where available)
+- Slope/terrain, road network, fuel model data
 
 **Expected effort:** **Moderate**
 
@@ -612,17 +624,15 @@ Make the raster itself the visual subject rather than simply using raster data a
 
 ## Day 30 — Pen & Paper
 **Date:** November 30  
-**Concept:** **Hand-Drawn Tennessee**
+**Concept:** **Hand-Drawn Tennessee, Left-Handed**
 
 ### Map ideas
-1. Hand-draw the Tennessee River system.
-2. Sketch a favorite watershed.
-3. Draw a forest landscape from memory.
-4. Make a deliberately imperfect map of Tennessee.
-5. Draw the challenge's favorite map from the month again, by hand.
+1. Hand-draw a Tennessee map (state outline, rivers, cities) using your non-dominant (left) hand.
+2. Pick a simple, forgiving subject given the added difficulty of left-hand drawing.
+3. Photograph or scan the result as the final deliverable.
 
 ### Recommended direction
-End the challenge with something intentionally simple and personal. No need to reproduce GIS-level precision.
+Keep the subject simple specifically because the left-hand constraint is the point — don't try to compensate for the handicap with a more complex subject.
 
 **Expected effort:** **Low**
 
@@ -670,11 +680,11 @@ Suggested organization:
 The maps most worth preparing early are:
 
 - **Day 5 — Sight**
-- **Day 6 — Vintage**
+- **Day 7 — 10 Minute Map**
 - **Day 8 — Utopia**
 - **Day 13 — Interactions**
-- **Day 14 — Borgesian map**
 - **Day 24 — Network**
+- **Day 25 — Is This a Map?**
 - **Day 26 — Water**
 - **Day 27 — New tool**
 - **Day 28 — Feeling**
@@ -728,14 +738,14 @@ The strongest maps should be the ones where the **visual design directly reinfor
 
 If the month becomes difficult to sustain, prioritize these maps as likely portfolio-quality pieces:
 
-1. **Day 5 — Sight:** Tennessee fire-tower viewshed
-2. **Day 6 — Vintage:** Historical Tennessee forestry aesthetic
-3. **Day 14 — Borgesian:** Extremely detailed watershed map
-4. **Day 17 — Light & Dark:** Dramatic Tennessee terrain
-5. **Day 22 — Projections:** Tennessee through multiple projections
-6. **Day 26 — Water:** Signature Tennessee hydrology map
-7. **Day 28 — Feeling:** An intentionally emotional landscape map
-8. **Day 29 — Raster:** Artistic raster landscape
+1. **Day 5 — Sight:** 3D animated view from the Cherokee fire tower
+2. **Day 6 — Vintage:** Historic Tennessee topo map with hillshade
+3. **Day 14 — Borgesian:** The map of a single tree
+4. **Day 17 — Light & Dark:** Tennessee bird migration, day vs. night
+5. **Day 22 — Projections:** A newly designed map projection
+6. **Day 26 — Water:** North Chickamauga Creek Gorge watershed
+7. **Day 28 — Feeling:** 3D hydro model of recent Nepal flooding
+8. **Day 29 — Raster:** Wildfire Suppression Difficulty Index
 
 The remaining maps can provide experimentation, lighter workload, or opportunities to learn new techniques.
 

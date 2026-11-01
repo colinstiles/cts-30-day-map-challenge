@@ -1,0 +1,42 @@
+// Data for the 30 Day Map Challenge gallery.
+// Add a new year by appending an entry to CHALLENGE_YEARS with its 30 days,
+// then drop finished exports into <year>/images/day-NN.<ext> as they're made.
+const CHALLENGE_YEARS = {
+  2026: {
+    label: "2026",
+    planUrl: "2026/30-Day-Map-Challenge-2026-Plan.md",
+    imageDir: "2026/images",
+    days: [
+      { day: 1, date: "Nov 1", theme: "Points", concept: "Mars Caves", tool: "ArcGIS Pro, Python" },
+      { day: 2, date: "Nov 2", theme: "Lines", concept: "Cumberland Trail Contours", tool: "Tool TBD" },
+      { day: 3, date: "Nov 3", theme: "Polygons", concept: "Tennessee Watersheds, HUC2 to HUC12", tool: "Tool TBD" },
+      { day: 4, date: "Nov 4", theme: "Clusters", concept: "Wildfire Incident Clusters, Southern Group", tool: "Tool TBD" },
+      { day: 5, date: "Nov 5", theme: "Senses: Sight", concept: "View from the Cherokee Fire Tower", tool: "Tool TBD" },
+      { day: 6, date: "Nov 6", theme: "Vintage", concept: "Historic Tennessee Topo + Hillshade", tool: "Tool TBD" },
+      { day: 7, date: "Nov 7", theme: "10 Minute Map", concept: "10-Minute Interactive Animation", tool: "Tool TBD" },
+      { day: 8, date: "Nov 8", theme: "Utopia", concept: "A Tennessee With Chestnuts Restored", tool: "Tool TBD" },
+      { day: 9, date: "Nov 9", theme: "Urban-rural", concept: "Tennessee's Wildland-Urban Interface", tool: "Tool TBD" },
+      { day: 10, date: "Nov 10", theme: "Prompting only", concept: "AI Makes a Map", tool: "Tool TBD" },
+      { day: 11, date: "Nov 11", theme: "Senses: Sound", concept: "High-Sound Interstate Corridors in Chattanooga", tool: "Tool TBD" },
+      { day: 12, date: "Nov 12", theme: "Power", concept: "Incan and Aztec Territorial Power Over Time", tool: "Tool TBD" },
+      { day: 13, date: "Nov 13", theme: "Interactions", concept: "Where Forests Meet Development", tool: "Tool TBD" },
+      { day: 14, date: "Nov 14", theme: "Borgesian map", concept: "The Map of a Single Tree", tool: "Tool TBD" },
+      { day: 15, date: "Nov 15", theme: "Inside out", concept: "Turn Tennessee's Landscape Inside Out", tool: "Tool TBD" },
+      { day: 16, date: "Nov 16", theme: "Collaborative map", concept: "Reworking a Declassified CIA Map of Konar Valley", tool: "Tool TBD" },
+      { day: 17, date: "Nov 17", theme: "Light & dark", concept: "Tennessee Bird Migration, Day vs. Night", tool: "Tool TBD" },
+      { day: 18, date: "Nov 18", theme: "NULL", concept: "Mapping What We Don't Know", tool: "Tool TBD" },
+      { day: 19, date: "Nov 19", theme: "Senses: Smell", concept: "Distribution of Ponderosa Pine", tool: "Tool TBD" },
+      { day: 20, date: "Nov 20", theme: "Hexagons", concept: "Wildfire Potential Hazard in Hexagons", tool: "Tool TBD" },
+      { day: 21, date: "Nov 21", theme: "OpenStreetMap", concept: "Who Contributes to OpenStreetMap, Per Capita", tool: "Tool TBD" },
+      { day: 22, date: "Nov 22", theme: "Projections", concept: "Designing a New Map Projection", tool: "Tool TBD" },
+      { day: 23, date: "Nov 23", theme: "Senses: Taste", concept: "Tennessee Food Exports to the World", tool: "Tool TBD" },
+      { day: 24, date: "Nov 24", theme: "Network", concept: "Global Crypto Fund Flows", tool: "Tool TBD" },
+      { day: 25, date: "Nov 25", theme: "Is this a map?", concept: "A Map Made Without Mapping Software", tool: "Tool TBD" },
+      { day: 26, date: "Nov 26", theme: "Water", concept: "North Chickamauga Creek Gorge Watershed", tool: "Tool TBD" },
+      { day: 27, date: "Nov 27", theme: "New tool", concept: "A 3D Model in Sketchfab", tool: "Sketchfab" },
+      { day: 28, date: "Nov 28", theme: "Senses: Feeling", concept: "3D Hydro Model of Recent Nepal Flooding", tool: "Tool TBD" },
+      { day: 29, date: "Nov 29", theme: "Raster", concept: "Wildfire Suppression Difficulty Index", tool: "Tool TBD" },
+      { day: 30, date: "Nov 30", theme: "Pen & paper", concept: "Hand-Drawn Tennessee, Left-Handed", tool: "Tool TBD" }
+    ]
+  }
+};
