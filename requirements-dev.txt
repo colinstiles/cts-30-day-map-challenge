@@ -9,9 +9,9 @@
 
 -r requirements.txt
 
-jupyterlab==3.6.8
+jupyterlab==4.5.11
 
 # Code Quality & Formatting
 ruff==0.4.8
-pytest==8.2.2
+pytest==9.0.3
 pre-commit==3.7.1
