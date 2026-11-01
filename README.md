@@ -2,9 +2,12 @@
 
 **colin@colinstiles.com**
 
-[![Python](https://img.shields.io/badge/Python-3.x-blue.svg)](https://www.python.org/)
-[![Geopandas](https://img.shields.io/badge/Geopandas-Active-success.svg)](https://geopandas.org/)
-[![AGOL](https://img.shields.io/badge/ArcGIS_Online-Ready-orange.svg)](https://www.arcgis.com/)
+[![Live Site](https://img.shields.io/badge/Live_Site-challenge.colinstiles.com-brightgreen?logo=githubpages&logoColor=white)](https://challenge.colinstiles.com)
+[![Validate](https://github.com/colinstiles/cts-30-day-map-challenge/actions/workflows/ci.yml/badge.svg)](https://github.com/colinstiles/cts-30-day-map-challenge/actions/workflows/ci.yml)
+[![30 Day Map Challenge](https://img.shields.io/badge/30_Day_Map_Challenge-2026-8B4513?logo=maplibre&logoColor=white)](https://30daymapchallenge.com/)
+[![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Geopandas](https://img.shields.io/badge/Geopandas-Active-139C5A.svg)](https://geopandas.org/)
+[![ArcGIS Online](https://img.shields.io/badge/ArcGIS_Online-Ready-orange.svg)](https://www.arcgis.com/)
 
 > Source data, analysis, and planning for Colin's yearly [#30DayMapChallenge](https://30daymapchallenge.com/)
 > entries, plus the `index.html` gallery page that displays each year's finished maps.
@@ -12,19 +15,21 @@
 
 ## Map Gallery
 
-`index.html` (served via GitHub Pages from this repo) renders one card per challenge day,
+`index.html` (served via GitHub Pages at [challenge.colinstiles.com](https://challenge.colinstiles.com)) renders one card per challenge day,
 pulling day/theme/concept data from `assets/js/days-data.js` and images from `<year>/images/day-NN.*`.
 To add a new year:
 
 1. Append a year entry (with its 30 days) to `assets/js/days-data.js`.
-2. Create `<year>/images/` and drop in `day-01.jpg` ... `day-30.jpg` (or `.jpeg`/`.png`) as maps are finished.
+2. Create `<year>/images/` and drop in `day-01.png` ... `day-30.png` (or `.jpg`/`.jpeg`) as maps are finished.
 3. Days without an image yet automatically show a "Coming &lt;date&gt;" placeholder card.
+
+Keep exported images around 1200 px square to keep the page fast to load.
 
 ---
 
 ## Repository Structure
 
-This project follows the standard `tin+topo` template structure to keep data, exploration, and production code completely separated:
+The project keeps data, exploration, and production code separated:
 
 ```text
 ├── assets/                # CSS/JS for the index.html gallery page
@@ -36,7 +41,7 @@ This project follows the standard `tin+topo` template structure to keep data, ex
 ├── scripts/               # Production-ready Python or Node.js scripts
 ├── src/                   # Reusable production Python code
 ├── index.html             # The gallery page, linked from colinstiles.com
-├── .env.example           # Template for local environment variables and secrets
+├── .env.example           # Example local environment variables and secrets
 ├── .gitignore             # Standard GIS ignore rules (blocks massive spatial binaries)
 ├── AGENTS.md and CLAUDE.md   # AI coding-agent constraints and project guidance
 ├── README.md              # Project documentation (You are here!)
@@ -84,14 +89,7 @@ Run `pytest` when the project includes tests.
 
 ---
 
-## AI Agent Compatibility
-
-This repository is pre-configured to work with `tin+topo` AI coding assistants and enterprise models.
-Please refer to [AGENTS.md](AGENTS.md) and [CLAUDE.md](CLAUDE.md) for specific instructions on how agents should interact with this codebase.
-
----
-
 ## Point of Contact
 
-* **Project Owner:** Colin T. Stiles | colin@tinandtopo.com
+* **Project Owner:** Colin T. Stiles | colin@colinstiles.com
 * **Last Updated:** 2026-11-01
