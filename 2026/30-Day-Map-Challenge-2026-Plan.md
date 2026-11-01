@@ -39,7 +39,7 @@
 | 14 | Nov 14 | Borgesian map | Map of a single tree | Low |
 | 15 | Nov 15 | Inside out | Inverted terrain / landscape | Moderate |
 | 16 | Nov 16 | Collaborative map | Declassified CIA map of Konar Valley, Afghanistan | Moderate |
-| 17 | Nov 17 | Light & dark | Bird migrations through Tennessee day vs. night | Moderate |
+| 17 | Nov 17 | Light & dark | Sri Chinmoy Self-Transcendence Race | Moderate |
 | 18 | Nov 18 | NULL | 1994 Marathon des Sables, Mauro Prosperi gets blown 291km off course | Moderate |
 | 19 | Nov 19 | Senses: Smell | Distribution of Ponderosa Pine | Moderate |
 | 20 | Nov 20 | Hexagons | Wildfire Potential Hazard | Moderate |
@@ -53,9 +53,6 @@
 | 28 | Nov 28 | Senses: Feeling | 3D hydro model of recent flooding in Nepal | High |
 | 29 | Nov 29 | Raster | Wildfire Suppression Difficulty Index | Moderate |
 | 30 | Nov 30 | Pen & paper | Hand-drawn with my left hand | Low |
-
-
-Sri Chinmoy Self-Transcendence Race
 
 ---
 
