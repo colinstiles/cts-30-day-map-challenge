@@ -16,11 +16,11 @@ folium==0.17.0
 pyogrio==0.8.0
 
 # ESRI & ArcGIS Online
-arcgis==2.2.0.4
+arcgis==2.4.4
 
 # Environment Variables & Networking
 python-dotenv==1.0.1
-requests==2.31.0  # arcgis==2.2.0.4 requires requests<2.32.0
+requests==2.31.0  # arcgis==2.4.4 requires requests<2.32.0
 
 # Pin indirect file/config parsers too so installations are reproducible.
 openpyxl==3.1.5  # For pandas to read .xlsx files
