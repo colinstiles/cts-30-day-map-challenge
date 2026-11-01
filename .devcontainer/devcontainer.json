@@ -24,5 +24,5 @@
     }
   },
 
-  "postCreateCommand": "python -m venv .venv && .venv/bin/python -m pip install --upgrade pip && .venv/bin/python -m pip install --no-cache-dir -r requirements-dev.txt"
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y libkrb5-dev && python -m venv .venv && .venv/bin/python -m pip install --upgrade pip && .venv/bin/python -m pip install --no-cache-dir -r requirements-dev.txt"
 }
