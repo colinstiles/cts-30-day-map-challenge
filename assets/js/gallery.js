@@ -68,6 +68,9 @@
     link.appendChild(frame);
     card.appendChild(link);
 
+    img.addEventListener("load", function () {
+      link.href = img.src;
+    });
     img.addEventListener("error", function () {
       if (attempt >= candidates.length) {
         link.removeAttribute("href");
