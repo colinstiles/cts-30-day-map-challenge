@@ -7,7 +7,7 @@ const CHALLENGE_YEARS = {
     planUrl: "2026/30-Day-Map-Challenge-2026-Plan.md",
     imageDir: "2026/images",
     days: [
-      { day: 1, date: "Nov 1", theme: "Points", concept: "Mars Caves", tool: "ArcGIS Pro, Python" },
+      { day: 1, date: "Nov 1", theme: "Points", concept: "Mars Caves", tool: "ArcGIS Pro, Python, JavaScript" },
       { day: 2, date: "Nov 2", theme: "Lines", concept: "Cumberland Trail Contours", tool: "Tool TBD" },
       { day: 3, date: "Nov 3", theme: "Polygons", concept: "Tennessee Watersheds, HUC2 to HUC12", tool: "Tool TBD" },
       { day: 4, date: "Nov 4", theme: "Clusters", concept: "Wildfire Incident Clusters, Southern Group", tool: "Tool TBD" },
