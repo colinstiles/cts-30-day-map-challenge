@@ -9,7 +9,7 @@
 
 -r requirements.txt
 
-jupyterlab==3.6.8
+jupyterlab==4.6.4
 
 # Code Quality & Formatting
 ruff==0.4.8
