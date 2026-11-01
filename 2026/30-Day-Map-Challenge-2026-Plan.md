@@ -61,7 +61,7 @@
 ## Day 1 — Points
 **Date:** November 1  
 **Concept:** **Mars Caves**
-**Tool:** ArcGIS Pro; Python
+**Tool:** ArcGIS Pro; Python; JavaScript
 
 ### Map ideas
 - **Caves on Mars** — cave point locations on Mars Astro Tharsis
@@ -69,10 +69,7 @@
 ### Hyperlink
 https://www.usgs.gov/news/caves-mars
 
-### Recommended direction
-Use a curated set of Tennessee forestry-related places rather than simply plotting everything. The goal should be a polished opening map that establishes the visual language for the month.
-
-### Potential data
+### Data Source
 - Mars Global Cave Candidate Catalog (MGC3)
 
 **Expected effort:** **Moderate**
