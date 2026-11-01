@@ -10,9 +10,32 @@
     return (day) => IMAGE_EXTENSIONS.map((ext) => `${dir}/day-${dayNumber(day)}.${ext}`);
   }
 
+  function buildGlobeFrame() {
+    const frame = document.createElement("div");
+    frame.className = "day-frame day-frame--globe";
+    const host = document.createElement("div");
+    host.id = "mars-globe";
+    host.className = "mars-globe";
+    host.hidden = true;
+    frame.appendChild(host);
+    ["assets/js/mars-texture.js", "assets/js/mars.js"].forEach((src) => {
+      const script = document.createElement("script");
+      script.src = src;
+      script.async = false;
+      frame.appendChild(script);
+    });
+    return frame;
+  }
+
   function buildCard(year, entry, candidates) {
     const card = document.createElement("article");
     card.className = "day-card";
+
+    if (entry.globe) {
+      card.appendChild(buildGlobeFrame());
+      card.appendChild(buildMeta(entry));
+      return card;
+    }
 
     const frame = document.createElement("div");
     frame.className = "day-frame";
@@ -51,6 +74,11 @@
       }
     });
 
+    card.appendChild(buildMeta(entry));
+    return card;
+  }
+
+  function buildMeta(entry) {
     const meta = document.createElement("div");
     meta.className = "day-meta";
     meta.innerHTML = `
@@ -59,9 +87,7 @@
       <h3 class="day-concept">${entry.concept}</h3>
       <span class="day-date">${entry.date} &middot; ${entry.tool}</span>
     `;
-    card.appendChild(meta);
-
-    return card;
+    return meta;
   }
 
   function renderYear(year) {
