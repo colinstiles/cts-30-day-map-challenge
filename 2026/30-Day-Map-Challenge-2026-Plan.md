@@ -24,7 +24,7 @@
 | Day | Date | Official Theme | Primary Concept | Expected Effort |
 |---:|---|---|---|---|
 | 1 | Nov 1 | Points | Cave locations on Mars Astro Tharsis | Moderate |
-| 2 | Nov 2 | Lines | Contours and Cumber Trail lines | Moderate |
+| 2 | Nov 2 | Lines | Cumberland Trail and Contour lines | Moderate |
 | 3 | Nov 3 | Polygons | Descending watersheds, from HUC2 down to HUC12 | Low |
 | 4 | Nov 4 | Clusters | Historical wildfire incidents in Southern Group; heatmap or bins | Moderate |
 | 5 | Nov 5 | Senses: Sight | 3D interactive animation view from Cherokee Forest Service firetower at (82.3820370°W 36.2084546°N) | High |
@@ -81,18 +81,17 @@ https://www.usgs.gov/news/caves-mars
 **Concept:** **Cumberland Trail Contours**
 
 ### Map ideas
-1. Cumberland Trail route styled over contour lines showing elevation change along the trail.
-2. An elevation profile of the Cumberland Trail paired with a contour map of the terrain it crosses.
-3. Contour-line cartography emphasizing the terrain the trail passes through, segment by segment.
+- **Cumberland Contours** - contour lines surrounding Cumber land Trail system in eastern Tennessee
 
-### Recommended direction
-Build a cartographic map centered on the Cumberland Trail's path through Tennessee terrain, with contour lines as the primary structuring element. Keep competing layers minimal and let line hierarchy between trail and topography carry the design.
+### Hyperlink
+- https://www.usgs.gov/coastal-changes-and-impacts/contour-preliminary-contour-data
+- https://experience.arcgis.com/experience/0ef2687be56940408d73ced2dfc170b6
 
-### Potential data
-- Cumberland Trail Conference / Tennessee State Parks trail GIS data
-- USGS contours / DEM-derived contour lines
+### Data Source
+- Tennessee State Parks trail GIS data (TREC)
+- USGS preliminary contours
 
-**Expected effort:** **Moderate**
+**Expected effort:** **Low**
 
 ---
 
@@ -394,6 +393,9 @@ The race's defining feature is that it runs continuously through day and night f
 1. The known race route of the 1994 Marathon des Sables alongside Mauro Prosperi's last known position before he vanished into a sandstorm.
 2. A map showing the gap between where he was last tracked and where he was eventually found — roughly 291km away in Algeria — with the days in between rendered as a literal unknown/NULL region rather than a reconstructed line.
 3. Treat the missing week of his actual path as the map's subject: known start, known end, true path NULL.
+
+### Hyperlink
+https://www.bbc.com/news/magazine-30046426 
 
 ### Recommended direction
 Tie this directly to the NULL theme: his real position was genuinely unknown for over a week. Resist the urge to fully reconstruct his path — the honest map is the one that shows the known points and leaves the gap in between empty.
