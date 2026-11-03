@@ -8,8 +8,8 @@ const CHALLENGE_YEARS = {
     imageDir: "2026/images",
     days: [
       { day: 1, date: "Nov 1", theme: "Points", concept: "Mars Caves", tool: "ArcGIS Pro, Python, JavaScript" },
-      { day: 2, date: "Nov 2", theme: "Lines", concept: "Cumberland Trail Contours", tool: "Tool TBD" },
-      { day: 3, date: "Nov 3", theme: "Polygons", concept: "Tennessee Watersheds, HUC2 to HUC12", tool: "Tool TBD" },
+      { day: 2, date: "Nov 2", theme: "Lines", concept: "Cumberland Trail Contours", tool: "ArcGIS Pro" },
+      { day: 3, date: "Nov 3", theme: "Polygons", concept: "North Chickamauga Watersheds", tool: "ArcGIS Pro" },
       { day: 4, date: "Nov 4", theme: "Clusters", concept: "Wildfire Incident Clusters, Southern Group", tool: "Tool TBD" },
       { day: 5, date: "Nov 5", theme: "Senses: Sight", concept: "View from the Cherokee Fire Tower", tool: "Tool TBD" },
       { day: 6, date: "Nov 6", theme: "Vintage", concept: "Historic Tennessee Topo + Hillshade", tool: "Tool TBD" },
