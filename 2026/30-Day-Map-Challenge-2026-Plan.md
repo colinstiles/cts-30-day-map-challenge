@@ -60,14 +60,14 @@
 
 ## Day 1 — Points
 **Date:** November 1  
-**Concept:** **Mars Caves**
-**Tool:** ArcGIS Pro; Python; JavaScript
+**Concept:** Mars Caves
+**Tools:** ArcGIS Pro; Python; JavaScript
 
 ### Map ideas
 - **Caves on Mars** — cave point locations on Mars Astro Tharsis
 
 ### Hyperlink
-https://www.usgs.gov/news/caves-mars
+- https://www.usgs.gov/news/caves-mars
 
 ### Data Source
 - Mars Global Cave Candidate Catalog (MGC3)
@@ -78,7 +78,8 @@ https://www.usgs.gov/news/caves-mars
 
 ## Day 2 — Lines
 **Date:** November 2  
-**Concept:** **Cumberland Trail Contours**
+**Concept:** Cumberland Trail Contours
+**Tools:** ArcGIS Pro
 
 ### Map ideas
 - **Cumberland Contours** - contour lines surrounding Cumber land Trail system in eastern Tennessee
@@ -97,17 +98,16 @@ https://www.usgs.gov/news/caves-mars
 
 ## Day 3 — Polygons
 **Date:** November 3  
-**Concept:** **Tennessee Watersheds, HUC2 to HUC12**
+**Concept:** Tennessee Watersheds, HUC2 to HUC12
+**Tool:** ArcGIS Pro
 
 ### Map ideas
-1. A nested polygon map descending from HUC2 region down through HUC12 subwatersheds.
-2. Small multiples showing the same area at each HUC level (2 / 4 / 6 / 8 / 10 / 12).
-3. A single composite map using transparency and line weight to show watershed nesting.
+- A nested polygon map descending from HUC2 region down through HUC12 subwatersheds with layered hillshade.
 
-### Recommended direction
-Treat this as a polygon-hierarchy exercise. Use consistent symbology across HUC levels so viewers can see how the delineation changes as scale increases.
+### Hyperlink
+- https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Hydrography/WBD/National/GDB/
 
-### Potential data
+### Data Source
 - USGS Watershed Boundary Dataset (WBD), HUC2 through HUC12
 
 **Expected effort:** **Low**
