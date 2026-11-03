@@ -9,87 +9,73 @@
 [![Geopandas](https://img.shields.io/badge/Geopandas-Active-139C5A.svg)](https://geopandas.org/)
 [![ArcGIS Online](https://img.shields.io/badge/ArcGIS_Online-Ready-orange.svg)](https://www.arcgis.com/)
 
-> Source data, analysis, and planning for Colin's yearly [#30DayMapChallenge](https://30daymapchallenge.com/)
-> entries, plus the `index.html` gallery page that displays each year's finished maps.
-> The gallery is linked from [colinstiles.com](https://colinstiles.com) (see the `cts-portfolio` repo).
+Colin's yearly entries for the [#30DayMapChallenge](https://30daymapchallenge.com/), covering
+planning notes, source data workflows, and the gallery site at
+[challenge.colinstiles.com](https://challenge.colinstiles.com) that shows each year's finished maps.
+The gallery is linked from [colinstiles.com](https://colinstiles.com) (see the `cts-portfolio` repo).
+
+## Contents
+
+- [30 Day Map Challenge](#30-day-map-challenge)
+  - [Contents](#contents)
+  - [Map Gallery](#map-gallery)
+  - [Yearly Plans](#yearly-plans)
+  - [Repository Structure](#repository-structure)
+  - [Point of Contact](#point-of-contact)
 
 ## Map Gallery
 
-`index.html` (served via GitHub Pages at [challenge.colinstiles.com](https://challenge.colinstiles.com)) renders one card per challenge day,
-pulling day/theme/concept data from `assets/js/days-data.js` and images from `<year>/images/day-NN.*`.
-To add a new year:
+`index.html` is a static page served by GitHub Pages with HTTPS enforced. It has no build step.
 
-1. Append a year entry (with its 30 days) to `assets/js/days-data.js`.
-2. Create `<year>/images/` and drop in `day-01.png` ... `day-30.png` (or `.jpg`/`.jpeg`) as maps are finished.
-3. Days without an image yet automatically show a "Coming &lt;date&gt;" placeholder card.
+- **Year tabs** switch between challenge years. The newest year loads by default, and `?year=2026` links to a specific one.
+- **Day cards** show the day number, theme, concept, date, and tools. Each card links to the full-size map.
+- **Placeholders** show "Coming Nov N" for any day that doesn't have an image yet.
 
-Keep exported images around 1200 px square to keep the page fast to load.
+The page is driven by two folders:
 
----
+| Path | Purpose |
+| --- | --- |
+| `assets/js/days-data.js` | One entry per day for every year: date, theme, concept, and tool. |
+| `<year>/images/day-NN.png` | The finished map for each day. `.jpg` and `.jpeg` also work. |
+
+The page itself lives in `index.html`, with styling in `assets/css/style.css` and logic in `assets/js/gallery.js`.
+
+Open `index.html` directly in a browser, or run `python -m http.server` from the repository root and visit `http://localhost:8000`.
+
+## Yearly Plans
+
+Each year has a planning document in its own folder:
+
+- `2026/30-Day-Map-Challenge-2026-Plan.md`: the day-by-day plan, with the table of themes, concepts, and effort levels at the top.
+
+Keep the table and the `assets/js/days-data.js` concepts in sync when a day's topic changes.
 
 ## Repository Structure
 
-The project keeps data, exploration, and production code separated:
-
 ```text
-├── assets/                # CSS/JS for the index.html gallery page
+├── .devcontainer/            # VS Code dev container config
+├── .github/workflows/        # CI workflow (ci.yml) and Dependabot config
+├── assets/
+│   ├── css/style.css         # Gallery styling
+│   └── js/                   # Gallery logic, day data, and optional Mars globe script
+├── 2026/                     # 2026 plan and map images
+├── 2027/                     # 2027 folder (images/ ready for the next challenge)
 ├── data/
-│   ├── processed/         # Cleaned, derived, or finalized spatial data
-│   └── raw/               # Original, unaltered spatial downloads (DO NOT COMMIT to Git)
-├── <year>/                # One folder per challenge year (plan markdown + images/)
-├── notebooks/             # Jupyter Notebooks for spatial exploration and prototyping
-├── scripts/               # Production-ready Python or Node.js scripts
-├── src/                   # Reusable production Python code
-├── index.html             # The gallery page, linked from colinstiles.com
-├── .env.example           # Example local environment variables and secrets
-├── .gitignore             # Standard GIS ignore rules (blocks massive spatial binaries)
-├── AGENTS.md and CLAUDE.md   # AI coding-agent constraints and project guidance
-├── README.md              # Project documentation (You are here!)
-└── requirements.txt       # Python dependencies (pandas, geopandas, arcgis, etc.)
+│   ├── processed/            # Derived outputs and archived originals (gitignored)
+│   └── raw/                  # Unaltered downloads, read-only (gitignored)
+├── notebooks/                # Jupyter notebooks for exploration
+├── scripts/                  # Production-ready Python or Node.js scripts
+├── src/                      # Reusable production Python code
+├── index.html                # Gallery page, served at challenge.colinstiles.com
+├── requirements.txt          # Core Python dependencies (pinned)
+├── requirements-dev.txt      # Development tools (JupyterLab, ruff, pytest, pre-commit)
+├── AGENTS.md / CLAUDE.md     # Instructions for AI coding agents
+└── README.md                 # This file
 ```
 
-## Getting Started
-
-### 1. Clone the Repository
-Clone this repository to your local machine (e.g., `C:\github\[project-name]`). Do not clone into a OneDrive-synced folder like `Documents` to avoid sync conflicts.
-
-### 2. Configure Environment Variables
-**Never commit actual credentials to GitHub.**
-1. Create a copy of `.env.example` and rename it to `.env`.
-2. Fill in only the values required by your project locally. Use ArcGIS named-user or OAuth authentication where available; do not put passwords, tokens, or certificates in source code.
-
-### 3. Install Dependencies
-Install the required libraries to run this project:
-
-```sh
-# To install only the core production dependencies:
-pip install -r requirements.txt
-
-# To install all development tools (like JupyterLab) as well:
-pip install -r requirements-dev.txt
-```
-
-### 4. Run Local Checks
-
-```sh
-pre-commit install
-pre-commit run --all-files
-ruff check .
-```
-
-Run `pytest` when the project includes tests.
-
----
-
-## Data Handling Rules
-
-1. **Large Spatial Files:** Do not commit `.shp`, `.gdb`, `.tif`, or any large spatial binaries to this repository.
-2. **Raw Data:** Store all raw downloads in `data/raw/`. Treat this folder as read-only.
-3. **Outputs:** Write all cleaned, intermediate, and final spatial outputs to `data/processed/`.
-
----
+Dependabot checks GitHub Actions and pip dependencies monthly.
 
 ## Point of Contact
 
 * **Project Owner:** Colin T. Stiles | colin@colinstiles.com
-* **Last Updated:** 2026-11-01
+* **Last Updated:** 2026-11-03
