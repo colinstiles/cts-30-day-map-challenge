@@ -2,7 +2,13 @@
 
 This document defines standard operating procedures, environmental constraints, and coding standards for AI coding agents working in `tin+topo's` repositories.
 
-These instructions are intended for Codex in VS Code and may also be followed by other coding agents such as Cline or Gemini.
+These instructions apply to Cursor (Grok), Codex, Claude Code, Cline, and Gemini.
+
+## Cursor and Grok
+
+- Cursor with Grok is the working agent in Cursor. The thread name is this repository's folder name. Role details: `../../AGENT_ROLES.md`.
+- Cursor loads this file and `.cursor/rules/`. Grok CLI also loads `~/.grok/AGENTS.md`.
+- Shared rules belong here. Claude-only notes belong in `CLAUDE.md`.
 
 ## Primary Objective
 
