@@ -143,3 +143,9 @@ Before modifying hosted layers, feature services, or scheduled jobs:
 
 - Use `.env.example` as the template. Keep a local `.env` (git-ignored) for ArcGIS Online credentials, API keys, portal URLs or service names, and other sensitive configuration.
 - Never commit actual credentials to Git.
+
+## Cursor Cloud specific instructions
+
+- The map gallery is a static site with no build step. The environment start script serves the repository root at `http://localhost:8000` with `python3 -m http.server 8000 --bind 0.0.0.0`. `http://localhost:8000/?year=2026` opens a specific year.
+- Project Python is 3.11 in `.venv`. Run `.venv/bin/ruff check .` and `.venv/bin/python -m compileall -q src scripts`. Pytest runs when a `tests/` directory exists.
+- Ubuntu 24.04 does not ship Python 3.11. Install adds the deadsnakes PPA, then `python3.11`, `python3.11-venv`, `python3.11-dev`, and `libkrb5-dev` (required to build the `arcgis` Kerberos dependency), then `pip install -r requirements-dev.txt` inside `.venv`.
