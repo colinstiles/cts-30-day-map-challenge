@@ -29,13 +29,14 @@ The gallery is linked from [colinstiles.com](https://colinstiles.com) (see the `
 
 - **Year tabs** switch between challenge years. The newest year loads by default, and `?year=2026` links to a specific one.
 - **Day cards** show the day number, theme, concept, date, and tools. Each card links to the full-size map.
+- **Interactive maps** can live as HTML pages (for example `2026/day-04.html`) and embed in a card via the `embed` field in `days-data.js`.
 - **Placeholders** show "Coming Nov N" for any day that doesn't have an image yet.
 
 The page is driven by two folders:
 
 | Path | Purpose |
 | --- | --- |
-| `assets/js/days-data.js` | One entry per day for every year: date, theme, concept, and tool. |
+| `assets/js/days-data.js` | One entry per day for every year: date, theme, concept, and tool. Optional `embed` points at an interactive HTML map. |
 | `<year>/images/day-NN.png` | The finished map for each day. `.jpg` and `.jpeg` also work. |
 
 The page itself lives in `index.html`, with styling in `assets/css/style.css` and logic in `assets/js/gallery.js`.
@@ -58,7 +59,7 @@ Keep the table and the `assets/js/days-data.js` concepts in sync when a day's to
 ├── assets/
 │   ├── css/style.css         # Gallery styling
 │   └── js/                   # Gallery logic, day data, and optional Mars globe script
-├── 2026/                     # 2026 plan and map images
+├── 2026/                     # 2026 plan, interactive maps, and map images
 ├── 2027/                     # 2027 folder (images/ ready for the next challenge)
 ├── data/
 │   ├── processed/            # Derived outputs and archived originals (gitignored)
@@ -78,4 +79,4 @@ Dependabot checks GitHub Actions and pip dependencies monthly.
 ## Point of Contact
 
 * **Project Owner:** Colin T. Stiles | colin@colinstiles.com
-* **Last Updated:** 2026-11-03
+* **Last Updated:** 2026-11-04
