@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 4 — Tennessee Fire Hotspots | 30 Day Map Challenge</title>
+  <meta name="description" content="Timelapse of InFORM wildfire and prescribed-fire incident clusters in Tennessee.">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/fires.css">
+</head>
+<body class="fires-page">
+  <div id="map" role="application" aria-label="Tennessee fire incident timelapse map"></div>
+  <div class="fires-ui">
+    <header class="fires-header">
+      <a class="fires-back" href="../index.html">← Gallery</a>
+      <span class="fires-kicker">Day 4 · Clusters</span>
+      <h1>Tennessee fire hotspots</h1>
+      <p>
+        A sliding-window heatmap of InFORM ignition points. Bright dots are the newest fires
+        in the current window.
+      </p>
+    </header>
+    <div class="fires-legend" aria-hidden="true">
+      <div><span class="swatch swatch-wf"></span> Wildfire</div>
+      <div><span class="swatch swatch-rx"></span> Prescribed fire</div>
+    </div>
+    <div class="fires-date" id="fires-date">Loading…</div>
+    <div class="fires-status" id="fires-status">Loading map…</div>
+    <footer class="fires-dock">
+      <canvas class="fires-histogram" id="fires-histogram" aria-hidden="true"></canvas>
+      <div class="fires-controls">
+        <button type="button" id="fires-play" aria-pressed="false">Play</button>
+        <input type="range" id="fires-slider" min="0" max="1" value="0" aria-label="Time">
+        <select id="fires-window" aria-label="Time window" class="fires-extra">
+          <option value="30">30-day window</option>
+          <option value="90" selected>90-day window</option>
+          <option value="180">180-day window</option>
+          <option value="0">Cumulative</option>
+        </select>
+        <select id="fires-type" aria-label="Incident type" class="fires-extra">
+          <option value="ALL" selected>Wildfire + prescribed</option>
+          <option value="WF">Wildfire only</option>
+          <option value="RX">Prescribed only</option>
+        </select>
+        <select id="fires-era" aria-label="Year range" class="fires-extra">
+          <option value="recent" selected>2021–present</option>
+          <option value="all">All years (1992–present)</option>
+        </select>
+      </div>
+      <p class="fires-credit" id="fires-credit"></p>
+    </footer>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="../assets/js/fires.js"></script>
+</body>
+</html>

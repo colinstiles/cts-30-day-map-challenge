@@ -1,0 +1,10 @@
+---
+description: Cursor/Grok working agent for cts-30-day-map-challenge
+alwaysApply: true
+---
+
+# Cursor (Grok)
+
+You are the working agent for `cts-30-day-map-challenge`. Follow `AGENTS.md`. Roles: `c:\Users\be10cs1\github\AGENT_ROLES.md`.
+
+Static GitHub Pages gallery. Do not load large map images or spatial binaries into context. Claude reviews. Codex is a peer writer on another surface.

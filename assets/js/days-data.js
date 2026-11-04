@@ -10,7 +10,7 @@ const CHALLENGE_YEARS = {
       { day: 1, date: "Nov 1", theme: "Points", concept: "Mars Caves", tool: "ArcGIS Pro, Python, JavaScript" },
       { day: 2, date: "Nov 2", theme: "Lines", concept: "Cumberland Trail Contours", tool: "ArcGIS Pro" },
       { day: 3, date: "Nov 3", theme: "Polygons", concept: "North Chickamauga Watersheds", tool: "ArcGIS Pro" },
-      { day: 4, date: "Nov 4", theme: "Clusters", concept: "Wildfire Incident Clusters, Southern Group", tool: "Tool TBD" },
+      { day: 4, date: "Nov 4", theme: "Clusters", concept: "Tennessee Fire Incident Hotspots", tool: "MapLibre, InFORM", embed: "2026/day-04.html" },
       { day: 5, date: "Nov 5", theme: "Senses: Sight", concept: "View from the Cherokee Fire Tower", tool: "Tool TBD" },
       { day: 6, date: "Nov 6", theme: "Vintage", concept: "Historic Tennessee Topo + Hillshade", tool: "Tool TBD" },
       { day: 7, date: "Nov 7", theme: "10 Minute Map", concept: "10-Minute Animated Flyover of a Real Wildfire Incident", tool: "Tool TBD" },

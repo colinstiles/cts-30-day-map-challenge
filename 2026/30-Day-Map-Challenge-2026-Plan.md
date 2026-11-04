@@ -26,7 +26,7 @@
 | 1 | Nov 1 | Points | Cave locations on Mars Astro Tharsis | Moderate |
 | 2 | Nov 2 | Lines | Cumberland Trail and Contour lines | Moderate |
 | 3 | Nov 3 | Polygons | Descending watersheds, from HUC2 down to HUC12 | Low |
-| 4 | Nov 4 | Clusters | Historical wildfire incidents in Southern Group; heatmap or bins | Moderate |
+| 4 | Nov 4 | Clusters | Tennessee InFORM fire-incident hotspot timelapse | Moderate |
 | 5 | Nov 5 | Senses: Sight | 3D interactive animation view from Cherokee Forest Service firetower at (82.3820370°W 36.2084546°N) | High |
 | 6 | Nov 6 | Vintage | Historic Tennessee topo map with hillshade | Moderate |
 | 7 | Nov 7 | 10 minute map | 10-minute animated flyover of an actual wildfire incident (maybe the Sevier County wildfire), with an on-screen build-time stamp | High |
@@ -116,18 +116,21 @@
 
 ## Day 4 — Clusters
 **Date:** November 4  
-**Concept:** **Wildfire Incident Clusters, Southern Group**
+**Concept:** **Tennessee fire incident hotspots (InFORM timelapse)**
+**Tools:** MapLibre GL JS; NIFC InFORM Fire Occurrence feature service
 
 ### Map ideas
-1. A point-cluster or hexbin map of historical wildfire incidents across the USFS Southern Group.
-2. A kernel-density heatmap of ignition points.
-3. Binned aggregation (hex or grid) comparing incident density by area.
+1. A sliding-window heatmap of InFORM wildfire and prescribed-fire ignitions in Tennessee.
+2. A kernel-density view of where incident locations cluster, animated through time.
+3. Toggle between 2021–present (more complete reporting) and the full 1992–present record.
 
 ### Recommended direction
-Use a real clustering or binning method — heatmap or hex bins — rather than raw points. The goal is to reveal where fire activity concentrates across the Southern Group.
+Query the public InFORM Fire Occurrence service, keep point of origin in Tennessee (`POOState = 'US-TN'`), and animate a heatmap rather than plotting static raw points. Default to a 90-day window so seasonal clusters pulse instead of filling the state.
 
-### Potential data
-- USFS / NIFC historical wildfire occurrence data for the Southern Group
+### Data source
+- [InFORM Fire Occurrence Public](https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/InFORM_FireOccurrence_Public/FeatureServer) (NIFC / IRWIN), layer 0 Incidents
+- Filter: wildfire (`WF`) and prescribed fire (`RX`) with a Tennessee point of origin
+- Interactive map: `2026/day-04.html`
 
 **Expected effort:** **Moderate**
 

@@ -1,0 +1,285 @@
+/* Day 4 — Tennessee fire hotspot timelapse */
+
+html,
+body.fires-page {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: var(--background-page, #15150F);
+  color: var(--text-color, #F2EFE4);
+  font-family: var(--font-family-base, "Lato", sans-serif);
+}
+
+.fires-page #map {
+  position: absolute;
+  inset: 0;
+}
+
+.fires-ui {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.fires-ui > * {
+  pointer-events: auto;
+}
+
+.fires-header {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  max-width: min(420px, calc(100% - 32px));
+  padding: 14px 16px 16px;
+  background: rgba(21, 21, 15, 0.82);
+  border: 1px solid #3A3B2D;
+  border-radius: 6px;
+  backdrop-filter: blur(8px);
+}
+
+.fires-back {
+  display: inline-block;
+  margin-bottom: 8px;
+  color: var(--text-color-muted, #B8B5A8);
+  font-size: 0.8rem;
+  text-decoration: none;
+}
+
+.fires-back:hover {
+  color: var(--primary-color, #9CBB74);
+}
+
+.fires-kicker {
+  display: block;
+  color: var(--secondary-color, #D99A5B);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.fires-header h1 {
+  margin: 6px 0 6px;
+  font-size: 1.45rem;
+  font-weight: 300;
+  color: var(--primary-color, #9CBB74);
+}
+
+.fires-header p {
+  margin: 0;
+  color: var(--text-color-muted, #B8B5A8);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.fires-legend {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 10px 12px;
+  background: rgba(21, 21, 15, 0.82);
+  border: 1px solid #3A3B2D;
+  border-radius: 6px;
+  backdrop-filter: blur(8px);
+  font-size: 0.8rem;
+  color: var(--text-color-muted, #B8B5A8);
+}
+
+.fires-legend div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0;
+}
+
+.swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  box-shadow: 0 0 10px currentColor;
+}
+
+.swatch-wf {
+  background: #ffb703;
+  color: #ffb703;
+}
+
+.swatch-rx {
+  background: #9cbb74;
+  color: #9cbb74;
+}
+
+.fires-date {
+  position: absolute;
+  left: 50%;
+  top: 18px;
+  transform: translateX(-50%);
+  padding: 8px 16px;
+  background: rgba(21, 21, 15, 0.78);
+  border: 1px solid #3A3B2D;
+  border-radius: 999px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.fires-date small {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--text-color-muted, #B8B5A8);
+  text-align: center;
+  letter-spacing: 0;
+}
+
+.fires-status {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 12px 18px;
+  background: rgba(21, 21, 15, 0.9);
+  border: 1px solid #3A3B2D;
+  border-radius: 6px;
+  color: var(--text-color-muted, #B8B5A8);
+}
+
+.fires-status[hidden] {
+  display: none;
+}
+
+.fires-dock {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  padding: 12px 14px 10px;
+  background: rgba(21, 21, 15, 0.88);
+  border: 1px solid #3A3B2D;
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+}
+
+.fires-histogram {
+  display: block;
+  width: 100%;
+  height: 42px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.fires-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+}
+
+.fires-controls button,
+.fires-controls select {
+  background: #1E2017;
+  color: var(--text-color, #F2EFE4);
+  border: 1px solid var(--primary-color, #9CBB74);
+  border-radius: 4px;
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.fires-controls button:hover,
+.fires-controls select:hover {
+  background: var(--primary-color, #9CBB74);
+  color: #15150F;
+}
+
+.fires-controls input[type="range"] {
+  flex: 1 1 180px;
+  min-width: 140px;
+  accent-color: var(--secondary-color, #D99A5B);
+}
+
+.fires-credit {
+  margin: 8px 0 0;
+  color: var(--text-color-muted, #B8B5A8);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.fires-credit a {
+  color: var(--primary-color, #9CBB74);
+}
+
+.maplibregl-popup-content {
+  background: #1E2017;
+  color: #F2EFE4;
+  border-radius: 6px;
+  font-family: inherit;
+  padding: 10px 12px;
+}
+
+.maplibregl-popup-tip {
+  border-top-color: #1E2017;
+}
+
+.maplibregl-ctrl-attrib {
+  background: rgba(21, 21, 15, 0.7);
+  color: #B8B5A8;
+  font-size: 10px;
+}
+
+.maplibregl-ctrl-attrib a {
+  color: #9CBB74;
+}
+
+/* Compact gallery-card view */
+.fires-embed .fires-header,
+.fires-embed .fires-legend,
+.fires-embed .fires-credit,
+.fires-embed .fires-histogram,
+.fires-embed .fires-extra {
+  display: none;
+}
+
+.fires-embed .fires-date {
+  top: 10px;
+  font-size: 0.95rem;
+  padding: 6px 12px;
+}
+
+.fires-embed .fires-dock {
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  padding: 8px 10px;
+}
+
+.fires-embed .fires-controls input[type="range"] {
+  min-width: 0;
+}
+
+.fires-embed .maplibregl-ctrl-logo,
+.fires-embed .maplibregl-ctrl-attrib {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .fires-header,
+  .fires-legend {
+    position: static;
+    margin: 10px 10px 0;
+    max-width: none;
+  }
+
+  .fires-date {
+    top: auto;
+    bottom: 132px;
+  }
+
+  .fires-embed .fires-date {
+    bottom: auto;
+    top: 10px;
+  }
+}

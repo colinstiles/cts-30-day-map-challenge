@@ -27,9 +27,53 @@
     return frame;
   }
 
+  function buildEmbedFrame(entry) {
+    const frame = document.createElement("div");
+    frame.className = "day-frame day-frame--embed";
+    const iframe = document.createElement("iframe");
+    const src = entry.embed.includes("?") ? `${entry.embed}&embed=1` : `${entry.embed}?embed=1`;
+    iframe.src = src;
+    iframe.title = `Day ${entry.day} — ${entry.concept}`;
+    iframe.loading = "lazy";
+    iframe.setAttribute("allowfullscreen", "");
+    let embedVisible = true;
+    const postVisibility = () => {
+      if (iframe.contentWindow) {
+        iframe.contentWindow.postMessage({ type: "cts-embed-visible", visible: embedVisible }, "*");
+      }
+    };
+    iframe.addEventListener("load", postVisibility);
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          embedVisible = Boolean(entries[0] && entries[0].isIntersecting && entries[0].intersectionRatio >= 0.25);
+          postVisibility();
+        },
+        { threshold: [0, 0.25, 0.5] }
+      );
+      observer.observe(iframe);
+    }
+    frame.appendChild(iframe);
+
+    const open = document.createElement("a");
+    open.className = "day-embed-open";
+    open.href = entry.embed;
+    open.target = "_blank";
+    open.rel = "noopener noreferrer";
+    open.textContent = "Open full map";
+    frame.appendChild(open);
+    return frame;
+  }
+
   function buildCard(year, entry, candidates) {
     const card = document.createElement("article");
     card.className = "day-card";
+
+    if (entry.embed) {
+      card.appendChild(buildEmbedFrame(entry));
+      card.appendChild(buildMeta(entry));
+      return card;
+    }
 
     if (entry.globe) {
       card.appendChild(buildGlobeFrame());
