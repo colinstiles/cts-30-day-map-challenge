@@ -11,6 +11,7 @@
   var DAY_MS = 86400000;
   var COMPLETE_YEAR = 2021;
   var PLAY_MS = 70;
+  var EMBED_PLAY_MS = 180;
   var STEP_DAYS = 7;
   var RECENT_DAYS = 14;
   var TN = { west: -90.55, south: 34.82, east: -81.4, north: 36.82 };
@@ -28,7 +29,8 @@
   var windowDays = 90;
   var typeFilter = "ALL";
   var era = "recent";
-  var speed = 1;
+  var speed = embed ? 0.5 : 1;
+  var parentVisible = true;
 
   var els = {};
 
@@ -228,6 +230,9 @@
           "heatmap-color": heatColor(kind)
         }
       });
+      if (embed) {
+        return;
+      }
       map.addLayer({
         id: dotId,
         type: "circle",
@@ -295,9 +300,16 @@
     var recentStart = Math.max(start, currentT - RECENT_DAYS * DAY_MS);
     ["WF", "RX"].forEach(function (kind) {
       map.setFilter("heat-" + kind, timeFilter(kind, start, currentT));
-      map.setFilter("dots-" + kind, timeFilter(kind, start, currentT));
-      map.setFilter("recent-" + kind, timeFilter(kind, recentStart, currentT));
+      if (!embed) {
+        map.setFilter("dots-" + kind, timeFilter(kind, start, currentT));
+        map.setFilter("recent-" + kind, timeFilter(kind, recentStart, currentT));
+      }
     });
+
+    if (embed) {
+      els.date.textContent = formatDate(currentT);
+      return;
+    }
 
     var n = countVisible(start, currentT);
     var windowText =
@@ -424,12 +436,39 @@
     applyTime();
   }
 
+  function tickInterval() {
+    return embed ? EMBED_PLAY_MS : PLAY_MS;
+  }
+
   function stepMs() {
-    return STEP_DAYS * DAY_MS * speed;
+    return STEP_DAYS * DAY_MS * speed * (tickInterval() / PLAY_MS);
+  }
+
+  function clearPlayTimer() {
+    if (!rafId) {
+      return;
+    }
+    if (embed) {
+      window.clearTimeout(rafId);
+    } else {
+      window.cancelAnimationFrame(rafId);
+    }
+    rafId = 0;
   }
 
   function playLoop(now) {
     if (!playing) {
+      return;
+    }
+    if (embed) {
+      currentT += stepMs();
+      if (currentT > maxT) {
+        currentT = rangeMinT;
+      }
+      applyTime();
+      rafId = window.setTimeout(function () {
+        playLoop();
+      }, EMBED_PLAY_MS);
       return;
     }
     if (now - lastTick >= PLAY_MS) {
@@ -444,10 +483,7 @@
   }
 
   function setPlaying(next) {
-    if (rafId) {
-      window.cancelAnimationFrame(rafId);
-      rafId = 0;
-    }
+    clearPlayTimer();
     playing = next;
     if (els.play) {
       els.play.textContent = playing ? "Pause" : "Play";
@@ -455,7 +491,13 @@
     }
     if (playing) {
       lastTick = 0;
-      rafId = window.requestAnimationFrame(playLoop);
+      if (embed) {
+        rafId = window.setTimeout(function () {
+          playLoop();
+        }, EMBED_PLAY_MS);
+      } else {
+        rafId = window.requestAnimationFrame(playLoop);
+      }
     }
   }
 
@@ -500,7 +542,7 @@
     if (typeof maplibregl === "undefined") {
       throw new Error("MapLibre failed to load from the CDN.");
     }
-    map = new maplibregl.Map({
+    var mapOptions = {
       container: "map",
       style: styleSpec(),
       center: [-86.1, 35.85],
@@ -510,9 +552,14 @@
         [TN.east + 3.5, TN.north + 2]
       ],
       attributionControl: !embed,
-      cooperativeGestures: embed,
+      interactive: !embed,
+      fadeDuration: embed ? 0 : 300,
       scrollZoom: !embed
-    });
+    };
+    if (embed) {
+      mapOptions.pixelRatio = 1;
+    }
+    map = new maplibregl.Map(mapOptions);
     if (!embed) {
       map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right");
     }
@@ -532,6 +579,19 @@
   }
 
   function bindUi() {
+    window.addEventListener("message", function (event) {
+      if (!event.data || event.data.type !== "cts-embed-visible") {
+        return;
+      }
+      parentVisible = Boolean(event.data.visible);
+      setPlaying(parentVisible && !document.hidden);
+    });
+    if (embed) {
+      document.addEventListener("visibilitychange", function () {
+        setPlaying(parentVisible && !document.hidden);
+      });
+      return;
+    }
     els.play.addEventListener("click", function () {
       setPlaying(!playing);
     });
@@ -587,12 +647,6 @@
         map.resize();
       }
       drawHistogram();
-    });
-    window.addEventListener("message", function (event) {
-      if (!event.data || event.data.type !== "cts-embed-visible") {
-        return;
-      }
-      setPlaying(Boolean(event.data.visible));
     });
   }
 

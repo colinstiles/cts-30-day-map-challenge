@@ -234,11 +234,12 @@ body.fires-page {
   color: #9CBB74;
 }
 
-/* Compact gallery-card view */
+/* Compact gallery-card view: date overlay only; controls live on the full map */
 .fires-embed .fires-header,
 .fires-embed .fires-legend,
 .fires-embed .fires-credit,
 .fires-embed .fires-histogram,
+.fires-embed .fires-dock,
 .fires-embed .fires-extra {
   display: none;
 }
@@ -247,17 +248,6 @@ body.fires-page {
   top: 10px;
   font-size: 0.95rem;
   padding: 6px 12px;
-}
-
-.fires-embed .fires-dock {
-  left: 8px;
-  right: 8px;
-  bottom: 8px;
-  padding: 8px 10px;
-}
-
-.fires-embed .fires-controls input[type="range"] {
-  min-width: 0;
 }
 
 .fires-embed .maplibregl-ctrl-logo,
