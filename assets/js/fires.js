@@ -28,6 +28,7 @@
   var windowDays = 90;
   var typeFilter = "ALL";
   var era = "recent";
+  var speed = 1;
 
   var els = {};
 
@@ -423,13 +424,17 @@
     applyTime();
   }
 
+  function stepMs() {
+    return STEP_DAYS * DAY_MS * speed;
+  }
+
   function playLoop(now) {
     if (!playing) {
       return;
     }
     if (now - lastTick >= PLAY_MS) {
       lastTick = now;
-      currentT += STEP_DAYS * DAY_MS;
+      currentT += stepMs();
       if (currentT > maxT) {
         currentT = rangeMinT;
       }
@@ -539,6 +544,11 @@
       windowDays = Number(els.window.value);
       applyTime();
     });
+    if (els.speed) {
+      els.speed.addEventListener("change", function () {
+        speed = Number(els.speed.value) || 1;
+      });
+    }
     if (els.type) {
       els.type.addEventListener("change", function () {
         typeFilter = els.type.value;
@@ -565,10 +575,10 @@
         event.preventDefault();
         setPlaying(!playing);
       } else if (event.code === "ArrowRight") {
-        currentT = Math.min(maxT, currentT + STEP_DAYS * DAY_MS);
+        currentT = Math.min(maxT, currentT + stepMs());
         applyTime();
       } else if (event.code === "ArrowLeft") {
-        currentT = Math.max(rangeMinT, currentT - STEP_DAYS * DAY_MS);
+        currentT = Math.max(rangeMinT, currentT - stepMs());
         applyTime();
       }
     });
@@ -595,6 +605,7 @@
     els.play = $("fires-play");
     els.slider = $("fires-slider");
     els.window = $("fires-window");
+    els.speed = $("fires-speed");
     els.type = $("fires-type");
     els.era = $("fires-era");
     els.histogram = $("fires-histogram");

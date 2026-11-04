@@ -33,6 +33,12 @@
       <div class="fires-controls">
         <button type="button" id="fires-play" aria-pressed="false">Play</button>
         <input type="range" id="fires-slider" min="0" max="1" value="0" aria-label="Time">
+        <select id="fires-speed" aria-label="Playback speed">
+          <option value="0.5">0.5×</option>
+          <option value="1" selected>1×</option>
+          <option value="2">2×</option>
+          <option value="4">4×</option>
+        </select>
         <select id="fires-window" aria-label="Time window" class="fires-extra">
           <option value="30">30-day window</option>
           <option value="90" selected>90-day window</option>
