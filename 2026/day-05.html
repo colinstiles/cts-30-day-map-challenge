@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 5 — View from the Cherokee Fire Tower | 30 Day Map Challenge</title>
+  <meta name="description" content="A 3D viewshed from Pinnacle Mountain Fire Tower on Buffalo Mountain, Cherokee National Forest.">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/viewshed.css">
+</head>
+<body class="viewshed-page">
+  <div id="viewshed-view" role="application" aria-label="3D viewshed from Pinnacle Mountain Fire Tower"></div>
+  <div class="viewshed-ui">
+    <header class="viewshed-header">
+      <a class="viewshed-back" href="../index.html">← Gallery</a>
+      <span class="viewshed-kicker">Day 5 · Senses: Sight</span>
+      <h1>View from the fire tower</h1>
+      <p>
+        Pinnacle Mountain Lookout on Buffalo Mountain. Gold ground is in sight from the
+        platform. The beam is the lookout turning.
+      </p>
+    </header>
+    <div class="viewshed-legend" aria-hidden="true">
+      <div><span class="swatch swatch-seen"></span> In sight</div>
+      <div><span class="swatch swatch-hidden"></span> Hidden</div>
+    </div>
+    <div class="viewshed-compass" id="viewshed-compass" title="North"><span>▲</span></div>
+    <div class="viewshed-readout" id="viewshed-readout">Loading terrain…</div>
+    <div class="viewshed-status" id="viewshed-status">Loading terrain…</div>
+    <footer class="viewshed-dock">
+      <div class="viewshed-controls">
+        <button type="button" id="viewshed-play" aria-pressed="true">Pause</button>
+        <button type="button" id="viewshed-replay">Replay</button>
+        <div class="viewshed-heights" role="group" aria-label="Eye height">
+          <button type="button" id="viewshed-ground" aria-pressed="false">On the rock</button>
+          <button type="button" id="viewshed-platform" aria-pressed="true">On the platform</button>
+        </div>
+      </div>
+      <p class="viewshed-credit" id="viewshed-credit"></p>
+    </footer>
+  </div>
+  <script src="../assets/js/day05-terrain.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module" src="../assets/js/viewshed.js"></script>
+</body>
+</html>

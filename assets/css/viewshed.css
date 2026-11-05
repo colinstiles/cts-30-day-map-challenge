@@ -1,0 +1,285 @@
+/* Day 5 — viewshed from Pinnacle Mountain Fire Tower */
+
+html,
+body.viewshed-page {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: var(--background-page, #15150F);
+  color: var(--text-color, #F2EFE4);
+  font-family: var(--font-family-base, "Lato", sans-serif);
+}
+
+.viewshed-page #viewshed-view {
+  position: absolute;
+  inset: 0;
+}
+
+.viewshed-page canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.viewshed-ui {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.viewshed-ui > * {
+  pointer-events: auto;
+}
+
+.viewshed-header {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  max-width: min(420px, calc(100% - 32px));
+  padding: 14px 16px 16px;
+  background: rgba(21, 21, 15, 0.82);
+  border: 1px solid #3A3B2D;
+  border-radius: 6px;
+  backdrop-filter: blur(8px);
+}
+
+.viewshed-back {
+  display: inline-block;
+  margin-bottom: 8px;
+  color: var(--text-color-muted, #B8B5A8);
+  font-size: 0.8rem;
+  text-decoration: none;
+}
+
+.viewshed-back:hover {
+  color: var(--primary-color, #9CBB74);
+}
+
+.viewshed-kicker {
+  display: block;
+  color: var(--secondary-color, #D99A5B);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.viewshed-header h1 {
+  margin: 6px 0 6px;
+  font-size: 1.45rem;
+  font-weight: 300;
+  color: var(--primary-color, #9CBB74);
+}
+
+.viewshed-header p {
+  margin: 0;
+  color: var(--text-color-muted, #B8B5A8);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.viewshed-legend {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 10px 12px;
+  background: rgba(21, 21, 15, 0.82);
+  border: 1px solid #3A3B2D;
+  border-radius: 6px;
+  backdrop-filter: blur(8px);
+  font-size: 0.8rem;
+  color: var(--text-color-muted, #B8B5A8);
+}
+
+.viewshed-legend div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0;
+}
+
+.viewshed-legend .swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+}
+
+.swatch-seen {
+  background: #e8c46a;
+}
+
+.swatch-hidden {
+  background: #2c3324;
+  border: 1px solid #5c6148;
+}
+
+.viewshed-compass {
+  position: absolute;
+  top: 112px;
+  right: 16px;
+  width: 42px;
+  height: 42px;
+  border: 1px solid #3A3B2D;
+  border-radius: 50%;
+  background: rgba(21, 21, 15, 0.82);
+  color: var(--text-color, #F2EFE4);
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+
+.viewshed-compass span {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 2px;
+  font-size: 0.85rem;
+  line-height: 1;
+  transform-origin: 50% 50%;
+}
+
+.viewshed-readout {
+  position: absolute;
+  left: 50%;
+  top: 18px;
+  transform: translateX(-50%);
+  padding: 8px 16px;
+  background: rgba(21, 21, 15, 0.78);
+  border: 1px solid #3A3B2D;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.viewshed-status {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 12px 18px;
+  background: rgba(21, 21, 15, 0.9);
+  border: 1px solid #3A3B2D;
+  border-radius: 6px;
+  color: var(--text-color-muted, #B8B5A8);
+}
+
+.viewshed-status[hidden] {
+  display: none;
+}
+
+.viewshed-dock {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  padding: 12px 14px 10px;
+  background: rgba(21, 21, 15, 0.88);
+  border: 1px solid #3A3B2D;
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+}
+
+.viewshed-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+}
+
+.viewshed-controls button {
+  background: #1E2017;
+  color: var(--text-color, #F2EFE4);
+  border: 1px solid var(--primary-color, #9CBB74);
+  border-radius: 4px;
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.viewshed-controls button:hover,
+.viewshed-heights button[aria-pressed="true"] {
+  background: var(--primary-color, #9CBB74);
+  color: #15150F;
+}
+
+.viewshed-heights {
+  display: flex;
+  gap: 8px;
+}
+
+.viewshed-credit {
+  margin: 8px 0 0;
+  color: var(--text-color-muted, #B8B5A8);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.viewshed-label {
+  color: #f2efe4;
+  font-family: "Lato", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 2px #15150f, 0 0 6px #15150f;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.viewshed-label.is-hidden {
+  color: #8d8a7e;
+  font-weight: 400;
+}
+
+.viewshed-label.is-tower {
+  color: #e8c46a;
+}
+
+.viewshed-embed .viewshed-header,
+.viewshed-embed .viewshed-legend,
+.viewshed-embed .viewshed-compass,
+.viewshed-embed .viewshed-dock,
+.viewshed-embed .viewshed-label {
+  display: none;
+}
+
+.viewshed-embed .viewshed-readout {
+  top: 10px;
+  font-size: 0.85rem;
+  padding: 6px 12px;
+}
+
+@media (max-width: 700px) {
+  .viewshed-header,
+  .viewshed-legend {
+    position: static;
+    margin: 10px 10px 0;
+    max-width: none;
+  }
+
+  .viewshed-legend {
+    display: inline-block;
+  }
+
+  .viewshed-readout {
+    top: auto;
+    bottom: 176px;
+    max-width: calc(100% - 24px);
+    font-size: 0.8rem;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .viewshed-compass {
+    display: none;
+  }
+
+  .viewshed-embed .viewshed-readout {
+    bottom: auto;
+    top: 10px;
+  }
+}
