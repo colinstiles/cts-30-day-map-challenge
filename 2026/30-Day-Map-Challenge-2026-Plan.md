@@ -27,7 +27,7 @@
 | 2 | Nov 2 | Lines | Cumberland Trail and Contour lines | Moderate |
 | 3 | Nov 3 | Polygons | Descending watersheds, from HUC2 down to HUC12 | Low |
 | 4 | Nov 4 | Clusters | Tennessee InFORM fire-incident hotspot timelapse | High |
-| 5 | Nov 5 | Senses: Sight | 3D interactive animation view from Cherokee Forest Service firetower at (82.3820370°W 36.2084546°N) | High |
+| 5 | Nov 5 | Senses: Sight | View from the Cherokee Fire Tower | High |
 | 6 | Nov 6 | Vintage | Historic Tennessee topo map with hillshade | Moderate |
 | 7 | Nov 7 | 10 minute map | 10-minute animated flyover of an actual wildfire incident (maybe the Sevier County wildfire), with an on-screen build-time stamp | High |
 | 8 | Nov 8 | Utopia | Ideal distribution of American Chestnut | High |
@@ -137,18 +137,20 @@
 **Date:** November 5  
 **Concept:** **View from the Cherokee Fire Tower**
 
+The observer is Pinnacle Mountain Fire Tower on Buffalo Mountain, Cherokee National Forest, at 36.21712°N, 82.37060°W. An earlier coordinate, 36.20845°N 82.38204°W, sits about 1.4 km downslope of the lookout.
+
 ### Map ideas
-1. A 3D interactive fly-around / animation rendered from the firetower's exact coordinates (82.3820370°W, 36.2084546°N).
-2. A 3D viewshed draped over terrain, animated as a rotating or panning camera.
-3. Pair the animation with a static viewshed map as a companion piece.
+1. A 3D pull-back and orbit from the fire tower's platform.
+2. A viewshed draped on the terrain and revealed as the camera opens up.
+3. A rotating sightline, the lookout turning through the view.
 
 ### Recommended direction
-Build a 3D interactive animation — not just a static viewshed — from the Cherokee fire tower location, using DEM-derived terrain. This is a good fit for ArcGIS Pro's 3D scene and animation tools, exported as a short video or interactive web scene.
+`2026/day-05.html` draws the view in Three.js. USGS 3DEP elevation is sampled to a local equirectangular grid in meters. The viewshed runs on a 30 m grid with earth curvature and refraction (k = 0.13), then is draped on a 90 m mesh. Gold terrain is in sight from an eye 14 m up, the 40 ft platform plus a standing eye height. The same mask at 1.7 m shows the view from the rock. Rebuild the grid with `python scripts/build_day05_terrain.py`.
 
 ### Technical opportunity
-- ArcGIS Pro 3D Scene + Animation timeline
-- DEM-draped terrain at the exact coordinates
-- Optional geodesic viewshed as an overlay/companion layer
+- Three.js terrain, orbit, and a sweeping line of sight
+- USGS 3DEP elevation, cached under `data/raw/` and not committed
+- Ground eye versus platform eye
 
 **Expected effort:** **High**
 
