@@ -145,7 +145,7 @@ The observer is Pinnacle Mountain Fire Tower on Buffalo Mountain, Cherokee Natio
 3. A rotating sightline, the lookout turning through the view.
 
 ### Recommended direction
-`2026/day-05.html` draws the view in Three.js. USGS 3DEP elevation is sampled to a local equirectangular grid in meters. The viewshed runs on a 30 m grid with earth curvature and refraction (k = 0.13), then is draped on a 90 m mesh. Gold terrain is in sight from an eye 14 m up, the 40 ft platform plus a standing eye height. The same mask at 1.7 m shows the view from the rock. Rebuild the grid with `python scripts/build_day05_terrain.py`.
+`2026/day-05.html` draws the view in Three.js. USGS 3DEP elevation is sampled to a local equirectangular grid in meters. The viewshed runs on a 30 m grid with earth curvature and refraction (k = 0.13), then is draped on a 90 m mesh. Gold terrain is in sight from an eye 14 m up, the 40 ft platform plus a standing eye height. The same mask at 1.7 m shows the view from the rock. A north-up static poster of that platform viewshed is `2026/images/day-05.png`. Rebuild the grid with `python scripts/build_day05_terrain.py` and the poster with `python scripts/build_day05_static_map.py`.
 
 ### Technical opportunity
 - Three.js terrain, orbit, and a sweeping line of sight
