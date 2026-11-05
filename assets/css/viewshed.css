@@ -190,7 +190,8 @@ body.viewshed-page {
   gap: 10px 12px;
 }
 
-.viewshed-controls button {
+.viewshed-controls button,
+.viewshed-controls a.viewshed-static {
   background: #1E2017;
   color: var(--text-color, #F2EFE4);
   border: 1px solid var(--primary-color, #9CBB74);
@@ -199,9 +200,11 @@ body.viewshed-page {
   font-size: 0.85rem;
   padding: 6px 10px;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .viewshed-controls button:hover,
+.viewshed-controls a.viewshed-static:hover,
 .viewshed-heights button[aria-pressed="true"] {
   background: var(--primary-color, #9CBB74);
   color: #15150F;
