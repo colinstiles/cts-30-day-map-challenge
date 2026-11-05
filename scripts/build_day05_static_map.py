@@ -98,6 +98,145 @@ def load_grid(terrain):
     return elev, visible
 
 
+def draw_tower_card(ax, ground_m: float) -> None:
+    """A small lookout with a bar for the 40 ft tower and its elevation."""
+    tower_m = 40 * 0.3048
+    ground_i = round(ground_m)
+    top_i = ground_i + round(tower_m)
+    x, y, w, h = 0.028, 0.055, 0.34, 0.25
+    ax.add_patch(
+        Rectangle(
+            (x, y),
+            w,
+            h,
+            transform=ax.transAxes,
+            facecolor=PANEL,
+            edgecolor=LINE,
+            linewidth=1,
+            zorder=5,
+        )
+    )
+    base = y + 0.062
+    roof = y + h - 0.055
+    left, right = x + 0.04, x + 0.13
+    mid = (left + right) / 2
+    cab_h = 0.032
+    cab_bot = roof - cab_h
+    top_left, top_right = mid - 0.012, mid + 0.012
+
+    def leg(x_base, x_top):
+        ax.plot(
+            [x_base, x_top],
+            [base, cab_bot],
+            transform=ax.transAxes,
+            color=CREAM,
+            linewidth=1.25,
+            solid_capstyle="round",
+            zorder=6,
+        )
+
+    leg(left, top_left)
+    leg(right, top_right)
+    leg(left + 0.016, top_left + 0.004)
+    leg(right - 0.016, top_right - 0.004)
+
+    def x_at(y_at, x_base, x_top):
+        span = cab_bot - base
+        return x_base + (x_top - x_base) * ((y_at - base) / span)
+
+    for frac in (0.36, 0.68):
+        yy = base + (cab_bot - base) * frac
+        ax.plot(
+            [x_at(yy, left, top_left), x_at(yy, right, top_right)],
+            [yy, yy],
+            transform=ax.transAxes,
+            color=CREAM,
+            linewidth=0.8,
+            zorder=6,
+        )
+    y1 = base + (cab_bot - base) * 0.36
+    y2 = base + (cab_bot - base) * 0.68
+    ax.plot(
+        [x_at(y1, left, top_left), x_at(y2, right, top_right)],
+        [y1, y2],
+        transform=ax.transAxes,
+        color=CREAM,
+        linewidth=0.7,
+        zorder=6,
+    )
+    ax.plot(
+        [x_at(y1, right, top_right), x_at(y2, left, top_left)],
+        [y1, y2],
+        transform=ax.transAxes,
+        color=CREAM,
+        linewidth=0.7,
+        zorder=6,
+    )
+
+    cab_w = 0.058
+    ax.add_patch(
+        Rectangle(
+            (mid - cab_w / 2, cab_bot),
+            cab_w,
+            cab_h,
+            transform=ax.transAxes,
+            facecolor="#1E2017",
+            edgecolor=GOLD,
+            linewidth=1.15,
+            zorder=6,
+        )
+    )
+    ax.plot(
+        [mid - cab_w / 2 - 0.008, mid + cab_w / 2 + 0.008],
+        [roof, roof],
+        transform=ax.transAxes,
+        color=GOLD,
+        linewidth=1.5,
+        solid_capstyle="butt",
+        zorder=6,
+    )
+
+    bar_x = right + 0.03
+    tick = 0.009
+    ax.plot([bar_x, bar_x], [base, cab_bot], transform=ax.transAxes, color=GOLD, linewidth=1.25, zorder=6)
+    ax.plot([bar_x - tick, bar_x + tick], [base, base], transform=ax.transAxes, color=GOLD, linewidth=1.1, zorder=6)
+    ax.plot([bar_x - tick, bar_x + tick], [cab_bot, cab_bot], transform=ax.transAxes, color=GOLD, linewidth=1.1, zorder=6)
+    ax.text(
+        bar_x - 0.012,
+        (base + cab_bot) / 2,
+        "40 ft",
+        transform=ax.transAxes,
+        color=GOLD,
+        fontsize=8,
+        rotation=90,
+        ha="right",
+        va="center",
+        zorder=6,
+    )
+    ax.text(
+        bar_x + tick + 0.008,
+        base,
+        f"{ground_i:,.0f} m",
+        transform=ax.transAxes,
+        color=CREAM,
+        fontsize=8,
+        ha="left",
+        va="center",
+        zorder=6,
+    )
+    ax.text(
+        bar_x + tick + 0.008,
+        cab_bot,
+        f"{top_i:,.0f} m MSL",
+        transform=ax.transAxes,
+        color=CREAM,
+        fontsize=8,
+        ha="left",
+        va="center",
+        zorder=6,
+    )
+
+
 def draw_map(terrain, elev: np.ndarray, visible: np.ndarray) -> None:
     shade = hillshade(elev, terrain.VIEW_M)
     image = colorize(elev, visible, shade)
@@ -137,15 +276,20 @@ def draw_map(terrain, elev: np.ndarray, visible: np.ndarray) -> None:
             )
         )
 
-    panel(0.028, 0.78, 0.46, 0.19)
-    ax.text(0.048, 0.925, "DAY 5  ·  SENSES: SIGHT", transform=ax.transAxes,
-            color="#D99A5B", fontsize=11, fontweight="bold", zorder=5)
-    ax.text(0.048, 0.878, "View from the fire tower", transform=ax.transAxes,
-            color=OLIVE, fontsize=18, zorder=5)
+    panel(0.028, 0.785, 0.62, 0.185)
     ax.text(
         0.048,
-        0.805,
-        "Pinnacle Mountain Lookout, Buffalo Mountain\n"
+        0.915,
+        "Viewshed from Pinnacle Mountain Firetower",
+        transform=ax.transAxes,
+        color=OLIVE,
+        fontsize=15,
+        zorder=5,
+    )
+    ax.text(
+        0.048,
+        0.868,
+        "Buffalo Mountain, Cherokee National Forest\n"
         f"{share:.0%} of this window is in sight from the platform",
         transform=ax.transAxes,
         color=MUTED,
@@ -153,6 +297,16 @@ def draw_map(terrain, elev: np.ndarray, visible: np.ndarray) -> None:
         linespacing=1.45,
         zorder=5,
     )
+    ax.text(
+        0.048,
+        0.808,
+        "Created by: Colin T. Stiles",
+        transform=ax.transAxes,
+        color=CREAM,
+        fontsize=10,
+        zorder=5,
+    )
+    draw_tower_card(ax, ground)
 
     panel(0.78, 0.86, 0.19, 0.105)
     for i, (label, swatch) in enumerate((("In sight", GOLD), ("Hidden", "#2A3124"))):
@@ -201,7 +355,7 @@ def draw_map(terrain, elev: np.ndarray, visible: np.ndarray) -> None:
         )
 
     bar = 10_000
-    x0, y0 = -radius + 2800, -radius + 5200
+    x0, y0 = -bar / 2, -radius + 3200
     ax.plot([x0, x0 + bar], [y0, y0], color=CREAM, linewidth=2.4, solid_capstyle="butt", zorder=6)
     ax.plot([x0, x0], [y0 - 280, y0 + 280], color=CREAM, linewidth=1.4, zorder=6)
     ax.plot([x0 + bar, x0 + bar], [y0 - 280, y0 + 280], color=CREAM, linewidth=1.4, zorder=6)
