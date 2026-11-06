@@ -4,7 +4,7 @@
     [35.13561539536915, -85.23806340419927]
   ];
 
-  const map = L.map("vintage-map", {
+  const modernMap = L.map("modern-map", {
     zoomControl: true,
     attributionControl: true,
     minZoom: 10,
@@ -14,24 +14,40 @@
   L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}", {
     attribution: "Tiles &copy; Esri",
     maxZoom: 19
-  }).addTo(map);
+  }).addTo(modernMap);
 
-  const historicPane = map.createPane("historic-topo");
-  historicPane.style.zIndex = 450;
-  historicPane.style.pointerEvents = "none";
+  const historicMap = L.map("historic-map", {
+    attributionControl: false,
+    zoomControl: false,
+    dragging: false,
+    keyboard: false,
+    scrollWheelZoom: false,
+    doubleClickZoom: false,
+    boxZoom: false,
+    touchZoom: false,
+    minZoom: 10,
+    maxZoom: 17
+  });
 
   L.imageOverlay("images/day-06-historic.png", HISTORIC_BOUNDS, {
-    pane: "historic-topo",
     interactive: false
-  }).addTo(map);
+  }).addTo(historicMap);
 
-  map.fitBounds(HISTORIC_BOUNDS, { padding: [24, 24] });
+  modernMap.fitBounds(HISTORIC_BOUNDS, { padding: [24, 24] });
+
+  function syncHistoricMap() {
+    historicMap.setView(modernMap.getCenter(), modernMap.getZoom(), { animate: false });
+  }
+
+  modernMap.on("move zoom", syncHistoricMap);
+  syncHistoricMap();
 
   const slider = document.getElementById("vintage-slider");
   const divider = document.getElementById("vintage-divider");
+  const historicClip = document.getElementById("historic-clip");
 
   function setSwipe(value) {
-    historicPane.style.clipPath = `inset(0 ${100 - value}% 0 0)`;
+    historicClip.style.width = `${value}%`;
     divider.style.left = `${value}%`;
   }
 
@@ -44,7 +60,15 @@
 
   window.addEventListener("message", (event) => {
     if (event.data && event.data.type === "cts-embed-visible" && event.data.visible) {
-      map.invalidateSize();
+      modernMap.invalidateSize();
+      historicMap.invalidateSize();
+      syncHistoricMap();
     }
+  });
+
+  window.addEventListener("resize", () => {
+    modernMap.invalidateSize();
+    historicMap.invalidateSize();
+    syncHistoricMap();
   });
 }());

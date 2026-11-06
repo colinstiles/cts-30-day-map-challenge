@@ -11,6 +11,25 @@
   background: #d7ddd4;
 }
 
+#modern-map,
+#historic-clip {
+  position: absolute;
+  inset: 0;
+}
+
+#historic-clip {
+  z-index: 400;
+  width: 50%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+#historic-map {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 100vw;
+}
+
 .vintage-header,
 .vintage-swipe,
 .vintage-credit,
