@@ -246,6 +246,7 @@ body.viewshed-page {
 .viewshed-embed .viewshed-legend,
 .viewshed-embed .viewshed-compass,
 .viewshed-embed .viewshed-dock,
+.viewshed-embed .viewshed-readout,
 .viewshed-embed .viewshed-label {
   display: none;
 }
