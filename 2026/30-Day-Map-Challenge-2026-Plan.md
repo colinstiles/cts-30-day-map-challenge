@@ -28,7 +28,7 @@
 | 3 | Nov 3 | Polygons | Descending watersheds, from HUC2 down to HUC12 | Low |
 | 4 | Nov 4 | Clusters | Tennessee InFORM fire-incident hotspot timelapse | High |
 | 5 | Nov 5 | Senses: Sight | View from the Cherokee Fire Tower | High |
-| 6 | Nov 6 | Vintage | Historic Tennessee topo map with hillshade | Moderate |
+| 6 | Nov 6 | Vintage | Chattanooga then & now: historic topo swipe map | Moderate |
 | 7 | Nov 7 | 10 minute map | 10-minute animated flyover of an actual wildfire incident (maybe the Sevier County wildfire), with an on-screen build-time stamp | High |
 | 8 | Nov 8 | Utopia | Ideal distribution of American Chestnut | High |
 | 9 | Nov 9 | Urban-rural | Wildland-Urban Interface in Tennessee | Moderate |
@@ -135,7 +135,8 @@
 
 ## Day 5 — Senses: Sight
 **Date:** November 5  
-**Concept:** **View from the Cherokee Fire Tower**
+**Concept:** View from the Pinnacle Mountain Fire Tower
+**Tools:** Three.js, OrbitControls
 
 The observer is Pinnacle Mountain Fire Tower on Buffalo Mountain, Cherokee National Forest, at 36.21712°N, 82.37060°W. An earlier coordinate, 36.20845°N 82.38204°W, sits about 1.4 km downslope of the lookout.
 
@@ -158,15 +159,24 @@ The observer is Pinnacle Mountain Fire Tower on Buffalo Mountain, Cherokee Natio
 
 ## Day 6 — Vintage
 **Date:** November 6  
-**Concept:** **Historic Tennessee Topo + Hillshade**
+**Concept:** Chattanooga Then & Now — Historic Topo Swipe Map
+**Tools:** Leaflet, USGS Historical Topographic Map Collection, OpenStreetMap
 
 ### Map ideas
-1. Recreate the look of a historic USGS Tennessee topographic sheet.
-2. Pair vintage topo styling with a modern hillshade for depth.
-3. Use period typography, contour styling, and a muted historical palette over current terrain data.
+- Swipe between a scanned 1940 USGS Chattanooga topographic sheet and a modern streets-and-places basemap.
+- Keep the historic sheet geographically aligned, so roads, water, and ridges can be compared directly.
+- Use a simple draggable divider that works in both the gallery embed and the full-page map.
 
 ### Recommended direction
-Focus on cartographic styling rather than historical data sourcing — apply vintage topo symbology and labeling conventions to a hillshade-based terrain map of Tennessee.
+Prepare a downsampled, unblended preview of the georeferenced 1940 HTMC sheet, then overlay it in Leaflet against OpenStreetMap. The historic image is clipped by a range-controlled divider, keeping both layers on one synchronized map.
+
+### Workflow
+1. **Topo:** [TopoView](https://ngmdb.usgs.gov/topoview/) → Chattanooga, TN → HTMC GeoTIFF → `data/raw/` (gitignored; public domain).
+2. **Prepare:** `scripts/day06_vintage_chattanooga.py` → `2026/images/day-06-historic.png`.
+3. **Compare:** `2026/day-06.html` overlays the historic preview over OpenStreetMap and clips it with the slider.
+4. **Gallery:** Register `embed: "2026/day-06.html"` in `assets/js/days-data.js`.
+
+Working notes: `2026/06_vintage/NOTES.md`.
 
 **Expected effort:** **Moderate**
 
@@ -651,11 +661,14 @@ Create a project or template containing:
 - Your preferred fonts and text hierarchy
 - Export presets
 
-### 2. Create a shared data folder
-Suggested organization:
+### 2. Keep the year folder organized
+Repo layout under `2026/` (see `2026/README.md`):
 
 ```text
-30DayMapChallenge2026/
+2026/
+├── 30-Day-Map-Challenge-2026-Plan.md
+├── images/                 # gallery finals: day-NN.png|jpg|jpeg
+├── day-NN.html             # optional interactive embeds (year root)
 ├── 00_reference/
 ├── 01_points/
 ├── 02_lines/
@@ -667,9 +680,11 @@ Suggested organization:
 ├── 08_utopia/
 ├── 09_urban_rural/
 ├── 10_prompting_only/
-├── ...
+├── …
 └── 30_pen_paper/
 ```
+
+Working notes and day-specific deps live in `NN_theme/`. Finished rasters go only in `images/`. GIS downloads stay in gitignored `data/raw/` and `data/processed/`.
 
 ### 3. Pre-identify the high-effort maps
 The maps most worth preparing early are:
@@ -734,7 +749,7 @@ The strongest maps should be the ones where the **visual design directly reinfor
 If the month becomes difficult to sustain, prioritize these maps as likely portfolio-quality pieces:
 
 1. **Day 5 — Sight:** 3D animated view from the Cherokee fire tower
-2. **Day 6 — Vintage:** Historic Tennessee topo map with hillshade
+2. **Day 6 — Vintage:** Historic USGS Chattanooga topo + modern hillshade (py3dep)
 3. **Day 14 — Borgesian:** The map of a single tree
 4. **Day 17 — Light & Dark:** Tennessee bird migration, day vs. night
 5. **Day 22 — Projections:** A newly designed map projection

@@ -59,8 +59,11 @@ Keep the table and the `assets/js/days-data.js` concepts in sync when a day's to
 ├── assets/
 │   ├── css/style.css         # Gallery styling
 │   └── js/                   # Gallery logic, day data, and optional Mars globe script
-├── 2026/                     # 2026 plan, interactive maps, and map images
-├── 2027/                     # 2027 folder (images/ ready for the next challenge)
+├── 2026/                     # Plan, day-NN.html embeds, images/, NN_theme/ work folders
+│   ├── images/               # Gallery exports: day-NN.png|jpg|jpeg
+│   ├── day-04.html           # Example interactive embed
+│   └── 01_points/ …          # Per-day notes (e.g. 06_vintage/)
+├── 2027/                     # Next year (images/ scaffolded)
 ├── data/
 │   ├── processed/            # Derived outputs and archived originals (gitignored)
 │   └── raw/                  # Unaltered downloads, read-only (gitignored)
@@ -79,4 +82,4 @@ Dependabot checks GitHub Actions and pip dependencies monthly.
 ## Point of Contact
 
 * **Project Owner:** Colin T. Stiles | colin@colinstiles.com
-* **Last Updated:** 2026-11-05
+* **Last Updated:** 2026-11-06

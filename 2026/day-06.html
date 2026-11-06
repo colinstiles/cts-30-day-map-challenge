@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 6 — Chattanooga Then & Now | 30 Day Map Challenge</title>
+  <meta name="description" content="Swipe between a 1940 USGS Chattanooga topographic map and a modern streets and places basemap.">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/vintage.css">
+</head>
+<body class="vintage-page">
+  <div id="vintage-map" role="application" aria-label="Swipe map comparing historic and modern Chattanooga"></div>
+
+  <header class="vintage-header">
+    <a class="vintage-back" href="../index.html">← Gallery</a>
+    <span class="vintage-kicker">Day 6 · Vintage</span>
+    <h1>Chattanooga, then &amp; now</h1>
+    <p>Drag the handle to compare the 1940 USGS topographic sheet with a modern streets and places basemap.</p>
+  </header>
+
+  <div class="vintage-label vintage-label--historic">Historic topo · 1940</div>
+  <div class="vintage-label vintage-label--modern">Modern streets &amp; places</div>
+  <span id="vintage-divider" aria-hidden="true"></span>
+
+  <div class="vintage-swipe" aria-label="Historic map comparison control">
+    <label for="vintage-slider">Historic map coverage</label>
+    <input id="vintage-slider" type="range" min="0" max="100" value="50">
+  </div>
+
+  <footer class="vintage-credit">
+    Historic map: USGS Historical Topographic Map Collection, Chattanooga, Tenn. (1940). Modern basemap © OpenStreetMap contributors.
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="../assets/js/vintage.js"></script>
+</body>
+</html>

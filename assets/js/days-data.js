@@ -12,7 +12,7 @@ const CHALLENGE_YEARS = {
       { day: 3, date: "Nov 3", theme: "Polygons", concept: "North Chickamauga Watersheds", tool: "ArcGIS Pro" },
       { day: 4, date: "Nov 4", theme: "Clusters", concept: "Tennessee Fire Incident Hotspots", tool: "MapLibre, InFORM", embed: "2026/day-04.html" },
       { day: 5, date: "Nov 5", theme: "Senses: Sight", concept: "View from the Cherokee Fire Tower", tool: "Three.js, USGS 3DEP", embed: "2026/day-05.html" },
-      { day: 6, date: "Nov 6", theme: "Vintage", concept: "Historic Tennessee Topo + Hillshade", tool: "Tool TBD" },
+      { day: 6, date: "Nov 6", theme: "Vintage", concept: "Chattanooga Then & Now", tool: "Leaflet, USGS HTMC, OpenStreetMap", embed: "2026/day-06.html" },
       { day: 7, date: "Nov 7", theme: "10 Minute Map", concept: "10-Minute Animated Flyover of a Real Wildfire Incident", tool: "Tool TBD" },
       { day: 8, date: "Nov 8", theme: "Utopia", concept: "A Tennessee With Chestnuts Restored", tool: "Tool TBD" },
       { day: 9, date: "Nov 9", theme: "Urban-rural", concept: "Tennessee's Wildland-Urban Interface", tool: "Tool TBD" },
