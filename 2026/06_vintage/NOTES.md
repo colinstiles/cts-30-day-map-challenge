@@ -3,7 +3,7 @@
 **Date:** November 6, 2026
 **Theme:** Vintage
 **Working title:** Chattanooga, Then & Now — historic topo swipe map
-**Tools:** Leaflet, OpenStreetMap, Python (`rasterio` / `rioxarray`, `matplotlib`)
+**Tools:** Leaflet, Esri World Street Map, Python (`rasterio` / `rioxarray`, `matplotlib`)
 **Script:** `scripts/day06_vintage_chattanooga.py`
 
 ## Open choice (pick before download)
@@ -63,7 +63,7 @@ Date: 2026-11-06
 Theme: Vintage
 Title: Chattanooga, Then & Now
 Concept: Historic USGS Chattanooga topo compared with modern streets and places
-Data sources: USGS HTMC (TopoView); OpenStreetMap contributors
+Data sources: USGS HTMC (TopoView); Esri World Street Map
 Software/tools: Leaflet; Python (rasterio/rioxarray, matplotlib)
 Analysis: Georeferenced historic sheet over a synchronized modern basemap
 Cartographic technique: Slider-controlled image-overlay swipe

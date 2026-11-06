@@ -160,7 +160,7 @@ The observer is Pinnacle Mountain Fire Tower on Buffalo Mountain, Cherokee Natio
 ## Day 6 — Vintage
 **Date:** November 6  
 **Concept:** Chattanooga Then & Now — Historic Topo Swipe Map
-**Tools:** Leaflet, USGS Historical Topographic Map Collection, OpenStreetMap
+**Tools:** Leaflet, USGS Historical Topographic Map Collection, Esri World Street Map
 
 ### Map ideas
 - Swipe between a scanned 1940 USGS Chattanooga topographic sheet and a modern streets-and-places basemap.
@@ -168,12 +168,12 @@ The observer is Pinnacle Mountain Fire Tower on Buffalo Mountain, Cherokee Natio
 - Use a simple draggable divider that works in both the gallery embed and the full-page map.
 
 ### Recommended direction
-Prepare a downsampled, unblended preview of the georeferenced 1940 HTMC sheet, then overlay it in Leaflet against OpenStreetMap. The historic image is clipped by a range-controlled divider, keeping both layers on one synchronized map.
+Prepare a downsampled, unblended preview of the georeferenced 1940 HTMC sheet, then overlay it in Leaflet against Esri World Street Map. The historic image is clipped by a range-controlled divider, keeping both layers on one synchronized map.
 
 ### Workflow
 1. **Topo:** [TopoView](https://ngmdb.usgs.gov/topoview/) → Chattanooga, TN → HTMC GeoTIFF → `data/raw/` (gitignored; public domain).
 2. **Prepare:** `scripts/day06_vintage_chattanooga.py` → `2026/images/day-06-historic.png`.
-3. **Compare:** `2026/day-06.html` overlays the historic preview over OpenStreetMap and clips it with the slider.
+3. **Compare:** `2026/day-06.html` overlays the historic preview over Esri World Street Map and clips it with the slider.
 4. **Gallery:** Register `embed: "2026/day-06.html"` in `assets/js/days-data.js`.
 
 Working notes: `2026/06_vintage/NOTES.md`.
