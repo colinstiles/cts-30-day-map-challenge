@@ -23,6 +23,7 @@ import matplotlib.patheffects as path_effects
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.patches import Rectangle
+from matplotlib.transforms import Bbox
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT_PATH = ROOT / "2026" / "images" / "day-05.png"
@@ -98,12 +99,7 @@ def load_grid(terrain):
     return elev, visible
 
 
-def draw_tower_card(ax, ground_m: float) -> None:
-    """A small lookout with a bar for the 40 ft tower and its elevation."""
-    tower_m = 40 * 0.3048
-    ground_i = round(ground_m)
-    top_i = ground_i + round(tower_m)
-    x, y, w, h = 0.028, 0.055, 0.34, 0.25
+def panel(ax, x: float, y: float, w: float, h: float, zorder: float = 4) -> None:
     ax.add_patch(
         Rectangle(
             (x, y),
@@ -113,9 +109,36 @@ def draw_tower_card(ax, ground_m: float) -> None:
             facecolor=PANEL,
             edgecolor=LINE,
             linewidth=1,
-            zorder=5,
+            zorder=zorder,
         )
     )
+
+
+def axes_bbox(ax, artists) -> Bbox:
+    """Union of artists' extents, in axes-fraction coordinates."""
+    fig = ax.figure
+    fig.canvas.draw()
+    renderer = fig.canvas.get_renderer()
+    bbox = Bbox.union([a.get_window_extent(renderer) for a in artists])
+    return bbox.transformed(ax.transAxes.inverted())
+
+
+def fit_panel(ax, artists, pad: tuple[float, float]) -> tuple[float, float, float, float]:
+    """A panel rectangle padded tightly around the given artists."""
+    bbox = axes_bbox(ax, artists)
+    px, py = pad
+    x, y = bbox.x0 - px, bbox.y0 - py
+    w, h = (bbox.x1 - bbox.x0) + 2 * px, (bbox.y1 - bbox.y0) + 2 * py
+    return x, y, w, h
+
+
+def draw_tower_card(ax, ground_m: float) -> None:
+    """A small lookout with a bar for the 40 ft tower and its elevation."""
+    tower_m = 40 * 0.3048
+    ground_i = round(ground_m)
+    top_i = ground_i + round(tower_m)
+    x, y, w, h = 0.028, 0.055, 0.34, 0.25
+    artists = []
     base = y + 0.062
     roof = y + h - 0.055
     left, right = x + 0.04, x + 0.13
@@ -125,7 +148,7 @@ def draw_tower_card(ax, ground_m: float) -> None:
     top_left, top_right = mid - 0.012, mid + 0.012
 
     def leg(x_base, x_top):
-        ax.plot(
+        (line,) = ax.plot(
             [x_base, x_top],
             [base, cab_bot],
             transform=ax.transAxes,
@@ -134,6 +157,7 @@ def draw_tower_card(ax, ground_m: float) -> None:
             solid_capstyle="round",
             zorder=6,
         )
+        artists.append(line)
 
     leg(left, top_left)
     leg(right, top_right)
@@ -146,7 +170,7 @@ def draw_tower_card(ax, ground_m: float) -> None:
 
     for frac in (0.36, 0.68):
         yy = base + (cab_bot - base) * frac
-        ax.plot(
+        (line,) = ax.plot(
             [x_at(yy, left, top_left), x_at(yy, right, top_right)],
             [yy, yy],
             transform=ax.transAxes,
@@ -154,9 +178,10 @@ def draw_tower_card(ax, ground_m: float) -> None:
             linewidth=0.8,
             zorder=6,
         )
+        artists.append(line)
     y1 = base + (cab_bot - base) * 0.36
     y2 = base + (cab_bot - base) * 0.68
-    ax.plot(
+    (line,) = ax.plot(
         [x_at(y1, left, top_left), x_at(y2, right, top_right)],
         [y1, y2],
         transform=ax.transAxes,
@@ -164,7 +189,8 @@ def draw_tower_card(ax, ground_m: float) -> None:
         linewidth=0.7,
         zorder=6,
     )
-    ax.plot(
+    artists.append(line)
+    (line,) = ax.plot(
         [x_at(y1, right, top_right), x_at(y2, left, top_left)],
         [y1, y2],
         transform=ax.transAxes,
@@ -172,21 +198,22 @@ def draw_tower_card(ax, ground_m: float) -> None:
         linewidth=0.7,
         zorder=6,
     )
+    artists.append(line)
 
     cab_w = 0.058
-    ax.add_patch(
-        Rectangle(
-            (mid - cab_w / 2, cab_bot),
-            cab_w,
-            cab_h,
-            transform=ax.transAxes,
-            facecolor="#1E2017",
-            edgecolor=GOLD,
-            linewidth=1.15,
-            zorder=6,
-        )
+    cab = Rectangle(
+        (mid - cab_w / 2, cab_bot),
+        cab_w,
+        cab_h,
+        transform=ax.transAxes,
+        facecolor="#1E2017",
+        edgecolor=GOLD,
+        linewidth=1.15,
+        zorder=6,
     )
-    ax.plot(
+    ax.add_patch(cab)
+    artists.append(cab)
+    (line,) = ax.plot(
         [mid - cab_w / 2 - 0.008, mid + cab_w / 2 + 0.008],
         [roof, roof],
         transform=ax.transAxes,
@@ -195,13 +222,17 @@ def draw_tower_card(ax, ground_m: float) -> None:
         solid_capstyle="butt",
         zorder=6,
     )
+    artists.append(line)
 
     bar_x = right + 0.03
     tick = 0.009
-    ax.plot([bar_x, bar_x], [base, cab_bot], transform=ax.transAxes, color=GOLD, linewidth=1.25, zorder=6)
-    ax.plot([bar_x - tick, bar_x + tick], [base, base], transform=ax.transAxes, color=GOLD, linewidth=1.1, zorder=6)
-    ax.plot([bar_x - tick, bar_x + tick], [cab_bot, cab_bot], transform=ax.transAxes, color=GOLD, linewidth=1.1, zorder=6)
-    ax.text(
+    (line,) = ax.plot([bar_x, bar_x], [base, cab_bot], transform=ax.transAxes, color=GOLD, linewidth=1.25, zorder=6)
+    artists.append(line)
+    (line,) = ax.plot([bar_x - tick, bar_x + tick], [base, base], transform=ax.transAxes, color=GOLD, linewidth=1.1, zorder=6)
+    artists.append(line)
+    (line,) = ax.plot([bar_x - tick, bar_x + tick], [cab_bot, cab_bot], transform=ax.transAxes, color=GOLD, linewidth=1.1, zorder=6)
+    artists.append(line)
+    artists.append(ax.text(
         bar_x - 0.012,
         (base + cab_bot) / 2,
         "40 ft",
@@ -212,8 +243,8 @@ def draw_tower_card(ax, ground_m: float) -> None:
         ha="right",
         va="center",
         zorder=6,
-    )
-    ax.text(
+    ))
+    artists.append(ax.text(
         bar_x + tick + 0.008,
         base,
         f"{ground_i:,.0f} m",
@@ -223,8 +254,8 @@ def draw_tower_card(ax, ground_m: float) -> None:
         ha="left",
         va="center",
         zorder=6,
-    )
-    ax.text(
+    ))
+    artists.append(ax.text(
         bar_x + tick + 0.008,
         cab_bot,
         f"{top_i:,.0f} m MSL",
@@ -234,7 +265,10 @@ def draw_tower_card(ax, ground_m: float) -> None:
         ha="left",
         va="center",
         zorder=6,
-    )
+    ))
+
+    px, py, pw, ph = fit_panel(ax, artists, pad=(0.022, 0.028))
+    panel(ax, px, py, pw, ph, zorder=5)
 
 
 def draw_map(terrain, elev: np.ndarray, visible: np.ndarray) -> None:
@@ -262,64 +296,66 @@ def draw_map(terrain, elev: np.ndarray, visible: np.ndarray) -> None:
     ax.set_ylim(-radius, radius)
     ax.set_axis_off()
 
-    def panel(x, y, w, h):
-        ax.add_patch(
-            Rectangle(
-                (x, y),
-                w,
-                h,
-                transform=ax.transAxes,
-                facecolor=PANEL,
-                edgecolor=LINE,
-                linewidth=1,
-                zorder=4,
-            )
-        )
-
-    panel(0.028, 0.785, 0.62, 0.185)
-    ax.text(
-        0.048,
-        0.915,
-        "Viewshed from Pinnacle Mountain Firetower",
-        transform=ax.transAxes,
-        color=OLIVE,
-        fontsize=15,
-        zorder=5,
-    )
-    ax.text(
-        0.048,
-        0.868,
-        "Buffalo Mountain, Cherokee National Forest\n"
-        f"{share:.0%} of this window is in sight from the platform",
-        transform=ax.transAxes,
-        color=MUTED,
-        fontsize=10,
-        linespacing=1.45,
-        zorder=5,
-    )
-    ax.text(
-        0.048,
-        0.808,
-        "Created by: Colin T. Stiles",
-        transform=ax.transAxes,
-        color=CREAM,
-        fontsize=10,
-        zorder=5,
-    )
+    title_artists = [
+        ax.text(
+            0.048,
+            0.915,
+            "Viewshed from Pinnacle Mountain Firetower",
+            transform=ax.transAxes,
+            color=OLIVE,
+            fontsize=15,
+            zorder=5,
+        ),
+        ax.text(
+            0.048,
+            0.868,
+            "Buffalo Mountain, Cherokee National Forest\n"
+            f"{share:.0%} of this window is in sight from the platform",
+            transform=ax.transAxes,
+            color=MUTED,
+            fontsize=10,
+            linespacing=1.45,
+            zorder=5,
+        ),
+        ax.text(
+            0.048,
+            0.808,
+            "Created by: Colin T. Stiles",
+            transform=ax.transAxes,
+            color=CREAM,
+            fontsize=10,
+            zorder=5,
+        ),
+    ]
+    tx, ty, tw, th = fit_panel(ax, title_artists, pad=(0.022, 0.025))
+    panel(ax, tx, ty, tw, th)
     draw_tower_card(ax, ground)
 
-    panel(0.78, 0.86, 0.19, 0.105)
+    legend_artists = []
     for i, (label, swatch) in enumerate((("In sight", GOLD), ("Hidden", "#2A3124"))):
         y = 0.925 - i * 0.038
-        ax.add_patch(
-            Rectangle((0.80, y - 0.008), 0.018, 0.022, transform=ax.transAxes,
-                      facecolor=swatch, edgecolor=LINE, linewidth=0.6, zorder=5)
+        swatch_patch = Rectangle((0.80, y - 0.008), 0.018, 0.022, transform=ax.transAxes,
+                                  facecolor=swatch, edgecolor=LINE, linewidth=0.6, zorder=5)
+        ax.add_patch(swatch_patch)
+        legend_artists.append(swatch_patch)
+        legend_artists.append(
+            ax.text(0.828, y, label, transform=ax.transAxes, color=CREAM, fontsize=10,
+                    va="center", zorder=5)
         )
-        ax.text(0.828, y, label, transform=ax.transAxes, color=CREAM, fontsize=10,
-                va="center", zorder=5)
+    lx, ly, lw, lh = fit_panel(ax, legend_artists, pad=(0.018, 0.022))
+    panel(ax, lx, ly, lw, lh)
 
     stroke = [path_effects.withStroke(linewidth=3.5, foreground=BG)]
     ax.plot(0, 0, marker="o", markersize=7, color=GOLD, markeredgecolor=BG, markeredgewidth=1.2, zorder=6)
+    ax.plot(
+        [0, -1400],
+        [0, 3200],
+        color=GOLD,
+        linewidth=1,
+        solid_capstyle="round",
+        zorder=5,
+        path_effects=stroke,
+    )
     ax.text(
         -1400,
         3200,
