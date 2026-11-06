@@ -145,13 +145,8 @@ The observer is Pinnacle Mountain Fire Tower on Buffalo Mountain, Cherokee Natio
 2. A viewshed draped on the terrain and revealed as the camera opens up.
 3. A rotating sightline, the lookout turning through the view.
 
-### Recommended direction
-`2026/day-05.html` draws the view in Three.js. USGS 3DEP elevation is sampled to a local equirectangular grid in meters. The viewshed runs on a 30 m grid with earth curvature and refraction (k = 0.13), then is draped on a 90 m mesh. Gold terrain is in sight from an eye 14 m up, the 40 ft platform plus a standing eye height. The same mask at 1.7 m shows the view from the rock. A north-up static poster of that platform viewshed is `2026/images/day-05.png`. Rebuild the grid with `python scripts/build_day05_terrain.py` and the poster with `python scripts/build_day05_static_map.py`.
-
-### Technical opportunity
-- Three.js terrain, orbit, and a sweeping line of sight
-- USGS 3DEP elevation, cached under `data/raw/` and not committed
-- Ground eye versus platform eye
+### Data source
+- [USGS 3DEP](https://www.usgs.gov/3d-elevation-program)
 
 **Expected effort:** **High**
 
@@ -167,9 +162,6 @@ The observer is Pinnacle Mountain Fire Tower on Buffalo Mountain, Cherokee Natio
 - Keep the historic sheet geographically aligned, so roads, water, and ridges can be compared directly.
 - Use a simple draggable divider that works in both the gallery embed and the full-page map.
 
-### Recommended direction
-Prepare a downsampled, unblended preview of the georeferenced 1940 HTMC sheet, then overlay it in Leaflet against Esri World Street Map. The historic image is clipped by a range-controlled divider, keeping both layers on one synchronized map.
-
 ### Workflow
 1. **Topo:** [TopoView](https://ngmdb.usgs.gov/topoview/) → Chattanooga, TN → HTMC GeoTIFF → `data/raw/` (gitignored; public domain).
 2. **Prepare:** `scripts/day06_vintage_chattanooga.py` → `2026/images/day-06-historic.png`.
@@ -177,6 +169,10 @@ Prepare a downsampled, unblended preview of the georeferenced 1940 HTMC sheet, t
 4. **Gallery:** Register `embed: "2026/day-06.html"` in `assets/js/days-data.js`.
 
 Working notes: `2026/06_vintage/NOTES.md`.
+
+### Data source
+- [topoView](https://ngmdb.usgs.gov/topoview/viewer/)
+- [Esri Streets](https://www.arcgis.com/home/item.html?id=e833fc01f447451f93ec0dfdfe12eed7#overview)
 
 **Expected effort:** **Moderate**
 
