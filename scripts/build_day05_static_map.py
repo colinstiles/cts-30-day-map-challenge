@@ -137,7 +137,7 @@ def draw_tower_card(ax, ground_m: float) -> None:
     tower_m = 40 * 0.3048
     ground_i = round(ground_m)
     top_i = ground_i + round(tower_m)
-    x, y, w, h = 0.028, 0.055, 0.34, 0.25
+    x, y, _, h = 0.028, 0.055, 0.34, 0.25
     artists = []
     base = y + 0.062
     roof = y + h - 0.055
