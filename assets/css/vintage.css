@@ -89,6 +89,15 @@
   color: #fffdf5;
   font-size: 0.78rem;
   font-weight: 700;
+  text-decoration: none;
+}
+
+.vintage-label:hover,
+.vintage-label:focus-visible {
+  background: rgba(25, 29, 24, 0.94);
+  color: #fffdf5;
+  outline: 2px solid #e5c889;
+  outline-offset: 2px;
 }
 
 .vintage-label--historic {

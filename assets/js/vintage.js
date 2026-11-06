@@ -5,11 +5,13 @@
   ];
 
   const modernMap = L.map("modern-map", {
-    zoomControl: true,
+    zoomControl: false,
     attributionControl: true,
     minZoom: 10,
     maxZoom: 17
   });
+
+  L.control.zoom({ position: "bottomleft" }).addTo(modernMap);
 
   L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}", {
     attribution: "Tiles &copy; Esri",
