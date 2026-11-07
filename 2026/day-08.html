@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 8 — Tugalo Undammed | 30 Day Map Challenge</title>
+  <meta name="description" content="Swipe between Lake Tugalo today and a utopian view with Tugalo Dam removed and the Tallulah–Chattooga confluence restored.">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/utopia.css">
+</head>
+<body class="utopia-page">
+  <div id="utopia-map" role="application" aria-label="Swipe map comparing Lake Tugalo now and undammed utopia">
+    <div id="utopia-utopia-map"></div>
+    <div id="utopia-clip" aria-hidden="true">
+      <div id="utopia-now-map"></div>
+    </div>
+  </div>
+
+  <header class="utopia-header">
+    <a class="utopia-back" href="../index.html">← Gallery</a>
+    <span class="utopia-kicker">Day 8 · Utopia</span>
+    <h1>Tugalo Undammed</h1>
+    <p>
+      Drag the handle: left is Lake Tugalo today; right is a schematic restored
+      Tallulah–Chattooga confluence with the 1923 dam gone.
+    </p>
+  </header>
+
+  <span class="utopia-label utopia-label--now">Now · Lake Tugalo</span>
+  <span class="utopia-label utopia-label--utopia">Utopia · free rivers</span>
+  <span id="utopia-divider" aria-hidden="true"></span>
+
+  <div class="utopia-swipe" aria-label="Now versus utopia comparison control">
+    <label for="utopia-slider">Now coverage (left)</label>
+    <input id="utopia-slider" type="range" min="0" max="100" value="50">
+  </div>
+
+  <footer class="utopia-credit">
+    DEM: USGS 3DEP. Lake outline schematic. Utopia valley is carved (not surveyed bathymetry).
+    Dam: Georgia Power Tugalo Hydroelectric Plant.
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="../assets/js/utopia.js"></script>
+</body>
+</html>
