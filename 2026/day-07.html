@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 7 — Chimney Tops 2 Pixel Fire | 30 Day Map Challenge</title>
+  <meta name="description" content="10-minute pixel animation of the 2016 Chimney Tops 2 wildfire in Sevier County, Tennessee. Created with vanilla JavaScript and HTML5 canvas.">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/day07.css">
+</head>
+<body class="day07-page">
+  <div class="day07-stage">
+    <canvas id="day07-canvas" width="640" height="400" aria-label="Pixel animation of Chimney Tops 2 fire spread"></canvas>
+  </div>
+
+  <div class="day07-ui">
+    <header class="day07-header">
+      <a class="day07-back" href="../index.html">← Gallery</a>
+      <span class="day07-kicker">Day 7 · 10 Minute Map</span>
+      <h1>Chimney Tops 2 — Sevier County, 2016</h1>
+      <p>
+        Pixel progression of the Great Smoky Mountains wildfire complex.
+      </p>
+    </header>
+
+    <div class="day07-build" id="day07-build">Built in under 10 minutes</div>
+
+    <aside class="day07-acres-callout" aria-live="polite">
+      <span class="day07-acres-kicker">Approx. burned</span>
+      <strong class="day07-acres" id="day07-acres">≈ 0 ac</strong>
+      <span class="day07-acres-note" id="day07-acres-note">pixel footprint</span>
+    </aside>
+
+    <p class="day07-credit">
+      Stylized spread (not official progression). Ignition seeds from NIFC InFORM
+      (Chimney Tops, Chimney Tops 2, Cobbly Nob). City rings are schematic.
+      Acreage = burned cells × cell area. Nov 28 = documented blow-up toward Gatlinburg.
+    </p>
+
+    <footer class="day07-dock">
+      <button type="button" id="day07-play" aria-pressed="true">Pause</button>
+      <input type="range" id="day07-slider" min="0" max="11" value="0" aria-label="Fire date">
+      <span class="day07-meta" id="day07-date">Nov 23, 2016</span>
+      <span class="day07-meta" id="day07-frame">1 / 12</span>
+    </footer>
+  </div>
+
+  <script src="../assets/js/day07-pixel-fire.js"></script>
+</body>
+</html>
