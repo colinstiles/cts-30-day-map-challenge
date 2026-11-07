@@ -2,7 +2,7 @@
 
 **Challenge:** #30DayMapChallenge 2026  
 **Dates:** November 1–30, 2026  
-**Tools:** ArcGIS Pro, Python, AGOL, GeoLibre, Sketchfab, Blender, Cesium, kepler.gl  
+**Tools:** ArcGIS Pro, Python, AGOL, GeoLibre, Sketchfab, Blender, Cesium, kepler.gl, JavaScript, CSS, HTML  
 **Geographic emphasis:** Tennessee, Southeast US, forestry, water, landscape, infrastructure, planetary  
 **Planning approach:** Favor original, visually strong maps that also let me experiment with cartography, analysis, and new tools.
 
@@ -29,7 +29,7 @@
 | 4 | Nov 4 | Clusters | Tennessee InFORM fire-incident hotspot timelapse | High |
 | 5 | Nov 5 | Senses: Sight | View from the Cherokee Fire Tower | High |
 | 6 | Nov 6 | Vintage | Chattanooga then & now: historic topo swipe map | Moderate |
-| 7 | Nov 7 | 10 minute map | 10-minute animated flyover of an actual wildfire incident (maybe the Sevier County wildfire), with an on-screen build-time stamp | High |
+| 7 | Nov 7 | 10 minute map | Pixel animation of 2016 Chimney Tops 2 (Sevier Co.), built in ≤10 minutes with on-screen build stamp | Moderate |
 | 8 | Nov 8 | Utopia | Ideal distribution of American Chestnut | High |
 | 9 | Nov 9 | Urban-rural | Wildland-Urban Interface in Tennessee | Moderate |
 | 10 | Nov 10 | Prompting only | AI creates a fictional place/world from scratch, purely via prompting | Moderate |
@@ -67,7 +67,7 @@
 - **Caves on Mars** — cave point locations on Mars Astro Tharsis
 
 ### Hyperlink
-- https://www.usgs.gov/news/caves-mars
+- [USGS Mars Caves](https://www.usgs.gov/news/caves-mars)
 
 ### Data Source
 - Mars Global Cave Candidate Catalog (MGC3)
@@ -85,8 +85,8 @@
 - **Cumberland Contours** - contour lines surrounding Cumber land Trail system in eastern Tennessee
 
 ### Hyperlink
-- https://www.usgs.gov/coastal-changes-and-impacts/contour-preliminary-contour-data
-- https://experience.arcgis.com/experience/0ef2687be56940408d73ced2dfc170b6
+- [USGS Preliminary Contours](https://www.usgs.gov/coastal-changes-and-impacts/contour-preliminary-contour-data)
+- [TREC](https://experience.arcgis.com/experience/0ef2687be56940408d73ced2dfc170b6)
 
 ### Data Source
 - Tennessee State Parks trail GIS data (TREC)
@@ -105,7 +105,7 @@
 - A nested polygon map descending from HUC2 region down through HUC12 subwatersheds with layered hillshade.
 
 ### Hyperlink
-- https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Hydrography/WBD/National/GDB/
+- [USGS Watershed Boundary Dataset](https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Hydrography/WBD/National/GDB/)
 
 ### Data Source
 - USGS Watershed Boundary Dataset (WBD), HUC2 through HUC12
@@ -141,9 +141,7 @@
 The observer is Pinnacle Mountain Fire Tower on Buffalo Mountain, Cherokee National Forest, at 36.21712°N, 82.37060°W. An earlier coordinate, 36.20845°N 82.38204°W, sits about 1.4 km downslope of the lookout.
 
 ### Map ideas
-1. A 3D pull-back and orbit from the fire tower's platform.
-2. A viewshed draped on the terrain and revealed as the camera opens up.
-3. A rotating sightline, the lookout turning through the view.
+- A 3D pull-back and orbit from the fire tower's platform with viewshed draped on terrain.
 
 ### Data source
 - [USGS 3DEP](https://www.usgs.gov/3d-elevation-program)
@@ -180,20 +178,22 @@ Working notes: `2026/06_vintage/NOTES.md`.
 
 ## Day 7 — 10 Minute Map
 **Date:** November 7  
-**Concept:** **10-Minute Animated Flyover of a Real Wildfire Incident**
+**Concept:** **Pixel Chimney Tops 2 Animation (Sevier County, 2016)**  
+**Tools:** HTML5 canvas / vanilla JS (`2026/day-07.html`)
 
 ### Map ideas
-1. A short animated camera flyover of an actual wildfire incident's perimeter and progression, built start-to-finish in 10 minutes — possibly the Sevier County wildfire.
-2. Use ArcGIS Pro's animation timeline with camera keyframes draped over terrain, with the fire perimeter (and growth over time, if the data supports it) as the subject.
-3. Burn a visible stopwatch/timer overlay into the exported video showing exactly how long the build took.
+- A coarse **pixel-grid** animation of the 2016 Great Smoky Mountains / Chimney Tops 2 complex in Sevier County.
+- Seed ignitions from NIFC InFORM (Chimney Tops, Chimney Tops 2, Cobbly Nob); stylized cellular spread with a Nov 28 blow-up toward Gatlinburg.
 
 ### Rule
-Set a timer for **10 minutes** and stop. Do not polish afterward. The on-screen timer stamp is the proof.
+Set a timer for **10 minutes** and stop. Do not polish afterward. The stamped build time is the proof. Pixel style keeps rendering cheap inside the timebox.
 
-### Recommended direction
-Pick one well-documented incident with an existing perimeter dataset so no new data sourcing eats into the window — just basemap, perimeter/incident data, and camera keyframes. The constraint (and the honest timer burned into the video) is the point, not the complexity.
+Working notes: `2026/07_10_minute/NOTES.md`.
 
-**Expected effort:** **High**
+### Data source
+- [InFORM Fire Occurrence Public](https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/InFORM_FireOccurrence_Public/FeatureServer) (NIFC / IRWIN), layer 0 Incidents
+
+**Expected effort:** **Moderate** (hard cap: 10 minutes of build time)
 
 ---
 
