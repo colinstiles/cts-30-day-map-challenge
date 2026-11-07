@@ -30,7 +30,7 @@
 | 5 | Nov 5 | Senses: Sight | View from the Cherokee Fire Tower | High |
 | 6 | Nov 6 | Vintage | Chattanooga then & now: historic topo swipe map | Moderate |
 | 7 | Nov 7 | 10 minute map | Pixel animation of 2016 Chimney Tops 2 (Sevier Co.), built in ≤10 minutes with on-screen build stamp | Moderate |
-| 8 | Nov 8 | Utopia | Ideal distribution of American Chestnut | High |
+| 8 | Nov 8 | Utopia | Tallulah / Tugalo undammed — Lake Tugalo drained | High |
 | 9 | Nov 9 | Urban-rural | Wildland-Urban Interface in Tennessee | Moderate |
 | 10 | Nov 10 | Prompting only | AI creates a fictional place/world from scratch, purely via prompting | Moderate |
 | 11 | Nov 11 | Senses: Sound | Interstate high-sound corridors through Chattanooga | Moderate |
@@ -199,20 +199,40 @@ Working notes: `2026/07_10_minute/NOTES.md`.
 
 ## Day 8 — Utopia
 **Date:** November 8  
-**Concept:** **A Tennessee With Chestnuts Restored**
+**Concept:** **Tugalo Undammed — Lake Tugalo drained, Tallulah–Chattooga confluence restored**  
+**Focus point:** Georgia Power Tugalo plant `34.71396, -83.35183`  
+**Tools:** Python (`py3dep` / rasterio) for utopia DEM; Leaflet (or MapLibre) swipe embed — same family as Day 6
 
 ### Map ideas
-1. An idealized/restored range map for the American Chestnut across Tennessee.
-2. Historic chestnut range vs. a hypothetical restored distribution.
-3. A suitable-habitat model for reintroduction sites.
+1. **Now vs utopia swipe:** left = present Lake Tugalo + dam; right = reservoir removed and free-flowing rivers restored.
+2. Single-frame “ghost lake” over restored gorge (outline of today’s pool on undammed terrain).
+3. Long-profile strip: pre-1923 river gradient vs. flat reservoir pool (support graphic, not the hero).
 
 ### Recommended direction
-Make this a map of what could be — a hypothetical ideal distribution of the American Chestnut if blight-resistant restoration succeeds, grounded in historic range and current habitat suitability.
+**Swipe map of the Lake Tugalo bowl** (not Tallulah Falls Dam upstream). Utopia = remove Tugalo Dam (1923), drain ~597 acres, and bring back ~4 mi of lower Chattooga + ~2 mi of lower Tallulah as free river through the confluence gorge. Frame tightly on the reservoir + dam + immediate ridges so the before/after reads in one gesture.
 
-### Technical opportunity
-- Historic range data / species distribution modeling
-- Habitat suitability analysis (climate, soil, elevation)
-- American Chestnut Foundation restoration data
+**How to build the utopia terrain**
+1. Pull 3DEP DEM + hillshade for a bbox around Lake Tugalo / Tugalo Dam.
+2. Mask the reservoir waterbody (NHD/OSM/GA hydro).
+3. **Carve a restored valley** under the pool: interpolate a thalweg from upstream Tallulah + Chattooga inlets down to the dam toe (use published pre-dam long-profile cues where helpful — e.g. Wenger 2022 on lower Chattooga before Tugalo), then blend side-slopes from the surrounding DEM so the “drained” surface looks like a gorge, not a flat hole.
+4. Draw free-flowing centerlines (Tallulah, Chattooga → Tugaloo) on the utopia side; keep dam + blue pool on the now side.
+5. Soft labels: Tugalo Dam, Lake Tugalo, Tallulah R., Chattooga R., GA / SC if the frame needs it.
+6. Title that states the wish plainly — e.g. “Utopia: Tugalo Undammed.”
+
+Chestnuts restored stays a parked alternate; this day is the hydrologic counterfactual.
+
+### Data
+- USGS 3DEP DEM / hillshade  
+- Reservoir footprint (NHD Waterbody, OSM, or Georgia Power/FERC project materials)  
+- Dam point (given)  
+- Optional: Chattooga Conservancy / Wenger pre-dam profile notes for thalweg elevations  
+
+### Deliverables
+- Swipe: `2026/day-08.html` (+ `day-08-now.png` / `day-08-utopia.png`)
+- Static dual-panel: `2026/images/day-08.png`
+- Generator: `python scripts/day08_tugalo_undammed.py`
+
+Working notes: `2026/08_utopia/NOTES.md`.
 
 **Expected effort:** **High**
 
