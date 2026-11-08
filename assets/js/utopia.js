@@ -105,6 +105,21 @@
   });
   utopiaMap.on("move zoom", syncNowMap);
 
+  const header = document.getElementById("utopia-header");
+  const toggle = document.getElementById("utopia-toggle");
+  if (header && toggle) {
+    const narrow = window.matchMedia("(max-width: 700px)");
+    const setCollapsed = (collapsed) => {
+      header.classList.toggle("is-collapsed", collapsed);
+      toggle.setAttribute("aria-expanded", collapsed ? "false" : "true");
+      toggle.textContent = collapsed ? "Show" : "Hide";
+    };
+    setCollapsed(narrow.matches && !embed);
+    toggle.addEventListener("click", () => {
+      setCollapsed(!header.classList.contains("is-collapsed"));
+    });
+  }
+
   const slider = document.getElementById("utopia-slider");
   slider.addEventListener("input", () => setSwipe(Number(slider.value)));
   setSwipe(Number(slider.value));

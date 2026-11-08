@@ -191,16 +191,21 @@ body.day07-page {
   border: 1px solid #2a2b20;
 }
 
-body.day07-embed .day07-back {
+body.day07-embed .day07-header,
+body.day07-embed .day07-build,
+body.day07-embed .day07-acres-callout,
+body.day07-embed .day07-credit,
+body.day07-embed .day07-dock {
   display: none;
 }
 
-body.day07-embed .day07-header h1 {
-  font-size: 0.95rem;
-}
-
-body.day07-embed .day07-credit {
-  bottom: 64px;
+body.day07-embed #day07-canvas {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  border: none;
+  box-shadow: none;
+  object-fit: contain;
 }
 
 @media (max-width: 640px) {

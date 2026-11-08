@@ -59,14 +59,47 @@
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
 }
 
+.utopia-header-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
 .utopia-back {
   display: inline-block;
-  margin-bottom: 8px;
   color: #9cbb74;
   font-size: 0.78rem;
   text-decoration: none;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+.utopia-toggle {
+  margin-left: auto;
+  padding: 4px 8px;
+  border: 1px solid #3a4a30;
+  background: transparent;
+  color: #9cbb74;
+  font: inherit;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.utopia-toggle:hover,
+.utopia-toggle:focus-visible {
+  color: #ffe66d;
+  border-color: #ffe66d;
+}
+
+.utopia-header.is-collapsed #utopia-details {
+  display: none;
+}
+
+.utopia-header.is-collapsed .utopia-header-top {
+  margin-bottom: 4px;
 }
 
 .utopia-kicker {
@@ -93,8 +126,20 @@
   color: #c8c4b6;
 }
 
-.utopia-note {
+.utopia-details p + p {
   margin-top: 8px;
+}
+
+.utopia-link a {
+  color: #9cbb74;
+}
+
+.utopia-link a:hover,
+.utopia-link a:focus-visible {
+  color: #ffe66d;
+}
+
+.utopia-note {
   font-size: 0.68rem;
   line-height: 1.35;
   color: #8a877a;
@@ -197,7 +242,24 @@
 
   .utopia-header {
     top: 52px;
-    max-width: calc(100vw - 24px);
+    left: 12px;
+    right: 12px;
+    max-width: none;
+  }
+
+  .utopia-header.is-collapsed {
+    top: 12px;
+    right: auto;
+    max-width: calc(100vw - 168px);
+    padding: 8px 10px;
+  }
+
+  .utopia-header.is-collapsed h1 {
+    margin: 0;
+    font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .utopia-label--now {
