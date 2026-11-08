@@ -2,7 +2,7 @@
 
 **Date:** November 8, 2026  
 **Theme:** Utopia  
-**Working title:** Tugalo Undammed — Lake Tugalo drained  
+**Working title:** Hidden Rapids of the Tallulah River  
 **Focus:** Georgia Power Tugalo plant `34.71396, -83.35183`  
 **Script:** `scripts/day08_tugalo_undammed.py`
 

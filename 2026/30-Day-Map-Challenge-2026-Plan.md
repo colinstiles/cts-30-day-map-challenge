@@ -30,7 +30,7 @@
 | 5 | Nov 5 | Senses: Sight | View from the Cherokee Fire Tower | High |
 | 6 | Nov 6 | Vintage | Chattanooga then & now: historic topo swipe map | Moderate |
 | 7 | Nov 7 | 10 minute map | Pixel animation of 2016 Chimney Tops 2 (Sevier Co.), built in ≤10 minutes with on-screen build stamp | Moderate |
-| 8 | Nov 8 | Utopia | Tallulah / Tugalo undammed — Lake Tugalo drained | High |
+| 8 | Nov 8 | Utopia | Hidden Rapids of the Tallulah River | High |
 | 9 | Nov 9 | Urban-rural | Wildland-Urban Interface in Tennessee | Moderate |
 | 10 | Nov 10 | Prompting only | AI creates a fictional place/world from scratch, purely via prompting | Moderate |
 | 11 | Nov 11 | Senses: Sound | Interstate high-sound corridors through Chattanooga | Moderate |
@@ -199,7 +199,7 @@ Working notes: `2026/07_10_minute/NOTES.md`.
 
 ## Day 8 — Utopia
 **Date:** November 8  
-**Concept:** **Tugalo Undammed — Lake Tugalo drained, Tallulah–Chattooga confluence restored**  
+**Concept:** **Hidden Rapids of the Tallulah River**  
 **Focus point:** Georgia Power Tugalo plant `34.71396, -83.35183`  
 **Tools:** Python (`py3dep` / rasterio) for utopia DEM; Leaflet (or MapLibre) swipe embed — same family as Day 6
 

@@ -666,7 +666,7 @@ def save_static_dual(
                 path_effects=stroke,
             )
     fig.suptitle(
-        "Utopia: Tugalo Undammed",
+        "Hidden Rapids of the Tallulah River",
         color="#ffe66d",
         fontsize=16,
         fontfamily="serif",
