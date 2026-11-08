@@ -39,4 +39,4 @@ Behind Zscaler, trust the corporate cert if HTTPS fails.
 
 ## Honesty
 
-Lake outline and restored valley are **schematic** (not surveyed bathymetry). Credit that on the map.
+The lake outline is the flat water surface in the USGS 3DEP DEM, not a surveyed shoreline. The restored valley under that pool is **schematic** (not surveyed bathymetry). Credit that on the map.

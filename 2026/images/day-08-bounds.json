@@ -1,11 +1,61 @@
 {
   "bounds": [
-    [34.698, -83.415],
-    [34.778, -83.318]
+    [
+      34.693126,
+      -83.408
+    ],
+    [
+      34.772874,
+      -83.312
+    ]
   ],
   "dam": {
     "lat": 34.71396,
     "lon": -83.35183
   },
-  "note": "Schematic Lake Tugalo / utopia carve for Day 8 swipe overlays. Regenerate with scripts/day08_tugalo_undammed.py."
+  "places": [
+    {
+      "name": "Lake Tugalo",
+      "lat": 34.73602,
+      "lon": -83.34947,
+      "side": "now"
+    },
+    {
+      "name": "Tugalo Dam",
+      "lat": 34.71796,
+      "lon": -83.35383,
+      "side": "now"
+    },
+    {
+      "name": "Chattooga River",
+      "lat": 34.75045,
+      "lon": -83.33638,
+      "side": "both"
+    },
+    {
+      "name": "Tallulah River",
+      "lat": 34.72676,
+      "lon": -83.37176,
+      "side": "both"
+    },
+    {
+      "name": "Tugaloo River",
+      "lat": 34.70886,
+      "lon": -83.35112,
+      "side": "both"
+    },
+    {
+      "name": "Georgia",
+      "lat": 34.75055,
+      "lon": -83.40029,
+      "side": "both"
+    },
+    {
+      "name": "South Carolina",
+      "lat": 34.75693,
+      "lon": -83.33117,
+      "side": "both"
+    }
+  ],
+  "note": "Lake Tugalo outline is the flat USGS 3DEP water surface. The undammed valley is a schematic carve, not surveyed bathymetry."
 }
