@@ -160,12 +160,6 @@ The observer is Pinnacle Mountain Fire Tower on Buffalo Mountain, Cherokee Natio
 - Keep the historic sheet geographically aligned, so roads, water, and ridges can be compared directly.
 - Use a simple draggable divider that works in both the gallery embed and the full-page map.
 
-### Workflow
-1. **Topo:** [TopoView](https://ngmdb.usgs.gov/topoview/) → Chattanooga, TN → HTMC GeoTIFF → `data/raw/` (gitignored; public domain).
-2. **Prepare:** `scripts/day06_vintage_chattanooga.py` → `2026/images/day-06-historic.png`.
-3. **Compare:** `2026/day-06.html` overlays the historic preview over Esri World Street Map and clips it with the slider.
-4. **Gallery:** Register `embed: "2026/day-06.html"` in `assets/js/days-data.js`.
-
 Working notes: `2026/06_vintage/NOTES.md`.
 
 ### Data source
@@ -178,7 +172,7 @@ Working notes: `2026/06_vintage/NOTES.md`.
 
 ## Day 7 — 10 Minute Map
 **Date:** November 7  
-**Concept:** **Pixel Chimney Tops 2 Animation (Sevier County, 2016)**  
+**Concept:** Pixel Chimney Tops 2 Animation (Sevier County, 2016)  
 **Tools:** HTML5 canvas / vanilla JS (`2026/day-07.html`)
 
 ### Map ideas
@@ -199,17 +193,12 @@ Working notes: `2026/07_10_minute/NOTES.md`.
 
 ## Day 8 — Utopia
 **Date:** November 8  
-**Concept:** **Tugalo Undammed — Lake Tugalo drained, Tallulah–Chattooga confluence restored**  
+**Concept:** Tugalo Undammed — Lake Tugalo drained, Tallulah–Chattooga confluence restored  
 **Focus point:** Georgia Power Tugalo plant `34.71396, -83.35183`  
 **Tools:** Python (`py3dep` / rasterio) for utopia DEM; Leaflet (or MapLibre) swipe embed — same family as Day 6
 
 ### Map ideas
-1. **Now vs utopia swipe:** left = present Lake Tugalo + dam; right = reservoir removed and free-flowing rivers restored.
-2. Single-frame “ghost lake” over restored gorge (outline of today’s pool on undammed terrain).
-3. Long-profile strip: pre-1923 river gradient vs. flat reservoir pool (support graphic, not the hero).
-
-### Recommended direction
-**Swipe map of the Lake Tugalo bowl** (not Tallulah Falls Dam upstream). Utopia = remove Tugalo Dam (1923), drain ~597 acres, and bring back ~4 mi of lower Chattooga + ~2 mi of lower Tallulah as free river through the confluence gorge. Frame tightly on the reservoir + dam + immediate ridges so the before/after reads in one gesture.
+- **Now vs utopia swipe:** left = present Lake Tugalo + dam; right = reservoir removed and free-flowing rivers restored.
 
 **How to build the utopia terrain**
 1. Pull 3DEP DEM + hillshade for a bbox around Lake Tugalo / Tugalo Dam.
@@ -219,18 +208,9 @@ Working notes: `2026/07_10_minute/NOTES.md`.
 5. Soft labels: Tugalo Dam, Lake Tugalo, Tallulah R., Chattooga R., GA / SC if the frame needs it.
 6. Title that states the wish plainly — e.g. “Utopia: Tugalo Undammed.”
 
-Chestnuts restored stays a parked alternate; this day is the hydrologic counterfactual.
-
-### Data
+### Data source
 - USGS 3DEP DEM / hillshade  
-- Reservoir footprint (NHD Waterbody, OSM, or Georgia Power/FERC project materials)  
-- Dam point (given)  
-- Optional: Chattooga Conservancy / Wenger pre-dam profile notes for thalweg elevations  
-
-### Deliverables
-- Swipe: `2026/day-08.html` (+ `day-08-now.png` / `day-08-utopia.png`)
-- Static dual-panel: `2026/images/day-08.png`
-- Generator: `python scripts/day08_tugalo_undammed.py`
+- Reservoir footprint (NHD Waterbody, OSM, or Georgia Power/FERC project materials)   
 
 Working notes: `2026/08_utopia/NOTES.md`.
 
