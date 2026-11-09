@@ -31,7 +31,7 @@
 | 6 | Nov 6 | Vintage | Chattanooga then & now: historic topo swipe map | Moderate |
 | 7 | Nov 7 | 10 minute map | Pixel animation of 2016 Chimney Tops 2 (Sevier Co.), built in ≤10 minutes with on-screen build stamp | Moderate |
 | 8 | Nov 8 | Utopia | Hidden Rapids of the Tallulah River | High |
-| 9 | Nov 9 | Urban-rural | Wildland-Urban Interface in Tennessee | Moderate |
+| 9 | Nov 9 | Urban-rural | WUI structures in Hamilton County, 11×17 | Moderate |
 | 10 | Nov 10 | Prompting only | AI creates a fictional place/world from scratch, purely via prompting | Moderate |
 | 11 | Nov 11 | Senses: Sound | Interstate high-sound corridors through Chattanooga | Moderate |
 | 12 | Nov 12 | Power | Incan/Aztec controlled areas throughout time | Moderate |
@@ -220,18 +220,31 @@ Working notes: `2026/08_utopia/NOTES.md`.
 
 ## Day 9 — Urban-rural
 **Date:** November 9  
-**Concept:** **Tennessee's Wildland-Urban Interface**
+**Concept:** **WUI structures in Hamilton County**  
+**Sheet:** 11 × 17 in, landscape  
+**Tools:** Python (`geopandas`, `matplotlib`)
 
 ### Map ideas
 1. A statewide WUI classification map (interface, intermix, non-WUI).
 2. WUI growth/change over time, if historical data is available.
 3. WUI overlaid with wildfire risk or forest cover.
 
-### Recommended direction
-Use the standard WUI classification (interface vs. intermix) rather than a generic urban/rural gradient — this connects directly to forestry and wildfire-risk work.
+### Chosen map
+Every building footprint in Hamilton County, on an 11×17 sheet with a 3DEP hillshade. The class comes from the Carlson et al. 2022 building-based WUI raster (100 m neighborhood), not from a distance ramp:
 
-### Potential data
-- USFS / SILVIS Wildland-Urban Interface datasets
+- gold, value 1 — intermix, at least half the neighborhood is wildland vegetation
+- ember, value 2 — interface, within 2.4 km of a large wildland patch, with less vegetation mixed in
+- quiet olive, value 0 — not WUI
+
+Both WUI classes require at least 6.17 buildings per km². Footprints are current FEMA / Overture buildings. The class was built from 2018 Microsoft footprints and 2016 NLCD, so the note on the sheet says so. `--neighborhood` can switch the raster to 250, 500, 750, 1000, or 1500 m. 500 m is the radius Carlson validated.
+
+Working notes: `2026/09_urban_rural/NOTES.md`. Script: `scripts/build_day09_wui_map.py`.
+
+### Data source
+- [FEMA WUI Structures V2](https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/WUI_Structures_V2/FeatureServer) (current building footprints)
+- Carlson, Helmers, Hawbaker, Mockrin, and Radeloff, 2022, USGS data release [10.5066/P94BT6Q7](https://doi.org/10.5066/P94BT6Q7). Local copy: `CONUS_WUI_100m.tif` and `data_dictionary.csv`
+- Hamilton County GIS county boundary
+- USGS 3DEP hillshade
 
 **Expected effort:** **Moderate**
 
