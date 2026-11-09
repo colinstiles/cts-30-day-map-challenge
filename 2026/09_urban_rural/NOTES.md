@@ -2,7 +2,7 @@
 
 **Date:** November 9, 2026
 **Theme:** Urban-rural
-**Working title:** Where the city meets the woods
+**Working title:** Wildland-Urban Interface of Hamilton County, Tennessee
 **Sheet:** 11 × 17 in landscape
 **Tools:** Python (`geopandas`, `matplotlib`, `rasterio`)
 **Script:** `scripts/build_day09_wui_map.py`
@@ -40,7 +40,10 @@ The composite raster (`CONUS_WUI_composite.tif`) records where a pixel enters or
 ## Outputs
 
 - `2026/images/day-09.png` — gallery raster, 17 × 11 in at 200 dpi
-- `2026/09_urban_rural/day-09-11x17.pdf` — same sheet for print
+- `2026/09_urban_rural/day-09-11x17.png` — same sheet beside the PDF
+- `2026/09_urban_rural/day-09-11x17.pdf` — print sheet
+
+Legend percents are each class's share of mapped county land. Pixels with no class, mostly water, are left out of that total.
 - `data/processed/day09_hamilton_wui_100m.npz` — cached centroids and class (gitignored)
 - `data/raw/hamilton_county.geojson` — county boundary (gitignored)
 - `data/raw/day09_hillshade.png` — USGS 3DEP hillshade (gitignored)
@@ -59,7 +62,7 @@ The CONUS rasters stay on disk at `G:\GIS\D_tin-topo\project_data\30_day_map_cha
 ```text
 Date: 2026-11-09
 Theme: Urban-rural
-Title: Where the city meets the woods
+Title: Wildland-Urban Interface of Hamilton County, Tennessee
 Concept: Hamilton County building footprints classed as intermix or interface WUI
 Data sources: FEMA WUI Structures V2; Carlson et al. 2022 CONUS WUI (100 m); Hamilton County GIS; USGS 3DEP
 Software/tools: Python (geopandas, matplotlib, rasterio)

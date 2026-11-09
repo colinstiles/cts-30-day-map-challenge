@@ -36,16 +36,36 @@ from matplotlib.path import Path as MplPath
 from matplotlib.patheffects import withStroke
 from shapely.geometry import MultiPolygon, Polygon
 
+import _env  # noqa: F401  (loads .env for SSL_CERT_FILE / REQUESTS_CA_BUNDLE)
+
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "raw"
 PROCESSED = ROOT / "data" / "processed"
 OUT_PNG = ROOT / "2026" / "images" / "day-09.png"
+OUT_PRINT_PNG = ROOT / "2026" / "09_urban_rural" / "day-09-11x17.png"
 OUT_PDF = ROOT / "2026" / "09_urban_rural" / "day-09-11x17.pdf"
 COUNTY_PATH = RAW / "hamilton_county.geojson"
+TENNESSEE_PATH = RAW / "tennessee_counties.geojson"
+# maxAllowableOffset makes this service return HTTP 500. geometryPrecision is the
+# generalization it will accept, and the county name field is lowercase.
+TENNESSEE_QUERIES = (
+    (
+        "https://maps.cot.tn.gov/hosting/rest/services/Hosted/TN_Counties/FeatureServer/0/query"
+        "?where=1%3D1&outFields=name&outSR=4326&geometryPrecision=4&f=geojson"
+    ),
+    (
+        "https://maps.cot.tn.gov/hosting/rest/services/Hosted/TN_Counties/FeatureServer/0/query"
+        "?where=1%3D1&outFields=name&outSR=4326&f=geojson"
+    ),
+)
 HILLSHADE_PATH = RAW / "day09_hillshade.png"
-WUI_DIR = Path(
+_WUI_DIR_WINDOWS = (
     r"G:\GIS\D_tin-topo\project_data\30_day_map_challenge\2026"
     r"\CONUS_building_footprint_WUI_data"
+)
+WUI_DIR = _env.resolve_existing_path(
+    Path(_WUI_DIR_WINDOWS),
+    _env.windows_drive_to_wsl(_WUI_DIR_WINDOWS),
 )
 NEIGHBORHOODS = (100, 250, 500, 750, 1000, 1500)
 # Metadata datum is WGS 84. Used only when the GeoTIFF has no CRS.
@@ -93,7 +113,7 @@ PLACES = (
     ("Signal Mtn", -85.355, 35.140, "right", "bottom"),
     ("Soddy-Daisy", -85.185, 35.248, "left", "bottom"),
     ("Ooltewah", -85.055, 35.082, "left", "bottom"),
-    ("East Ridge", -85.155, 34.992, "left", "top"),
+    ("East Ridge", -85.155, 35.004, "left", "bottom"),
     ("Sale Creek", -85.108, 35.382, "left", "bottom"),
 )
 RIVER = ("Tennessee River", -85.255, 35.078)
@@ -132,8 +152,11 @@ def download(url: str, dest: Path) -> None:
 
 
 def looks_like_geojson(path: Path) -> bool:
-    head = path.read_bytes()[:400].lstrip()
-    return head.startswith(b"{") and b'"error"' not in head and b"Feature" in head
+    """True for a GeoJSON object. ArcGIS writes coordinates before \"type\": \"Feature\"."""
+    head = path.read_bytes()[:500].lstrip().lower()
+    if not head.startswith(b"{") or b'"error"' in head:
+        return False
+    return b'"features"' in head or b'"type"' in head[:120]
 
 
 def load_county() -> gpd.GeoDataFrame:
@@ -164,6 +187,34 @@ def load_county() -> gpd.GeoDataFrame:
     west, south, east, north = county.total_bounds
     print(f"county bounds {west:.4f}, {south:.4f}, {east:.4f}, {north:.4f}", flush=True)
     return county
+
+
+def load_tennessee() -> gpd.GeoDataFrame:
+    if TENNESSEE_PATH.exists() and not looks_like_geojson(TENNESSEE_PATH):
+        TENNESSEE_PATH.unlink()
+    if not TENNESSEE_PATH.exists():
+        errors: list[str] = []
+        saved = False
+        for url in TENNESSEE_QUERIES:
+            try:
+                download(url, TENNESSEE_PATH)
+            except requests.RequestException as exc:
+                errors.append(f"{url} ({exc})")
+                continue
+            if looks_like_geojson(TENNESSEE_PATH):
+                saved = True
+                break
+            TENNESSEE_PATH.unlink()
+            errors.append(f"{url} (response was not GeoJSON)")
+        if not saved:
+            raise RuntimeError("Tennessee county download failed: " + "; ".join(errors))
+        print(f"wrote {TENNESSEE_PATH.relative_to(ROOT)}", flush=True)
+    state = gpd.read_file(TENNESSEE_PATH)
+    if state.crs is None:
+        state = state.set_crs(4326)
+    else:
+        state = state.to_crs(4326)
+    return state
 
 
 def county_geometry(county: gpd.GeoDataFrame):
@@ -270,6 +321,47 @@ def sample_wui(lon: np.ndarray, lat: np.ndarray, raster: Path) -> np.ndarray:
     return wui
 
 
+def class_land_shares(county: gpd.GeoDataFrame, raster: Path) -> dict[int, float]:
+    """Percent of mapped county land in each WUI class. Nodata, mostly water, is excluded."""
+    try:
+        import rasterio
+        from rasterio.features import geometry_mask
+        from rasterio.windows import from_bounds
+    except ImportError as exc:
+        raise SystemExit(
+            "rasterio is required to read the Carlson WUI raster. "
+            "Install it with: pip install -r 2026/08_utopia/requirements.txt"
+        ) from exc
+    from shapely.geometry import mapping
+
+    with rasterio.open(raster) as src:
+        crs = src.crs or rasterio.crs.CRS.from_proj4(AEA_WGS84)
+        projected = county.to_crs(crs)
+        geom = projected.geometry.iloc[0] if len(projected) == 1 else projected.geometry.union_all()
+        minx, miny, maxx, maxy = geom.bounds
+        window = from_bounds(minx, miny, maxx, maxy, transform=src.transform)
+        window = window.round_offsets().round_lengths()
+        fill = src.nodata if src.nodata is not None else -1
+        data = src.read(1, window=window, boundless=True, fill_value=fill)
+        transform = src.window_transform(window)
+        inside = geometry_mask(
+            [mapping(geom)],
+            transform=transform,
+            invert=True,
+            out_shape=data.shape,
+        )
+        known = inside & np.isin(data, (0, 1, 2))
+        total = int(known.sum())
+        if total == 0:
+            raise RuntimeError("No classified WUI pixels fall inside Hamilton County.")
+        shares = {code: 100.0 * int((known & (data == code)).sum()) / total for code in (0, 1, 2)}
+        pixel_km2 = abs(float(src.res[0]) * float(src.res[1])) / 1_000_000
+        print(f"mapped county land {total * pixel_km2:,.1f} km²", flush=True)
+        for code, name in ((1, "intermix"), (2, "interface"), (0, "not WUI")):
+            print(f"  {name}: {shares[code]:.1f}% of county land", flush=True)
+        return shares
+
+
 def load_structures(
     county: gpd.GeoDataFrame,
     raster: Path,
@@ -373,72 +465,101 @@ def fit_map_box(bounds: tuple[float, float, float, float]) -> tuple[float, float
     return left, bottom, width, height
 
 
-def draw_scale(ax, bounds) -> None:
-    west, south, east, north = bounds
+def draw_scale(ax, county_bounds, frame_bounds) -> None:
+    """Five-mile bar in the margin under the county, clear of the place names."""
+    west, south, east, north = frame_bounds
+    c_west, c_south, c_east, _c_north = county_bounds
     mid_lat = (south + north) / 2
     meters_per_degree = 111_320 * np.cos(np.deg2rad(mid_lat))
-    miles = 5
-    bar = miles * 1609.344 / meters_per_degree
-    x = west + (east - west) * 0.06
-    y = south + (north - south) * 0.045
+    bar = 5 * 1609.344 / meters_per_degree
+    x = (c_west + c_east) / 2 - bar / 2
+    y = c_south - (c_south - south) * 0.55
+    tick = (c_south - south) * 0.12
     ax.plot([x, x + bar], [y, y], color=CREAM, lw=1.6, solid_capstyle="butt", zorder=6)
-    ax.plot([x, x], [y - (north - south) * 0.006, y + (north - south) * 0.006], color=CREAM, lw=1.0, zorder=6)
-    ax.plot(
-        [x + bar, x + bar],
-        [y - (north - south) * 0.006, y + (north - south) * 0.006],
-        color=CREAM,
-        lw=1.0,
-        zorder=6,
-    )
-    ax.text(
-        x + bar / 2,
-        y + (north - south) * 0.012,
-        "5 miles",
-        color=CREAM,
-        fontsize=8,
-        ha="center",
-        va="bottom",
-        zorder=6,
-        path_effects=[withStroke(linewidth=3, foreground=BG)],
-    )
+    ax.plot([x, x], [y - tick, y + tick], color=CREAM, lw=1.0, zorder=6)
+    ax.plot([x + bar, x + bar], [y - tick, y + tick], color=CREAM, lw=1.0, zorder=6)
+    ax.text(x + bar / 2, y + tick * 1.4, "5 miles", color=CREAM, fontsize=8, ha="center", va="bottom", zorder=6)
 
 
-def draw_north(ax) -> None:
+def draw_north(ax, county_bounds, frame_bounds) -> None:
+    """North arrow in the margin east of the county."""
+    _west, _south, east, _north = frame_bounds
+    _c_west, c_south, c_east, c_north = county_bounds
+    span = c_north - c_south
+    x = c_east + (east - c_east) * 0.48
+    y0 = c_north - span * 0.08
+    y1 = y0 + span * 0.055
     ax.annotate(
         "",
-        xy=(0.93, 0.16),
-        xytext=(0.93, 0.075),
-        xycoords="axes fraction",
-        arrowprops={"arrowstyle": "-|>", "color": CREAM, "lw": 1.1, "mutation_scale": 10},
+        xy=(x, y1),
+        xytext=(x, y0),
+        arrowprops={"arrowstyle": "-|>", "color": CREAM, "lw": 1.2, "mutation_scale": 12},
         zorder=6,
     )
-    ax.text(
-        0.93,
-        0.175,
-        "N",
-        transform=ax.transAxes,
-        color=CREAM,
-        fontsize=11,
-        ha="center",
-        va="bottom",
-        zorder=6,
-        path_effects=[withStroke(linewidth=3, foreground=BG)],
+    ax.text(x, y1 + span * 0.012, "N", color=CREAM, fontsize=11, ha="center", va="bottom", zorder=6)
+
+
+def draw_inset(fig, tennessee: gpd.GeoDataFrame, left_in: float, top_in: float) -> float:
+    """Locator under the title. Returns the inch coordinate just below the caption."""
+    west, south, east, north = tennessee.total_bounds
+    mid = (south + north) / 2
+    ground_w = (east - west) * np.cos(np.deg2rad(mid))
+    ground_h = north - south
+    width_in = 4.85
+    height_in = width_in * ground_h / ground_w
+    bottom_in = top_in - height_in
+    inset = fig.add_axes((left_in / FIG_W, bottom_in / FIG_H, width_in / FIG_W, height_in / FIG_H))
+    inset.set_facecolor(BG)
+    pad_x = (east - west) * 0.015
+    pad_y = (north - south) * 0.06
+    inset.set_xlim(west - pad_x, east + pad_x)
+    inset.set_ylim(south - pad_y, north + pad_y)
+    inset.set_axis_off()
+    columns = {column.lower(): column for column in tennessee.columns}
+    name_col = columns.get("name", str(tennessee.columns[0]))
+    for _, row in tennessee.iterrows():
+        hamilton = str(row[name_col]).lower().startswith("hamilton")
+        inset.add_patch(
+            PathPatch(
+                geometry_path(row.geometry),
+                facecolor=EMBER if hamilton else "#23281E",
+                edgecolor=CREAM if hamilton else "#4E5346",
+                linewidth=0.8 if hamilton else 0.25,
+                zorder=2 if hamilton else 1,
+            )
+        )
+    caption_y = bottom_in - 0.22
+    fig.text(
+        left_in / FIG_W,
+        caption_y / FIG_H,
+        "Hamilton County in Tennessee",
+        color=MUTED,
+        fontsize=8,
+        va="top",
     )
+    return caption_y - 0.28
 
 
 def render(
     points: dict[str, np.ndarray],
     county: gpd.GeoDataFrame,
+    tennessee: gpd.GeoDataFrame,
     hillshade: Path | None,
     neighborhood: int,
+    shares: dict[int, float],
 ) -> None:
     lon = points["lon"]
     lat = points["lat"]
     wui = points["wui"]
     west, south, east, north = county.total_bounds
-    pad_x = (east - west) * 0.03
-    pad_y = (north - south) * 0.03
-    bounds = (west - pad_x, south - pad_y, east + pad_x, north + pad_y)
+    county_bounds = (west, south, east, north)
+    # Extra room below and to the east so the scale bar and north arrow sit off the county.
+    bounds = (
+        west - (east - west) * 0.035,
+        south - (north - south) * 0.11,
+        east + (east - west) * 0.08,
+        north + (north - south) * 0.04,
+    )
     geom = county_geometry(county)
     outline = geometry_path(geom)
 
@@ -515,48 +636,48 @@ def render(
         zorder=6,
         path_effects=halo,
     )
-    draw_scale(ax, bounds)
-    draw_north(ax)
+    draw_scale(ax, county_bounds, bounds)
+    draw_north(ax, county_bounds, bounds)
 
-    rail_x = left + width + 0.42
-    y = FIG_H - 0.55
+    rail_x = left + width + 0.38
+    y = FIG_H - 0.48
     fig.text(
         rail_x / FIG_W,
         y / FIG_H,
-        "Where the city\nmeets the woods",
+        "Wildland-Urban Interface\nof Hamilton County, Tennessee",
         color=OLIVE,
-        fontsize=26,
+        fontsize=18,
         va="top",
         ha="left",
-        linespacing=1.15,
+        linespacing=1.2,
     )
-    y -= 1.55
+    y -= 1.05
     fig.text(
         rail_x / FIG_W,
         y / FIG_H,
-        "Hamilton County, Tennessee\nBuilding footprints classed as\nintermix or interface WUI.",
+        "Where buildings stand among, or against, wildland vegetation.",
         color=CREAM,
-        fontsize=11,
+        fontsize=10,
         va="top",
         ha="left",
-        linespacing=1.45,
     )
-    y -= 1.35
+    y -= 0.32
+    y = draw_inset(fig, tennessee, rail_x, y)
     fig.text(
         rail_x / FIG_W,
         y / FIG_H,
-        f"Carlson et al. 2022, {neighborhood} m",
+        f"Share of county land, {neighborhood} m neighborhood",
         color=MUTED,
-        fontsize=9,
+        fontsize=8.5,
         va="top",
     )
-    y -= 0.38
+    y -= 0.36
     legend = (
-        (1, GOLD, "Intermix"),
-        (2, EMBER, "Interface"),
-        (0, QUIET, "Not WUI"),
+        (1, GOLD, "Intermix", "Wildland vegetation covers at least half the surrounding ground."),
+        (2, EMBER, "Interface", "Within 2.4 km of a wildland patch of at least 5 km²."),
+        (0, QUIET, "Not WUI", "Outside both classes."),
     )
-    for code, color, label in legend:
+    for code, color, label, definition in legend:
         fig.patches.append(
             Rectangle(
                 (rail_x / FIG_W, (y - 0.07) / FIG_H),
@@ -571,47 +692,38 @@ def render(
         fig.text(
             (rail_x + 0.36) / FIG_W,
             y / FIG_H,
-            f"{counts[code]:,}   {label}",
+            f"{label}   {shares[code]:.1f}% of county land",
             color=CREAM,
-            fontsize=10,
+            fontsize=11,
             va="center",
         )
-        y -= 0.42
-
-    y -= 0.15
-    fig.text(
-        rail_x / FIG_W,
-        y / FIG_H,
-        "Gold is intermix: wildland vegetation\n"
-        "covers at least half the neighborhood.\n"
-        "Ember is interface: within 2.4 km of\n"
-        "a large wildland patch, with less\n"
-        "vegetation mixed among the buildings.",
-        color=MUTED,
-        fontsize=10.5,
-        va="top",
-        linespacing=1.45,
-    )
+        y -= 0.28
+        fig.text(
+            rail_x / FIG_W,
+            y / FIG_H,
+            definition,
+            color=MUTED,
+            fontsize=8.5,
+            va="top",
+        )
+        y -= 0.38
 
     outside = int((wui < 0).sum())
-    outside_line = f"\n{outside:,} footprints fell outside the raster.\n" if outside else "\n"
+    outside_line = f"{outside:,} footprints fell outside the raster.\n" if outside else ""
     fig.text(
         rail_x / FIG_W,
-        1.72 / FIG_H,
-        "Both WUI classes need at least\n"
-        "6.17 buildings per km². Footprints\n"
-        "are current FEMA buildings. The class\n"
-        "comes from the 2018 Microsoft\n"
-        "footprints and 2016 land cover.\n"
-        f"{outside_line}\n"
-        "Carlson et al. 2022, USGS\n"
+        0.42 / FIG_H,
+        "Percents are each class's share of mapped county land.\n"
+        "Unclassified ground, mostly water, is left out of the total.\n"
+        "Both WUI classes also have at least 6.17 buildings per km².\n\n"
+        "Building locations: FEMA WUI Structures V2.\n"
+        f"WUI class: Carlson et al. 2022, USGS, {neighborhood} m neighborhood,\n"
+        "from 2018 Microsoft footprints and 2016 NLCD.\n"
         "doi.org/10.5066/P94BT6Q7\n"
-        "FEMA WUI Structures V2\n"
-        "USGS 3DEP hillshade\n"
-        "Hamilton County GIS boundary\n\n"
+        f"{outside_line}"
+        "Hillshade: USGS 3DEP.  Boundary: Hamilton County GIS.\n\n"
         "Created by Colin T. Stiles\n"
-        "30 Day Map Challenge 2026\n"
-        "Day 9  ·  Urban-rural\n"
+        "30 Day Map Challenge 2026  ·  Day 9  ·  Urban-rural\n"
         "11 × 17 in",
         color=MUTED,
         fontsize=8,
@@ -622,12 +734,14 @@ def render(
     OUT_PNG.parent.mkdir(parents=True, exist_ok=True)
     OUT_PDF.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(OUT_PNG, dpi=DPI, facecolor=fig.get_facecolor())
+    fig.savefig(OUT_PRINT_PNG, dpi=DPI, facecolor=fig.get_facecolor())
     fig.savefig(OUT_PDF, dpi=DPI, facecolor=fig.get_facecolor())
     plt.close(fig)
     print(f"wrote {OUT_PNG.relative_to(ROOT)}", flush=True)
+    print(f"wrote {OUT_PRINT_PNG.relative_to(ROOT)}", flush=True)
     print(f"wrote {OUT_PDF.relative_to(ROOT)}", flush=True)
-    for code, _, label in legend:
-        print(f"  rating {code}: {counts[code]:,}  {label}", flush=True)
+    for code, _, label, _definition in legend:
+        print(f"  {label}: {shares[code]:.1f}% of county land, {counts[code]:,} buildings", flush=True)
 
 
 def main() -> None:
@@ -646,10 +760,12 @@ def main() -> None:
     if not raster.exists():
         raise SystemExit(f"WUI raster not found: {raster}")
     county = load_county()
+    tennessee = load_tennessee()
     points = load_structures(county, raster, args.neighborhood, args.refresh)
+    shares = class_land_shares(county, raster)
     west, south, east, north = county.total_bounds
     hillshade = fetch_hillshade((west, south, east, north))
-    render(points, county, hillshade, args.neighborhood)
+    render(points, county, tennessee, hillshade, args.neighborhood, shares)
 
 
 if __name__ == "__main__":

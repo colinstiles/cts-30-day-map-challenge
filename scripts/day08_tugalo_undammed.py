@@ -37,6 +37,8 @@ from urllib.request import Request, urlopen
 
 import numpy as np
 
+import _env  # noqa: F401  (loads .env for SSL_CERT_FILE / REQUESTS_CA_BUNDLE)
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DEM_OUT = REPO_ROOT / "data" / "processed" / "tugalo_dem.tif"
 DEFAULT_UTOPIA_DEM = REPO_ROOT / "data" / "processed" / "tugalo_utopia_dem.tif"

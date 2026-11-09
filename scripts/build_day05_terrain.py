@@ -29,6 +29,8 @@ from pathlib import Path
 
 import numpy as np
 
+import _env  # noqa: F401  (loads .env for SSL_CERT_FILE / REQUESTS_CA_BUNDLE)
+
 # National Historic Lookout Register coordinate for Pinnacle Fire Tower.
 TOWER_LAT = 36.21712
 TOWER_LON = -82.37060

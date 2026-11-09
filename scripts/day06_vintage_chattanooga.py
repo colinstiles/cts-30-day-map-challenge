@@ -35,6 +35,8 @@ from pathlib import Path
 
 import numpy as np
 
+import _env  # noqa: F401  (loads .env for SSL_CERT_FILE / REQUESTS_CA_BUNDLE)
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_TOPO = REPO_ROOT / "data" / "raw" / "chattanooga_htmc.tif"
 DEFAULT_HILL_OUT = REPO_ROOT / "data" / "processed" / "chattanooga_hillshade.tif"
