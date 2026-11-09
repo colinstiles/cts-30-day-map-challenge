@@ -14,6 +14,15 @@
   background: #1a2218;
 }
 
+.utopia-page .leaflet-container {
+  background: #1a2218;
+}
+
+.utopia-page .leaflet-control-zoom {
+  margin-bottom: 78px;
+  border: 1px solid #3a4a30;
+}
+
 #utopia-utopia-map,
 #utopia-clip {
   position: absolute;
@@ -35,7 +44,6 @@
 
 .utopia-header,
 .utopia-swipe,
-.utopia-credit,
 .utopia-label {
   position: fixed;
   z-index: 1000;
@@ -51,14 +59,47 @@
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
 }
 
+.utopia-header-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
 .utopia-back {
   display: inline-block;
-  margin-bottom: 8px;
   color: #9cbb74;
   font-size: 0.78rem;
   text-decoration: none;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+.utopia-toggle {
+  margin-left: auto;
+  padding: 4px 8px;
+  border: 1px solid #3a4a30;
+  background: transparent;
+  color: #9cbb74;
+  font: inherit;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.utopia-toggle:hover,
+.utopia-toggle:focus-visible {
+  color: #ffe66d;
+  border-color: #ffe66d;
+}
+
+.utopia-header.is-collapsed #utopia-details {
+  display: none;
+}
+
+.utopia-header.is-collapsed .utopia-header-top {
+  margin-bottom: 4px;
 }
 
 .utopia-kicker {
@@ -83,6 +124,25 @@
   font-size: 0.88rem;
   line-height: 1.4;
   color: #c8c4b6;
+}
+
+.utopia-details p + p {
+  margin-top: 8px;
+}
+
+.utopia-link a {
+  color: #9cbb74;
+}
+
+.utopia-link a:hover,
+.utopia-link a:focus-visible {
+  color: #ffe66d;
+}
+
+.utopia-note {
+  font-size: 0.68rem;
+  line-height: 1.35;
+  color: #8a877a;
 }
 
 .utopia-label {
@@ -142,40 +202,67 @@
   accent-color: #ffe66d;
 }
 
-.utopia-credit {
-  left: 18px;
-  bottom: 18px;
-  max-width: min(480px, calc(100vw - 36px));
-  padding: 6px 10px;
-  font-size: 0.68rem;
-  color: #8a877a;
-  background: rgba(16, 20, 15, 0.82);
-  border: 1px solid #2a3224;
+.utopia-place.leaflet-div-icon,
+.utopia-dam-icon.leaflet-div-icon {
+  background: transparent;
+  border: none;
 }
 
+.utopia-place span {
+  display: block;
+  transform: translate(-50%, -50%);
+  color: #f4f0e4;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  text-shadow:
+    0 0 4px #10140f,
+    0 1px 2px #10140f,
+    0 0 1px #10140f;
+}
+
+.utopia-page--embed .utopia-header,
+.utopia-page--embed .utopia-label,
+.utopia-page--embed .utopia-swipe,
 .utopia-page--embed .utopia-back {
   display: none;
 }
 
-.utopia-page--embed .utopia-header {
-  max-width: 320px;
-  padding: 10px 12px;
-}
-
-.utopia-page--embed .utopia-header h1 {
-  font-size: 1.15rem;
-}
-
-.utopia-page--embed .utopia-credit {
-  display: none;
+.utopia-page--embed .leaflet-control-zoom {
+  margin-bottom: 12px;
 }
 
 @media (max-width: 700px) {
   .utopia-label--utopia {
-    bottom: 120px;
+    top: 12px;
+    right: 12px;
+    bottom: auto;
   }
 
   .utopia-header {
-    max-width: calc(100vw - 36px);
+    top: 52px;
+    left: 12px;
+    right: 12px;
+    max-width: none;
+  }
+
+  .utopia-header.is-collapsed {
+    top: 12px;
+    right: auto;
+    max-width: calc(100vw - 168px);
+    padding: 8px 10px;
+  }
+
+  .utopia-header.is-collapsed h1 {
+    margin: 0;
+    font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .utopia-label--now {
+    bottom: 88px;
   }
 }

@@ -81,6 +81,9 @@
   ];
 
   var embed = new URLSearchParams(window.location.search).get("embed") === "1";
+  if (embed) {
+    document.body.classList.add("day07-embed");
+  }
 
   var canvas;
   var ctx;

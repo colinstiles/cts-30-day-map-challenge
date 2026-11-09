@@ -2,7 +2,7 @@
 
 **Date:** November 8, 2026  
 **Theme:** Utopia  
-**Working title:** Tugalo Undammed — Lake Tugalo drained  
+**Working title:** Hidden Rapids of the Tallulah River  
 **Focus:** Georgia Power Tugalo plant `34.71396, -83.35183`  
 **Script:** `scripts/day08_tugalo_undammed.py`
 
@@ -39,4 +39,4 @@ Behind Zscaler, trust the corporate cert if HTTPS fails.
 
 ## Honesty
 
-Lake outline and restored valley are **schematic** (not surveyed bathymetry). Credit that on the map.
+The lake outline is the flat water surface in the USGS 3DEP DEM, not a surveyed shoreline. The restored valley under that pool is **schematic** (not surveyed bathymetry). Credit that on the map.

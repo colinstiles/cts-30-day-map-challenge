@@ -1,8 +1,8 @@
 /* Day 8 — Tugalo Undammed swipe (now left ↔ utopia right). */
 (function () {
   const DEFAULT_BOUNDS = [
-    [34.698, -83.415],
-    [34.778, -83.318]
+    [34.700, -83.408],
+    [34.766, -83.312]
   ];
   const DAM = [34.71396, -83.35183];
 
@@ -16,9 +16,9 @@
     zoomControl: false,
     attributionControl: true,
     minZoom: 11,
-    maxZoom: 16
+    maxZoom: 18
   });
-  L.control.zoom({ position: "bottomleft" }).addTo(utopiaMap);
+  L.control.zoom({ position: "bottomright" }).addTo(utopiaMap);
 
   const nowMap = L.map("utopia-now-map", {
     attributionControl: false,
@@ -30,7 +30,7 @@
     boxZoom: false,
     touchZoom: false,
     minZoom: 11,
-    maxZoom: 16
+    maxZoom: 18
   });
 
   let bounds = DEFAULT_BOUNDS;
@@ -45,6 +45,34 @@
     document.getElementById("utopia-divider").style.left = `${value}%`;
   }
 
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, (ch) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      "\"": "&quot;",
+      "'": "&#39;"
+    }[ch]));
+  }
+
+  function addPlace(map, place) {
+    const icon = L.divIcon({
+      className: "utopia-place",
+      html: `<span>${escapeHtml(place.name)}</span>`,
+      iconSize: [0, 0],
+      iconAnchor: [0, 0]
+    });
+    L.marker([place.lat, place.lon], { icon, interactive: false, keyboard: false }).addTo(map);
+  }
+
+  function addPlaces(places) {
+    places.forEach((place) => {
+      if (!place || !place.name || !Number.isFinite(place.lat) || !Number.isFinite(place.lon)) return;
+      if (place.side === "now" || place.side === "both") addPlace(nowMap, place);
+      if (place.side === "utopia" || place.side === "both") addPlace(utopiaMap, place);
+    });
+  }
+
   function placeDam() {
     const icon = L.divIcon({
       className: "utopia-dam-icon",
@@ -52,20 +80,45 @@
       iconSize: [10, 10],
       iconAnchor: [5, 5]
     });
-    L.marker(dam, { icon, interactive: false }).addTo(utopiaMap);
-    L.marker(dam, { icon, interactive: false }).addTo(nowMap);
+    // The dam exists only on the "now" side. Utopia is the river without it.
+    L.marker(dam, { icon, interactive: false, keyboard: false }).addTo(nowMap);
+  }
+
+  let userMoved = false;
+
+  function coverBounds(frameBounds) {
+    // Fit the whole bowl. Side space stays the page color instead of cropping the arms.
+    utopiaMap.fitBounds(frameBounds, { padding: [18, 18], animate: false });
   }
 
   function initOverlays(frameBounds) {
     bounds = frameBounds;
     L.imageOverlay("images/day-08-utopia.png", bounds, { interactive: false }).addTo(utopiaMap);
     L.imageOverlay("images/day-08-now.png", bounds, { interactive: false }).addTo(nowMap);
-    utopiaMap.fitBounds(bounds, { padding: [28, 28] });
+    coverBounds(bounds);
     placeDam();
     syncNowMap();
   }
 
+  utopiaMap.on("dragstart", () => {
+    userMoved = true;
+  });
   utopiaMap.on("move zoom", syncNowMap);
+
+  const header = document.getElementById("utopia-header");
+  const toggle = document.getElementById("utopia-toggle");
+  if (header && toggle) {
+    const narrow = window.matchMedia("(max-width: 700px)");
+    const setCollapsed = (collapsed) => {
+      header.classList.toggle("is-collapsed", collapsed);
+      toggle.setAttribute("aria-expanded", collapsed ? "false" : "true");
+      toggle.textContent = collapsed ? "Show" : "Hide";
+    };
+    setCollapsed(narrow.matches && !embed);
+    toggle.addEventListener("click", () => {
+      setCollapsed(!header.classList.contains("is-collapsed"));
+    });
+  }
 
   const slider = document.getElementById("utopia-slider");
   slider.addEventListener("input", () => setSwipe(Number(slider.value)));
@@ -75,6 +128,7 @@
     if (event.data && event.data.type === "cts-embed-visible" && event.data.visible) {
       utopiaMap.invalidateSize();
       nowMap.invalidateSize();
+      if (!userMoved) coverBounds(bounds);
       syncNowMap();
     }
   });
@@ -82,6 +136,7 @@
   window.addEventListener("resize", () => {
     utopiaMap.invalidateSize();
     nowMap.invalidateSize();
+    if (!userMoved) coverBounds(bounds);
     syncNowMap();
   });
 
@@ -91,6 +146,7 @@
       if (data && data.bounds) bounds = data.bounds;
       if (data && data.dam) dam = [data.dam.lat, data.dam.lon];
       initOverlays(bounds);
+      if (data && Array.isArray(data.places)) addPlaces(data.places);
     })
     .catch(() => initOverlays(bounds));
 })();

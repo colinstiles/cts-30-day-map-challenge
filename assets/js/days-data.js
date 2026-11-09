@@ -14,7 +14,7 @@ const CHALLENGE_YEARS = {
       { day: 5, date: "Nov 5", theme: "Senses: Sight", concept: "View from the Cherokee Fire Tower", tool: "Three.js, USGS 3DEP", embed: "2026/day-05.html" },
       { day: 6, date: "Nov 6", theme: "Vintage", concept: "Chattanooga Then & Now", tool: "Leaflet, USGS HTMC, Esri World Street Map", embed: "2026/day-06.html" },
       { day: 7, date: "Nov 7", theme: "10 Minute Map", concept: "Chimney Tops 2 Pixel Fire (Sevier Co. 2016)", tool: "HTML canvas", embed: "2026/day-07.html" },
-      { day: 8, date: "Nov 8", theme: "Utopia", concept: "Tugalo Undammed — Lake Tugalo Drained", tool: "Python, Leaflet, 3DEP", embed: "2026/day-08.html" },
+      { day: 8, date: "Nov 8", theme: "Utopia", concept: "Hidden Rapids of the Tallulah River", tool: "Python, Leaflet, 3DEP", embed: "2026/day-08.html" },
       { day: 9, date: "Nov 9", theme: "Urban-rural", concept: "Tennessee's Wildland-Urban Interface", tool: "Tool TBD" },
       { day: 10, date: "Nov 10", theme: "Prompting only", concept: "AI Creates a Fictional World From Scratch", tool: "Tool TBD" },
       { day: 11, date: "Nov 11", theme: "Senses: Sound", concept: "High-Sound Interstate Corridors in Chattanooga", tool: "Tool TBD" },
