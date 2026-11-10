@@ -225,11 +225,9 @@ Working notes: `2026/08_utopia/NOTES.md`.
 **Tools:** Python (`geopandas`, `matplotlib`)
 
 ### Map ideas
-1. A statewide WUI classification map (interface, intermix, non-WUI).
-2. WUI growth/change over time, if historical data is available.
-3. WUI overlaid with wildfire risk or forest cover.
+- Structure WUI classification in Hamilton County, TN.
 
-### Chosen map
+### Notes
 Every building footprint in Hamilton County, on an 11×17 sheet with a 3DEP hillshade. The class comes from the Carlson et al. 2022 building-based WUI raster (100 m neighborhood), not from a distance ramp:
 
 - gold, value 1 — intermix, at least half the neighborhood is wildland vegetation
@@ -252,7 +250,7 @@ Working notes: `2026/09_urban_rural/NOTES.md`. Script: `scripts/build_day09_wui_
 
 ## Day 10 — Prompting Only
 **Date:** November 10  
-**Concept:** **AI Creates a Fictional World From Scratch**
+**Concept:** AI Creates a Fictional World From Scratch: Vael Crescent Sea
 
 ### Experiment
 Use AI from start to finish, purely through prompting, to invent an entirely fictional place — or an entire fictional world — with no real-world data involved. Document the prompt chain alongside the result.
@@ -266,6 +264,21 @@ Treat this as a two-day arc: the fictional world built here becomes the basis fo
 ### Technical opportunity
 - Procedural/fictional terrain or coastline generation via AI-authored code
 - A defined (even if informal) coordinate reference frame for the fictional world, to carry into Day 22
+
+### Result
+**Vael**, a sphere of radius 1,250 km. The charted sheet is the continent Cairn wrapped around the Glass Mere, plus the Cinder Chain. Datum `VAEL:2026`. Longitude 0 is the Cape Orro meridian. These degrees are not WGS84.
+
+Plate carrée is only the Day 10 drawing. Day 22 replaces it.
+
+| File | Role |
+| --- | --- |
+| `2026/day-10.html` | Interactive chart. `?still=1` is the print frame. |
+| `2026/10_prompting/NOTES.md` | Prompt chain |
+| `2026/10_prompting/vael-frame.json` | Datum, radius, mapped extent |
+| `2026/10_prompting/vael.geojson` | Coastline, realms, rivers, places (written by the export script) |
+| `assets/js/vael-world.js` | Generator, seed `20261110` |
+
+Rebuild the geometry with `node scripts/day10_vael_export.js`.
 
 **Expected effort:** **Moderate**
 
@@ -494,6 +507,8 @@ Pull OSM contributor/edit statistics normalized by country population, and build
 
 ### Recommended direction
 This is the most technical day of the month — actually define a projection's transformation equations (even a novel variant or hybrid of existing ones), fitted to the fictional world's own shape and extent rather than to Earth. Reusing Day 10's invented geography means the projection's distortion characteristics are being designed for a world nobody has ever had to project before.
+
+Day 10's world is Vael. Reuse `2026/10_prompting/vael-frame.json` and `2026/10_prompting/vael.geojson`. Those coordinates are degrees on the Vael sphere (`VAEL:2026`, R = 1,250 km), not WGS84.
 
 ### Technical opportunity
 - Custom projection math (e.g., via a Python/PROJ pipeline or a pyproj custom CRS) fit to Day 10's fictional coordinate frame

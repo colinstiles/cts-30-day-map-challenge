@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 10 — Vael: The Crescent Sea | 30 Day Map Challenge</title>
+  <meta name="description" content="Vael, a fictional world invented by prompting only: the continent Cairn, the Glass Mere, and the Cinder Chain, drawn in plate carrée on datum VAEL:2026.">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/vael.css">
+  <script>
+    (function () {
+      var q = new URLSearchParams(location.search);
+      if (q.get("embed") === "1" || q.get("still") === "1") {
+        document.documentElement.classList.add("vael-embed");
+      }
+    })();
+  </script>
+</head>
+<body class="vael-page">
+  <canvas id="vael-canvas" aria-label="Plate carrée chart of Vael, a fictional world. The continent Cairn encloses the Glass Mere. Islands to the southeast are the Cinder Chain."></canvas>
+
+  <div class="vael-chrome">
+    <a href="../index.html">← Gallery</a>
+    <button type="button" id="vael-reset">Reset</button>
+    <button type="button" data-layer="realms" aria-pressed="true">Realms</button>
+    <button type="button" data-layer="rivers" aria-pressed="true">Rivers</button>
+    <button type="button" data-layer="labels" aria-pressed="true">Labels</button>
+    <button type="button" data-layer="grid" aria-pressed="true">Grid</button>
+    <button type="button" id="vael-notes" aria-expanded="false" aria-controls="vael-panel">Notes</button>
+  </div>
+
+  <aside id="vael-panel" class="vael-panel" hidden>
+    <p class="vael-kicker">Day 10 · Prompting only</p>
+    <h2>Vael, the Crescent Sea</h2>
+    <p>
+      Invented in this session from prompts. No Earth coastline, DEM, or place name was used.
+      Plate carrée is only how this sheet is drawn. The datum is a sphere, VAEL:2026, radius 1,250 km.
+      Longitude 0 is Cape Orro.
+    </p>
+    <p>
+      <a href="10_prompting/NOTES.md">Prompt chain and file index</a>
+      ·
+      <a href="10_prompting/vael-frame.json">VAEL:2026 frame</a>
+    </p>
+    <div id="vael-place-list"></div>
+    <div id="vael-prompt-list"></div>
+  </aside>
+
+  <p id="vael-readout" class="vael-readout" aria-live="polite">Move across the chart.</p>
+
+  <script src="../assets/js/vael-world.js?v=8"></script>
+  <script src="../assets/js/vael-map.js?v=5"></script>
+</body>
+</html>
