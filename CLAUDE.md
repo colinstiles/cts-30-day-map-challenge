@@ -10,3 +10,17 @@
 - Review changes against the verification commands in `AGENTS.md` before reporting them complete.
 - Do not duplicate or override `AGENTS.md` rules here. If a rule belongs for both Codex and Claude, put it in `AGENTS.md`.
 - Claude Code help: run `/help` in Claude Code, or report bugs at https://github.com/anthropics/claude-code/issues.
+
+## Agent skills
+
+### Issue tracker
+
+GitHub Issues in this repo (via `gh`). See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default five-role vocabulary: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: `GLOSSARY.md` and `docs/adr/` at the repo root. See `docs/agents/domain.md`.
