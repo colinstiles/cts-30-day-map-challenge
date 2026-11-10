@@ -293,7 +293,7 @@
 
     if (selected) paintPin(g, selected);
     if (layers.labels) paintLabels(g, u);
-    paintFurniture(g, u);
+    if (!embed) paintFurniture(g, u);
   }
 
   function paintBorders(g, u) {
@@ -465,6 +465,7 @@
   }
 
   function furnitureBoxes(u) {
+    if (embed) return [];
     return [
       { x: 22 * u, y: 22 * u, w: 268 * u, h: 108 * u },
       { x: 22 * u, y: canvas.height - 128 * u, w: 168 * u, h: 100 * u },

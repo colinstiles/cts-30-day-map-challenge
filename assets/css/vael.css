@@ -165,7 +165,7 @@ body.vael-page {
 html.vael-embed .vael-chrome,
 html.vael-embed .vael-readout,
 html.vael-embed .vael-panel {
-  display: none;
+  display: none !important;
 }
 
 @media (max-width: 640px) {
