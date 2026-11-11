@@ -36,7 +36,7 @@ The page is driven by two folders:
 
 | Path | Purpose |
 | --- | --- |
-| `assets/js/days-data.js` | One entry per day for every year: date, theme, concept, and tool. Optional `embed` points at an interactive HTML map. |
+| `assets/js/days-data.js` | One entry per day for every year: date, theme, concept, and tool. Optional `embed` points at an interactive HTML map. Optional `image` names a file other than `day-NN`. |
 | `<year>/images/day-NN.png` | The finished map for each day. `.jpg` and `.jpeg` also work. |
 
 The page itself lives in `index.html`, with styling in `assets/css/style.css` and logic in `assets/js/gallery.js`.

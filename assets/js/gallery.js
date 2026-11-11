@@ -7,7 +7,12 @@
 
   function imageCandidates(year) {
     const dir = CHALLENGE_YEARS[year].imageDir;
-    return (day) => IMAGE_EXTENSIONS.map((ext) => `${dir}/day-${dayNumber(day)}.${ext}`);
+    return (entry) => {
+      if (entry.image) {
+        return [entry.image];
+      }
+      return IMAGE_EXTENSIONS.map((ext) => `${dir}/day-${dayNumber(entry.day)}.${ext}`);
+    };
   }
 
   function buildGlobeFrame() {
@@ -143,7 +148,7 @@
     grid.innerHTML = "";
     const makeCandidates = imageCandidates(year);
     yearData.days.forEach((entry) => {
-      grid.appendChild(buildCard(year, entry, makeCandidates(entry.day)));
+      grid.appendChild(buildCard(year, entry, makeCandidates(entry)));
     });
 
     const planLink = document.getElementById("plan-link");

@@ -295,11 +295,11 @@ Estimated audible reach of Civil War artillery over modern Chattanooga, for Vete
 - Lookout Mountain, Corput's Georgia Battery on the Point (Nov 24, 1863)
 - Missionary Ridge, Bragg's headquarters at the center of the line (Nov 25, 1863)
 
-The wash is a terrain-shadowed distance proxy. On open ground it is still strong at 10 miles and fades out at 15. Downtown is about nine miles from the Chickamauga point; the cemetery is a little closer. A straight path from the middle of the field toward the city crosses the south end of Missionary Ridge, so that wash is fainter there than on open ground. Lookout cuts the reach on its far side. A ridge about 90 m above the path leaves roughly a third of the proxy. Earth curvature is included. Weather refraction is not. Nothing on the map is a decibel.
+The wash is a terrain-shadowed distance proxy. On open ground it is still strong at 10 miles and fades out at 15. Downtown is about nine miles from the Chickamauga point; the cemetery is a little closer. A straight path from the middle of the field toward the city crosses the south end of Missionary Ridge, so that wash is fainter there than on open ground. Lookout cuts the reach on its far side. A ridge about 90 m above the path leaves roughly a third of the proxy. Earth curvature is included. Weather refraction is not. That proxy sheet is not a decibel.
 
 Chattanooga National Cemetery is called out in the valley between the mountain and the ridge. Gen. George H. Thomas established it on December 25, 1863, for the Union dead of these battles.
 
-The gallery card shows the static sheet only: `2026/images/day-11.png`. It is 11 by 17 inches, set in Bookman Old Style (1860), with World Imagery draped on the hillshade. The sheet outlines only the Chickamauga battlefield and the national cemetery. A second sheet, `2026/images/day-11-decibels.png`, scores the same points as one-shot exposure in decibels, with open ground at 10 miles as 0 dB. The interactive page is not linked from the gallery.
+The gallery card shows the static decibel sheet only: `2026/images/day-11-decibels.png`. It is 11 by 17 inches, set in Bookman Old Style (1860), with World Imagery draped on the hillshade. The sheet outlines only the Chickamauga battlefield and the national cemetery. Open ground at 10 miles is 0 dB. The relative-proxy sheet remains at `2026/images/day-11.png` and is not on the card. The interactive page is not linked from the gallery.
 
 Working notes: `2026/11_sound/NOTES.md`. Script: `scripts/build_day11_sound.py`.
 
