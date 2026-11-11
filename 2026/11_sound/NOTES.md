@@ -31,23 +31,41 @@ The profile is sampled on a grid of about 80 by 100 m. A rise narrower than that
 
 ## Representative points
 
-Not batteries. Each point is one place standing in for a field of fire.
+Each point is one published place standing in for a field of fire. The script snaps it to the nearest 3DEP cell, about 40 m across. The built coordinates and elevations are in `bounds.json`. These are not a survey of every battery.
 
-| Battle | Rule | Lat, lon | Elevation |
-| --- | --- | --- | --- |
-| Chickamauga, Sept 19–20, 1863 | Centroid of the main battlefield unit | 34.91897, -85.25454 | 227 m |
-| Lookout Mountain, Nov 24, 1863 | Highest 3DEP cell at the north end of the mountain unit | 35.00969, -85.34395 | 644 m |
-| Missionary Ridge, Nov 25, 1863 | Highest 3DEP cell in the largest ridge reservation | 35.06886, -85.24052 | 307 m |
+| Battle | Published position | Anchor (lat, lon) |
+| --- | --- | --- |
+| Chickamauga, Sept 19–20, 1863 | Brotherton House, the breakthrough on the LaFayette Road (GNIS) | 34.91785, -85.26079 |
+| Lookout Mountain, Nov 24, 1863 | Corput's Georgia Battery on the Point, 2 p.m. (1890 commission tablet, 35° 0.686′ N, 85° 20.658′ W) | 35.01143, -85.34430 |
+| Missionary Ridge, Nov 25, 1863 | Bragg's headquarters, Bragg Reservation, center of the line (1909 tablet, 35° 1.161′ N, 85° 15.787′ W) | 35.01935, -85.26312 |
 
-The Missionary Ridge point is the north end of the ridge (the Sherman end of the November 25 line), because that reservation is the largest ridge unit in the park boundary. It is not the center of the charge.
+An earlier build put Missionary Ridge on the largest ridge reservation, at the north end near Tunnel Hill (about 35.069, -85.241). That is Sherman's attack, which was stopped. The guns that faced the city, and the line Thomas broke, were at the center. Lookout was already within about 200 m of Corput's battery; it is now on that tablet. Chickamauga was the centroid of the park unit, about 0.4 miles east of the Brotherton House, and is now on the house.
 
-Downtown Chattanooga is 9.3 miles from the Chickamauga point. Chattanooga National Cemetery is 8.2 miles from it. A straight path from the middle of the field toward downtown crosses the south end of Missionary Ridge, so the Chickamauga wash is fainter in the city than on open ground at the same distance. Guns farther north on the field, and sound through Rossville Gap, are not separate sources.
+On November 24 the Confederate guns on the mountain were Corput's four Napoleons on the Point. Union artillery fired from below the mountain and did not climb it. Chickamauga's guns were spread across the field; the house marks the center of the fighting, not one battery. Missionary Ridge had about nine batteries along the crest; the point is the center of that line.
 
-At those distances the cached proxy is about 0.21 at downtown and 0.22 at the cemetery for Chickamauga, and about 0.8 for Lookout and Missionary Ridge. Seven kilometers west of the Lookout point the Lookout proxy is about 0.34, against about 0.82 toward the city. That west-side drop is the mountain, not a circle.
+Downtown is on the order of nine miles from the Brotherton House, and the cemetery is a little closer. The script prints both distances. A straight path from the house toward downtown crosses the south end of Missionary Ridge, so the Chickamauga wash is fainter in the city than on open ground at the same distance. Guns farther north on the field, and sound through Rossville Gap, are not separate sources.
+
+Lookout still cuts the reach on its far side. The script prints the proxy seven kilometers west of the Point and the same distance toward the city.
+
+## Dates
+
+Checked against the battle days and Thomas's cemetery order:
+
+- Chickamauga, September 19–20, 1863. September 18 was the approach. The sheet keeps the two battle days.
+- Lookout Mountain, November 24, 1863.
+- Missionary Ridge, November 25, 1863. Orchard Knob was November 23. The order below also names November 26 and 27, the pursuit. Those days are not separate sources on this sheet.
+- Chattanooga National Cemetery: General Orders No. 296, Headquarters, Department of the Cumberland, December 25, 1863, Maj. Gen. George H. Thomas. The grounds were chosen a few days after the battles. The War Department designated it a national cemetery in 1867. The sheet says established December 25, 1863.
+- The sheet is dated Veterans Day, November 11, 2026.
+
+## Sheet
+
+The gallery raster is a portrait tabloid, 11 by 17 inches, at 150 dpi (1650 by 2550 pixels). Type is Bookman Old Style, Alexander Phemister's 1860 oldstyle, from the Windows faces `BOOKOS.TTF`, `BOOKOSB.TTF`, `BOOKOSI.TTF`, and `BOOKOSBI.TTF`.
+
+The ground is Esri World Imagery draped on the 3DEP hillshade. Only two boundaries are drawn: the main Chickamauga battlefield unit and Chattanooga National Cemetery. A north arrow and a 10-mile scale bar sit in the southwest corner. Place names are offset from their dots so the cemetery name, the city, and Missionary Ridge do not share a line.
 
 ## Outputs
 
-- `2026/images/day-11.png` — gallery sheet
+- `2026/images/day-11.png` — gallery sheet, 11×17 in
 - `2026/day-11.html` — interactive toggles on an Esri topo basemap
 - `2026/11_sound/audibility-*.png` — transparent washes for the page
 - `2026/11_sound/bounds.json` — extent, distances, source points
@@ -63,7 +81,7 @@ Distances use a local equirectangular scale in EPSG:4326 at the map center. That
 - NPS Land Resources Division boundary, Chickamauga and Chattanooga National Military Park (`UNIT_CODE` CHCH)
 - USGS 3DEP ImageServer
 - OpenStreetMap: Chattanooga National Cemetery and the Chattanooga place node
-- Esri Dark Gray Canvas on the sheet; Esri World Topo Map on the interactive page
+- Esri World Imagery on the sheet, draped on the hillshade; Esri World Topo Map on the interactive page
 
 Chattanooga National Cemetery was established by Gen. George H. Thomas on December 25, 1863, for the Union dead of the battles around the city. It became a national cemetery in 1867.
 
@@ -74,10 +92,10 @@ Date: 2026-11-11
 Theme: Senses: Sound
 Title: Where the guns were heard
 Concept: Terrain-shadowed audible reach of Chickamauga, Lookout Mountain, and Missionary Ridge over modern Chattanooga
-Data sources: NPS CHCH boundary; USGS 3DEP; OpenStreetMap cemetery and city; Esri basemaps
+Data sources: NPS CHCH boundary; USGS 3DEP; OpenStreetMap cemetery and city; Esri World Imagery
 Software/tools: Python (numpy, matplotlib, shapely), Leaflet
 Analysis: Distance fade to 15 miles, times an exponential ridge penalty. Not a decibel model.
-Cartographic technique: Hillshade and dark canvas, three washes, 10-mile reference ring, cemetery callout
+Cartographic technique: Imagery draped on a 3DEP hillshade, three washes, 10-mile ring, north arrow, scale bar
 Time spent: Not tracked
 What worked:
 What I would change:

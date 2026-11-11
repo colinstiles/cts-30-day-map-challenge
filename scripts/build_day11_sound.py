@@ -1,10 +1,11 @@
 """Map a terrain-shadowed audible-reach proxy for Day 11.
 
-Three representative points stand in for the guns, not for surveyed batteries:
+Three points stand in for each field of fire. They are published
+positions, snapped to the nearest 3DEP cell, not a survey of every battery:
 
-- Chickamauga, the centroid of the main battlefield unit (Sept 19–20, 1863)
-- Lookout Mountain, the high ground at the north end (Nov 24, 1863)
-- Missionary Ridge, the crest of the largest ridge reservation (Nov 25, 1863)
+- Chickamauga, the Brotherton House on the September 20 breakthrough (Sept 19–20, 1863)
+- Lookout Mountain, Corput's Georgia Battery on the Point (Nov 24, 1863)
+- Missionary Ridge, Bragg's headquarters at the center of the line (Nov 25, 1863)
 
 The proxy is a distance fade times a ridge penalty. On open ground it is
 still strong at 10 miles, where Chickamauga's guns were heard in the city,
@@ -39,8 +40,9 @@ from pathlib import Path
 import _env  # noqa: F401  (loads .env for SSL_CERT_FILE / REQUESTS_CA_BUNDLE)
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.patches import FancyBboxPatch
+from matplotlib import font_manager
 from matplotlib.patches import Polygon as MplPolygon
+from matplotlib.patches import Rectangle
 from matplotlib.patheffects import withStroke
 from PIL import Image
 from shapely import contains_xy
@@ -59,6 +61,20 @@ EARTH_RADIUS_M = 6_371_000.0
 DEM_M = 40.0
 GRID_M = 100.0
 MILE_M = 1609.344
+# Tabloid portrait. figsize is inches; savefig dpi makes the PNG print at this size.
+SHEET_W_IN = 11.0
+SHEET_H_IN = 17.0
+SHEET_DPI = 150
+# Bookman Old Style is Alexander Phemister's 1860 oldstyle (Miller & Richard).
+PERIOD_FONT_FILES = ("BOOKOS.TTF", "BOOKOSB.TTF", "BOOKOSI.TTF", "BOOKOSBI.TTF")
+# GNIS Brotherton House, the September 20 breakthrough on the LaFayette Road.
+CHICKAMAUGA_ANCHOR = (34.917854, -85.260789)
+# Corput's Georgia Battery tablet, Point Park, Nov 24, 1863, 2 p.m.
+# 35° 0.686′ N, 85° 20.658′ W.
+LOOKOUT_ANCHOR = (35.0 + 0.686 / 60.0, -(85.0 + 20.658 / 60.0))
+# Bragg's headquarters tablet, Bragg Reservation, center of the Nov 25 line.
+# 35° 1.161′ N, 85° 15.787′ W.
+MISSIONARY_ANCHOR = (35.0 + 1.161 / 60.0, -(85.0 + 15.787 / 60.0))
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "raw"
@@ -70,6 +86,8 @@ CEMETERY_PATH = RAW / "day11_cemetery.geojson"
 CITY_PATH = RAW / "day11_city.json"
 DEM_PATH = RAW / "day11-3dep.tif"
 DEM_META = RAW / "day11-3dep.json"
+IMAGERY_PATH = RAW / "day11-imagery.png"
+IMAGERY_META = RAW / "day11-imagery.json"
 GRID_PATH = PROCESSED / "day11_audibility.npz"
 
 USER_AGENT = "cts-30-day-map-challenge"
@@ -82,9 +100,9 @@ NPS_QUERY = (
     "NPS_Land_Resources_Division_Boundary_and_Tract_Data_Service/"
     "FeatureServer/2/query"
 )
-ESRI_EXPORT = (
+IMAGERY_EXPORT = (
     "https://server.arcgisonline.com/ArcGIS/rest/services/"
-    "Canvas/World_Dark_Gray_Base/MapServer/export"
+    "World_Imagery/MapServer/export"
 )
 OVERPASS = "https://overpass-api.de/api/interpreter"
 NOMINATIM = "https://nominatim.openstreetmap.org/search"
@@ -507,26 +525,39 @@ def _nearest_cell(lat0: float, lon0: float, lat, lon) -> tuple[int, int]:
     return int(np.argmin(np.abs(lat - lat0))), int(np.argmin(np.abs(lon - lon0)))
 
 
-def locate_sources(chick, look_mass, missionary, parts, elev, bounds):
+def _anchor_cell(lat0: float, lon0: float, lat, lon, label: str) -> tuple[int, int]:
+    """Nearest DEM cell to a published position. The cell is about 40 m across."""
+    row, col = _nearest_cell(lat0, lon0, lat, lon)
+    slipped = miles_between(float(lat[row]), float(lon[col]), lat0, lon0)
+    if slipped > 0.08:
+        raise RuntimeError(f"{label} snapped {slipped:.2f} mi off its published position.")
+    return row, col
+
+
+def locate_sources(chick, _look_mass, _missionary, parts, elev, bounds):
     lat, lon = _axes(bounds, elev.shape)
-    chick_c = chick.centroid
-    cr, cc = _nearest_cell(chick_c.y, chick_c.x, lat, lon)
+    cr, cc = _anchor_cell(*CHICKAMAUGA_ANCHOR, lat, lon, "Chickamauga")
+    lr, lc = _anchor_cell(*LOOKOUT_ANCHOR, lat, lon, "Lookout Mountain")
+    mr, mc = _anchor_cell(*MISSIONARY_ANCHOR, lat, lon, "Missionary Ridge")
 
-    # The Nov 24 fight was at the north end, not the high point farther south.
-    miny, maxy = look_mass.bounds[1], look_mass.bounds[3]
-    north_cut = maxy - 0.25 * (maxy - miny)
-    look_cells = [_highest_cell(look_mass, elev, lat, lon, lat_min=north_cut)]
-    reservations = [
-        poly
-        for poly in parts
-        if poly.centroid.x < -85.32
-        and poly.centroid.y > 35.005
-        and part_area_km2(poly) < 2
-    ]
-    look_cells.extend(_highest_cell(geom, elev, lat, lon) for geom in reservations)
-    lr, lc = max(look_cells, key=lambda rc: float(elev[rc]))
+    chick_pt = Point(float(lon[cc]), float(lat[cr]))
+    if not chick.covers(chick_pt):
+        raise RuntimeError("Brotherton House is outside the main Chickamauga unit.")
+    if float(lon[lc]) > -85.30 or float(lat[lr]) < 35.000:
+        raise RuntimeError("Lookout point is not on the north end of the mountain.")
+    # The center of the November 25 line. Tunnel Hill, at the north end, is near 35.07.
+    if not (35.000 <= float(lat[mr]) <= 35.045 and float(lon[mc]) > -85.29):
+        raise RuntimeError("Missionary Ridge point is not at the center of the line.")
+    for label, row, col in (
+        ("Chickamauga", cr, cc),
+        ("Lookout Mountain", lr, lc),
+        ("Missionary Ridge", mr, mc),
+    ):
+        point = Point(float(lon[col]), float(lat[row]))
+        gap = min(point.distance(poly) for poly in parts)
+        if gap > 0.003:
+            raise RuntimeError(f"{label} is not on a Chickamauga and Chattanooga park unit.")
 
-    mr, mc = _highest_cell(missionary, elev, lat, lon)
     sources = [
         {
             "id": "chickamauga",
@@ -537,7 +568,7 @@ def locate_sources(chick, look_mass, missionary, parts, elev, bounds):
             "lat": float(lat[cr]),
             "lon": float(lon[cc]),
             "elev_m": float(elev[cr, cc]),
-            "note": "Centroid of the main battlefield unit",
+            "note": "Brotherton House, the September 20 breakthrough",
         },
         {
             "id": "lookout",
@@ -548,7 +579,7 @@ def locate_sources(chick, look_mass, missionary, parts, elev, bounds):
             "lat": float(lat[lr]),
             "lon": float(lon[lc]),
             "elev_m": float(elev[lr, lc]),
-            "note": "Highest 3DEP cell at the north end of the mountain unit",
+            "note": "Corput's Georgia Battery on the Point",
         },
         {
             "id": "missionary",
@@ -559,7 +590,7 @@ def locate_sources(chick, look_mass, missionary, parts, elev, bounds):
             "lat": float(lat[mr]),
             "lon": float(lon[mc]),
             "elev_m": float(elev[mr, mc]),
-            "note": "Highest 3DEP cell in the largest ridge reservation",
+            "note": "Bragg's headquarters, center of the line",
         },
     ]
     for source in sources:
@@ -731,21 +762,17 @@ def resize_bilinear(grid: np.ndarray, out_h: int, out_w: int) -> np.ndarray:
 
 
 def ground_color(
-    elev: np.ndarray, shade: np.ndarray, basemap: np.ndarray | None
+    elev: np.ndarray, shade: np.ndarray, imagery: np.ndarray | None
 ) -> np.ndarray:
-    """Dark relief. A faint Esri canvas keeps the streets of the modern city."""
-    span = max(float(np.nanmax(elev) - np.nanmin(elev)), 1.0)
-    height = (elev - float(np.nanmin(elev))) / span
-    low = np.array([0.07, 0.09, 0.07], dtype=np.float32)
-    high = np.array([0.34, 0.31, 0.24], dtype=np.float32)
-    tint = low + (high - low) * height[..., None]
-    lit = (0.42 + 0.78 * shade)[..., None]
-    relief = np.clip(tint * lit, 0, 1)
-    if basemap is None:
-        return relief
-    return np.clip(
-        relief * 0.78 + basemap * (0.28 + 0.45 * shade)[..., None] * 0.55, 0, 1
-    )
+    """Drape natural color on the hillshade. Slopes stay dark; crests stay bright."""
+    lit = np.clip(0.32 + 0.78 * shade, 0, 1)[..., None]
+    if imagery is None:
+        span = max(float(np.nanmax(elev) - np.nanmin(elev)), 1.0)
+        height = (elev - float(np.nanmin(elev))) / span
+        low = np.array([0.18, 0.22, 0.16], dtype=np.float32)
+        high = np.array([0.62, 0.58, 0.46], dtype=np.float32)
+        return np.clip((low + (high - low) * height[..., None]) * lit, 0, 1)
+    return np.clip(imagery * lit, 0, 1)
 
 
 def composite_reach(base: np.ndarray, fields: dict[str, np.ndarray]) -> np.ndarray:
@@ -768,27 +795,48 @@ def composite_reach(base: np.ndarray, fields: dict[str, np.ndarray]) -> np.ndarr
     return np.clip(base * (1 - alpha[..., None]) + mix * alpha[..., None], 0, 1)
 
 
-def fetch_basemap(bounds, shape) -> np.ndarray | None:
+def fetch_imagery(bounds, shape, refresh: bool) -> np.ndarray | None:
+    """Natural-color Esri World Imagery for the same extent as the DEM."""
     west, south, east, north = bounds
     nrows, ncols = shape
-    # Cap the export. The relief grid is resampled onto this image either way.
-    width = min(ncols, 1600)
-    height = min(nrows, 1600)
-    query = (
-        f"?bbox={west},{south},{east},{north}&bboxSR=4326&imageSR=4326"
-        f"&size={width},{height}&format=png32&f=image"
-    )
-    try:
-        payload = _get(ESRI_EXPORT + query, timeout=120)
-    except OSError as exc:
-        print(f"basemap skipped ({exc})", flush=True)
-        return None
-    if not payload.startswith(b"\x89PNG"):
-        print("basemap skipped (not a PNG)", flush=True)
-        return None
+    long_side = max(ncols, nrows)
+    scale = min(1.0, 2048 / long_side)
+    width = max(2, round(ncols * scale))
+    height = max(2, round(nrows * scale))
+    meta = {
+        "west": west,
+        "south": south,
+        "east": east,
+        "north": north,
+        "width": width,
+        "height": height,
+    }
+    cached = False
+    if IMAGERY_PATH.exists() and IMAGERY_META.exists() and not refresh:
+        stored = json.loads(IMAGERY_META.read_text(encoding="utf-8"))
+        cached = all(abs(float(stored[key]) - float(meta[key])) < 1e-4 for key in meta)
+    if cached:
+        print(f"using cached {IMAGERY_PATH.name}", flush=True)
+        payload = IMAGERY_PATH.read_bytes()
+    else:
+        query = (
+            f"?bbox={west},{south},{east},{north}&bboxSR=4326&imageSR=4326"
+            f"&size={width},{height}&format=png32&f=image"
+        )
+        try:
+            payload = _get(IMAGERY_EXPORT + query, timeout=120)
+        except OSError as exc:
+            print(f"imagery skipped ({exc})", flush=True)
+            return None
+        if not payload.startswith(b"\x89PNG"):
+            print("imagery skipped (not a PNG)", flush=True)
+            return None
+        IMAGERY_PATH.write_bytes(payload)
+        IMAGERY_META.write_text(json.dumps(meta), encoding="utf-8")
+        print(f"wrote {IMAGERY_PATH.name} ({len(payload) / 1e6:.1f} MB)", flush=True)
     image = Image.open(__import__("io").BytesIO(payload)).convert("RGB")
     image = image.resize((ncols, nrows), Image.Resampling.BILINEAR)
-    print(f"basemap {width}x{height}", flush=True)
+    print(f"imagery {width}x{height}", flush=True)
     return np.asarray(image).astype(np.float32) / 255.0
 
 
@@ -814,21 +862,201 @@ def hex_rgb(color: str) -> tuple[int, int, int]:
     return tuple(int(color[i : i + 2], 16) for i in (1, 3, 5))
 
 
+def draw_outline(ax, poly) -> None:
+    """Light line with a dark edge so the boundary reads on imagery."""
+    draw_polygon(
+        ax,
+        poly,
+        closed=True,
+        fill=False,
+        edgecolor="#1A1A14",
+        linewidth=1.35,
+        alpha=0.95,
+        zorder=3,
+        joinstyle="round",
+    )
+    draw_polygon(
+        ax,
+        poly,
+        closed=True,
+        fill=False,
+        edgecolor=INK,
+        linewidth=0.55,
+        alpha=0.95,
+        zorder=4,
+        joinstyle="round",
+    )
+
+
+def _label_box(
+    lon: float,
+    lat: float,
+    text: str,
+    fontsize: float,
+    ha: str,
+    va: str,
+    west: float,
+    east: float,
+    south: float,
+    north: float,
+    map_w_in: float,
+    map_h_in: float,
+) -> tuple[float, float, float, float]:
+    """Approximate text extent in degrees. Bookman is wider than a typical serif."""
+    width_in = max(len(text), 1) * fontsize / 72.0 * 0.62
+    height_in = fontsize / 72.0 * 1.35
+    width_deg = width_in / map_w_in * (east - west)
+    height_deg = height_in / map_h_in * (north - south)
+    if ha == "right":
+        x0 = lon - width_deg
+    elif ha == "center":
+        x0 = lon - width_deg / 2
+    else:
+        x0 = lon
+    if va == "top":
+        y0 = lat - height_deg
+    elif va == "center":
+        y0 = lat - height_deg / 2
+    else:
+        y0 = lat
+    pad = 0.003
+    return (x0 - pad, y0 - pad, x0 + width_deg + pad, y0 + height_deg + pad)
+
+
+def _boxes_overlap(a: tuple[float, float, float, float], b: tuple[float, float, float, float]) -> bool:
+    return a[0] < b[2] and b[0] < a[2] and a[1] < b[3] and b[1] < a[3]
+
+
+def draw_north_and_scale(ax, west, south, east, north, stroke) -> None:
+    """North arrow and a 10-mile bar in the open southwest corner."""
+    _m_lat, m_lon = meters_per_degree((south + north) / 2)
+    x0 = west + 0.045 * (east - west)
+    y0 = south + 0.032 * (north - south)
+    arrow_len = 0.018 * (north - south)
+    shaft_bottom = y0 + 0.006 * (north - south)
+    shaft_top = shaft_bottom + arrow_len
+    ax.annotate(
+        "",
+        xy=(x0, shaft_top),
+        xytext=(x0, shaft_bottom),
+        arrowprops={
+            "arrowstyle": "-|>",
+            "color": INK,
+            "lw": 1.15,
+            "mutation_scale": 9,
+            "shrinkA": 0,
+            "shrinkB": 0,
+        },
+        zorder=7,
+    )
+    ax.plot(
+        [x0, x0],
+        [shaft_bottom, shaft_top],
+        color=BG,
+        linewidth=3.2,
+        solid_capstyle="butt",
+        zorder=6,
+    )
+    ax.text(
+        x0,
+        shaft_top + 0.004 * (north - south),
+        "N",
+        color=INK,
+        fontsize=9,
+        fontweight="bold",
+        ha="center",
+        va="bottom",
+        path_effects=stroke,
+        zorder=8,
+    )
+    bar_x = x0 + 0.018 * (east - west)
+    full = 10.0 * MILE_M / m_lon
+    half = full / 2
+    bar_h = 0.006 * (north - south)
+    for start, fill in ((0.0, INK), (half, "#1A1A14")):
+        ax.add_patch(
+            MplPolygon(
+                [
+                    (bar_x + start, y0),
+                    (bar_x + start + half, y0),
+                    (bar_x + start + half, y0 + bar_h),
+                    (bar_x + start, y0 + bar_h),
+                ],
+                closed=True,
+                facecolor=fill,
+                edgecolor=INK,
+                linewidth=0.6,
+                zorder=7,
+            )
+        )
+    for miles, frac in ((0, 0.0), (5, 0.5), (10, 1.0)):
+        label = "10 mi" if miles == 10 else str(miles)
+        ax.text(
+            bar_x + frac * full,
+            y0 - 0.004 * (north - south),
+            label,
+            color=INK,
+            fontsize=7,
+            ha="center",
+            va="top",
+            path_effects=stroke,
+            zorder=8,
+        )
+
+
+def use_period_type() -> str:
+    """Set Bookman Old Style, the 1860 oldstyle shipped with Windows."""
+    roots = (Path(r"C:\Windows\Fonts"), Path("/mnt/c/Windows/Fonts"))
+    paths = None
+    for root in roots:
+        found = [root / name for name in PERIOD_FONT_FILES]
+        if all(path.is_file() for path in found):
+            paths = found
+            break
+    if paths is None:
+        raise RuntimeError(
+            "Bookman Old Style was not found (BOOKOS.TTF and its bold and italic). "
+            "The Day 11 sheet is set in that 1860 oldstyle."
+        )
+    for path in paths:
+        font_manager.fontManager.addfont(str(path))
+    family = font_manager.FontProperties(fname=str(paths[0])).get_name()
+    plt.rcParams["font.family"] = family
+    plt.rcParams["font.size"] = 8.5
+    return family
+
+
 def render_poster(
-    elev, bounds, shade, fields_fine, parts, cemetery, city, sources, stats
+    elev, bounds, shade, fields_fine, battlefield, cemetery, city, sources, stats
 ):
+    use_period_type()
     west, south, east, north = bounds
     m_lat, m_lon = meters_per_degree((south + north) / 2)
     width_m = (east - west) * m_lon
     height_m = (north - south) * m_lat
-    map_w = 9.15
+    header_in = 1.58
+    footer_in = 2.12
+    side_in = 0.46
+    map_w = SHEET_W_IN - 2 * side_in
     map_h = map_w * height_m / width_m
-    fig_h = map_h + 0.55
-    fig_w = map_w + 4.15
-    fig = plt.figure(figsize=(fig_w, fig_h), dpi=150, facecolor=BG)
-    ax = fig.add_axes([0.012, 0.045 / fig_h, map_w / fig_w, map_h / fig_h])
+    slack = SHEET_H_IN - header_in - footer_in - map_h
+    if slack < 0:
+        map_h = SHEET_H_IN - header_in - footer_in
+        map_w = map_h * width_m / height_m
+        slack = 0.0
+    left_in = (SHEET_W_IN - map_w) / 2
+    bottom_in = footer_in + slack / 2
+    fig = plt.figure(figsize=(SHEET_W_IN, SHEET_H_IN), dpi=SHEET_DPI, facecolor=BG)
+    ax = fig.add_axes(
+        [
+            left_in / SHEET_W_IN,
+            bottom_in / SHEET_H_IN,
+            map_w / SHEET_W_IN,
+            map_h / SHEET_H_IN,
+        ]
+    )
     ax.set_axis_off()
-    base = ground_color(elev, shade, stats.get("basemap"))
+    base = ground_color(elev, shade, stats.get("imagery"))
     image = composite_reach(base, fields_fine)
     ax.imshow(
         image,
@@ -841,27 +1069,8 @@ def render_poster(
     ax.set_ylim(south, north)
     ax.set_aspect(m_lat / m_lon)
 
-    for poly in parts:
-        draw_polygon(
-            ax,
-            poly,
-            closed=True,
-            fill=False,
-            edgecolor="#E7E1D2",
-            linewidth=0.45,
-            alpha=0.55,
-            zorder=3,
-        )
-    draw_polygon(
-        ax,
-        cemetery,
-        closed=True,
-        facecolor="#F4F1E6",
-        edgecolor="#F4F1E6",
-        linewidth=0.6,
-        alpha=0.92,
-        zorder=4,
-    )
+    draw_outline(ax, battlefield)
+    draw_outline(ax, cemetery)
 
     chick = next(src for src in sources if src["id"] == "chickamauga")
     ring_lon, ring_lat = ring(chick["lat"], chick["lon"], HEARD_MILES)
@@ -875,214 +1084,207 @@ def render_poster(
         zorder=3,
     )
 
-    stroke = [withStroke(linewidth=2.4, foreground=BG)]
-    offsets = {
-        "chickamauga": (0.0, -0.012, "Chickamauga"),
-        "lookout": (-0.03, 0.008, "Lookout Mountain"),
-        "missionary": (0.028, 0.006, "Missionary Ridge"),
+    stroke = [withStroke(linewidth=2.6, foreground=BG)]
+    # Gaps are in degrees. Each name sits off its dot, and the cemetery name
+    # sits west of the grounds so it clears both the city and Missionary Ridge.
+    placements = {
+        "chickamauga": (0.0, -0.012, "center", "top"),
+        "lookout": (-0.016, 0.0, "right", "center"),
+        "missionary": (0.016, 0.0, "left", "center"),
     }
+    labels = []
     for source in sources:
         color = COLORS[source["id"]]
         ax.scatter(
             [source["lon"]],
             [source["lat"]],
-            s=18,
+            s=22,
             c=color,
             edgecolors=BG,
-            linewidths=0.4,
+            linewidths=0.6,
             zorder=5,
         )
-        dx, dy, name = offsets[source["id"]]
+        dx, dy, ha, va = placements[source["id"]]
+        labels.append(
+            (source["lon"] + dx, source["lat"] + dy, source["name"], 8, ha, va, color)
+        )
+    labels.append(
+        (city[1], city[0] + 0.012, "Chattanooga", 8.5, "center", "bottom", INK)
+    )
+    minx, miny, _maxx, maxy = cemetery.bounds
+    labels.append(
+        (
+            minx - 0.012,
+            (miny + maxy) / 2,
+            "National Cemetery",
+            7.5,
+            "right",
+            "bottom",
+            INK,
+        )
+    )
+    ring_label_lon, ring_label_lat = ring(chick["lat"], chick["lon"], HEARD_MILES)
+    eastern = int(np.argmax(ring_label_lon))
+    labels.append(
+        (
+            ring_label_lon[eastern] + 0.008,
+            ring_label_lat[eastern],
+            "10 mi",
+            7,
+            "left",
+            "center",
+            INK,
+        )
+    )
+    boxes = []
+    for lon, lat, text, size, ha, va, color in labels:
+        box = _label_box(
+            lon, lat, text, size, ha, va, west, east, south, north, map_w, map_h
+        )
+        for previous, other in boxes:
+            if _boxes_overlap(box, other):
+                raise RuntimeError(f"Labels overlap: {text!r} and {previous!r}.")
+        boxes.append((text, box))
         ax.text(
-            source["lon"] + dx,
-            source["lat"] + dy,
-            name,
+            lon,
+            lat,
+            text,
             color=color,
-            fontsize=8,
+            fontsize=size,
             fontweight="bold",
-            ha="center",
-            va="center",
+            ha=ha,
+            va=va,
             path_effects=stroke,
             zorder=6,
         )
-    ax.text(
-        city[1],
-        city[0] + 0.012,
-        "Chattanooga",
+    draw_north_and_scale(ax, west, south, east, north, stroke)
+
+    def x_in(inches: float) -> float:
+        return inches / SHEET_W_IN
+
+    def y_in(inches: float) -> float:
+        return inches / SHEET_H_IN
+
+    fig.text(
+        0.5,
+        y_in(SHEET_H_IN - 0.36),
+        "WHERE THE GUNS WERE HEARD",
         color=INK,
-        fontsize=8.5,
+        fontsize=21,
         fontweight="bold",
         ha="center",
-        va="bottom",
-        path_effects=stroke,
-        zorder=6,
-    )
-    cem_c = cemetery.centroid
-    ax.text(
-        cem_c.x + 0.012,
-        cem_c.y - 0.01,
-        "National Cemetery",
-        color=INK,
-        fontsize=7,
-        ha="left",
-        va="top",
-        path_effects=stroke,
-        zorder=6,
-    )
-    # Keep the 10-mile label on the open eastern arc, clear of the city labels.
-    label_lon, label_lat = ring(chick["lat"], chick["lon"], HEARD_MILES)
-    eastern = int(np.argmax(label_lon))
-    ax.text(
-        label_lon[eastern],
-        label_lat[eastern],
-        "10 mi",
-        color=INK,
-        fontsize=7,
-        ha="left",
-        va="center",
-        path_effects=stroke,
-        zorder=6,
-    )
-    ax.text(
-        west + 0.012,
-        north - 0.012,
-        "N",
-        color=INK,
-        fontsize=9,
-        fontweight="bold",
-        ha="left",
-        va="top",
-        path_effects=stroke,
-        zorder=6,
-    )
-
-    rail_x = 0.745
-    fig.text(
-        rail_x,
-        0.955,
-        "WHERE THE GUNS",
-        color=INK,
-        fontsize=15,
-        fontweight="bold",
-        ha="left",
         va="top",
     )
     fig.text(
-        rail_x,
-        0.915,
-        "WERE HEARD",
-        color=INK,
-        fontsize=15,
-        fontweight="bold",
-        ha="left",
-        va="top",
-    )
-    fig.text(
-        rail_x,
-        0.868,
-        "Day 11  ·  Senses: Sound\nVeterans Day  ·  November 11, 2026",
+        0.5,
+        y_in(SHEET_H_IN - 0.78),
+        "Day 11  ·  Senses: Sound  ·  Veterans Day, November 11, 2026",
         color=MUTED,
-        fontsize=8,
-        ha="left",
+        fontsize=9,
+        fontstyle="italic",
+        ha="center",
         va="top",
-        linespacing=1.35,
     )
     fig.text(
-        rail_x,
-        0.795,
-        "Estimated audible reach of Civil War\n"
-        "artillery over modern Chattanooga.\n"
+        0.5,
+        y_in(SHEET_H_IN - 1.08),
+        "Estimated audible reach of Civil War artillery over modern Chattanooga.\n"
         "A relative proxy, not a decibel model.",
         color=INK,
-        fontsize=8,
-        ha="left",
+        fontsize=9,
+        ha="center",
         va="top",
         linespacing=1.35,
     )
 
-    swatch_y = 0.68
     entries = [
         ("chickamauga", "Chickamauga", "Sept 19–20, 1863"),
         ("lookout", "Lookout Mountain", "Nov 24, 1863"),
         ("missionary", "Missionary Ridge", "Nov 25, 1863"),
     ]
-    for source_id, name, date in entries:
+    swatch_top = bottom_in - 0.16
+    columns = (0.55, 4.20, 7.85)
+    for x_left, (source_id, name, date) in zip(columns, entries):
         fig.patches.append(
-            FancyBboxPatch(
-                (rail_x, swatch_y - 0.008),
-                0.018,
-                0.016,
+            Rectangle(
+                (x_in(x_left), y_in(swatch_top - 0.16)),
+                x_in(0.16),
+                y_in(0.16),
                 transform=fig.transFigure,
                 facecolor=COLORS[source_id],
                 edgecolor="none",
-                boxstyle="square,pad=0",
-                mutation_aspect=0.6,
             )
         )
         fig.text(
-            rail_x + 0.028,
-            swatch_y + 0.006,
+            x_in(x_left + 0.26),
+            y_in(swatch_top - 0.01),
             name,
             color=INK,
-            fontsize=8.5,
+            fontsize=9,
             fontweight="bold",
             ha="left",
-            va="center",
+            va="top",
         )
         fig.text(
-            rail_x + 0.028,
-            swatch_y - 0.012,
+            x_in(x_left + 0.26),
+            y_in(swatch_top - 0.24),
             date,
             color=MUTED,
-            fontsize=7.5,
+            fontsize=8,
+            fontstyle="italic",
             ha="left",
-            va="center",
+            va="top",
         )
-        swatch_y -= 0.048
 
     city_mi = stats["chickamauga_to_city_mi"]
     cem_mi = stats["chickamauga_to_cemetery_mi"]
     fig.text(
-        rail_x,
-        0.50,
-        "The dashed ring is 10 miles from\n"
-        "the Chickamauga field, on open\n"
-        f"ground. Downtown is {city_mi:.1f} miles\n"
-        f"from that point; the cemetery is\n"
-        f"{cem_mi:.1f}. The wash fades out at\n"
-        "15 miles if no ridge intervenes.\n\n"
-        "Lookout and Missionary Ridge\n"
-        "cut the reach where they rise\n"
-        "above the path. A ridge about\n"
-        "90 m above the path leaves\n"
-        "roughly a third of the proxy.\n\n"
-        "The cemetery, opened December\n"
-        "25, 1863, sits in the valley\n"
-        "between the mountain and the ridge.",
+        x_in(0.55),
+        y_in(swatch_top - 0.62),
+        f"The dashed ring is 10 miles from the Chickamauga field, on open ground. "
+        f"Downtown is {city_mi:.1f} miles from that point; the cemetery is {cem_mi:.1f}.\n"
+        "The wash fades out at 15 miles if no ridge intervenes. Lookout and Missionary Ridge "
+        "cut the reach where they rise above the path.\n"
+        "A ridge about 90 m above the path leaves roughly a third of the proxy.\n"
+        "The cemetery, established December 25, 1863, sits in the valley between the mountain and the ridge.",
         color=MUTED,
-        fontsize=7.4,
+        fontsize=8,
         ha="left",
         va="top",
-        linespacing=1.32,
+        linespacing=1.35,
     )
     fig.text(
-        rail_x,
-        0.055,
-        "NPS park boundary  ·  USGS 3DEP\n"
-        "OpenStreetMap cemetery and city\n"
-        "Esri Dark Gray Canvas\n"
-        "Representative points, not batteries.",
+        x_in(0.55),
+        y_in(0.28),
+        "Chickamauga battlefield and national cemetery  ·  USGS 3DEP hillshade  ·  "
+        "Esri World Imagery\n"
+        "OpenStreetMap cemetery and city  ·  Brotherton field, the Point, and the center of the ridge.",
         color=MUTED,
-        fontsize=6.6,
+        fontsize=7.5,
         ha="left",
         va="bottom",
-        linespacing=1.3,
+        linespacing=1.35,
     )
 
     OUT_PNG.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(OUT_PNG, dpi=150, facecolor=BG)
+    fig.savefig(OUT_PNG, dpi=SHEET_DPI, facecolor=BG)
     plt.close(fig)
-    print(f"wrote {OUT_PNG.relative_to(ROOT)}", flush=True)
+    with Image.open(OUT_PNG) as saved:
+        pixels = saved.size
+        dpi_x, dpi_y = saved.info.get("dpi") or (SHEET_DPI, SHEET_DPI)
+    width_in = pixels[0] / dpi_x
+    height_in = pixels[1] / dpi_y
+    expect = (round(SHEET_W_IN * SHEET_DPI), round(SHEET_H_IN * SHEET_DPI))
+    if abs(pixels[0] - expect[0]) > 2 or abs(pixels[1] - expect[1]) > 2:
+        raise RuntimeError(
+            f"Sheet is {pixels[0]}x{pixels[1]} px ({width_in:.2f} x {height_in:.2f} in), "
+            f"not {expect[0]}x{expect[1]}."
+        )
+    print(
+        f"wrote {OUT_PNG.relative_to(ROOT)}  {pixels[0]}x{pixels[1]} px  "
+        f"{width_in:.2f} x {height_in:.2f} in",
+        flush=True,
+    )
 
 
 def write_overlays(fields, bounds):
@@ -1297,13 +1499,27 @@ def main() -> None:
     sources = locate_sources(chick, look_mass, missionary, parts, elev, bounds)
     coarse, c_lat, c_lon, cell_x, cell_y = stride_grid(elev, bounds, sources)
 
+    source_key = np.array(
+        [[src["lat"], src["lon"], src["elev_m"]] for src in sources],
+        dtype=np.float64,
+    )
+    fields = None
     if GRID_PATH.exists() and not args.refresh:
         stored = np.load(GRID_PATH)
-        fields = {key: stored[key] for key in ("chickamauga", "lookout", "missionary")}
-        print(f"using cached {GRID_PATH.name}", flush=True)
-    else:
+        cached_key = stored["source_key"] if "source_key" in stored.files else None
+        same_guns = (
+            cached_key is not None
+            and cached_key.shape == source_key.shape
+            and np.allclose(cached_key, source_key, rtol=0, atol=1e-4)
+        )
+        if same_guns:
+            fields = {key: stored[key] for key in ("chickamauga", "lookout", "missionary")}
+            print(f"using cached {GRID_PATH.name}", flush=True)
+        else:
+            print("audibility cache is for different gun positions; recomputing", flush=True)
+    if fields is None:
         fields = compute_audibility(coarse, sources, cell_x, cell_y)
-        np.savez_compressed(GRID_PATH, **fields)
+        np.savez_compressed(GRID_PATH, source_key=source_key, **fields)
         print(f"wrote {GRID_PATH.name}", flush=True)
 
     stats = check_story(sources, fields, c_lat, c_lon, city, cemetery)
@@ -1315,10 +1531,10 @@ def main() -> None:
         key: resize_bilinear(grid, elev.shape[0], elev.shape[1]).astype(np.float32)
         for key, grid in fields.items()
     }
-    stats["basemap"] = fetch_basemap(bounds, elev.shape)
+    stats["imagery"] = fetch_imagery(bounds, elev.shape, args.refresh)
     stats["coarse_fields"] = fields
     render_poster(
-        elev, bounds, shade, fields_fine, parts, cemetery, city, sources, stats
+        elev, bounds, shade, fields_fine, chick, cemetery, city, sources, stats
     )
     write_web(bounds, parts, cemetery, city, sources, stats, park_feature)
 

@@ -289,17 +289,17 @@ Rebuild the geometry with `node scripts/day10_vael_export.js`.
 **Concept:** **Where the guns were heard**  
 **Tools:** Python (`matplotlib`), Leaflet, USGS 3DEP
 
-Estimated audible reach of Civil War artillery over modern Chattanooga, for Veterans Day. Three representative points, not surveyed batteries:
+Estimated audible reach of Civil War artillery over modern Chattanooga, for Veterans Day. Three published positions, each standing in for a field of fire, snapped to the nearest elevation cell:
 
-- Chickamauga, centroid of the main battlefield unit (Sept 19–20, 1863)
-- Lookout Mountain, the high ground at the north end (Nov 24, 1863)
-- Missionary Ridge, the crest of the largest ridge reservation (Nov 25, 1863)
+- Chickamauga, the Brotherton House on the September 20 breakthrough (Sept 19–20, 1863)
+- Lookout Mountain, Corput's Georgia Battery on the Point (Nov 24, 1863)
+- Missionary Ridge, Bragg's headquarters at the center of the line (Nov 25, 1863)
 
-The wash is a terrain-shadowed distance proxy. On open ground it is still strong at 10 miles and fades out at 15. Downtown is 9.3 miles from the Chickamauga point; the cemetery is 8.2. A straight path from the middle of the field toward the city crosses the south end of Missionary Ridge, so that wash is fainter there than on open ground. Lookout cuts the reach on its far side. A ridge about 90 m above the path leaves roughly a third of the proxy. Earth curvature is included. Weather refraction is not. Nothing on the map is a decibel.
+The wash is a terrain-shadowed distance proxy. On open ground it is still strong at 10 miles and fades out at 15. Downtown is about nine miles from the Chickamauga point; the cemetery is a little closer. A straight path from the middle of the field toward the city crosses the south end of Missionary Ridge, so that wash is fainter there than on open ground. Lookout cuts the reach on its far side. A ridge about 90 m above the path leaves roughly a third of the proxy. Earth curvature is included. Weather refraction is not. Nothing on the map is a decibel.
 
 Chattanooga National Cemetery is called out in the valley between the mountain and the ridge. Gen. George H. Thomas established it on December 25, 1863, for the Union dead of these battles.
 
-The interactive page toggles each battle on an Esri topo basemap. The gallery raster is the designed sheet.
+The interactive page toggles each battle on an Esri topo basemap. The gallery raster is an 11 by 17 inch sheet set in Bookman Old Style (1860), with World Imagery draped on the hillshade. The sheet outlines only the Chickamauga battlefield and the national cemetery.
 
 Working notes: `2026/11_sound/NOTES.md`. Script: `scripts/build_day11_sound.py`.
 
@@ -307,7 +307,7 @@ Working notes: `2026/11_sound/NOTES.md`. Script: `scripts/build_day11_sound.py`.
 - [NPS park boundary](https://services1.arcgis.com/fBc8EJBxQRMcHlei/ArcGIS/rest/services/NPS_Land_Resources_Division_Boundary_and_Tract_Data_Service/FeatureServer) (Chickamauga and Chattanooga National Military Park, unit CHCH)
 - USGS 3DEP elevation
 - OpenStreetMap: Chattanooga National Cemetery and the Chattanooga place node
-- Esri Dark Gray Canvas on the sheet; Esri World Topo on the interactive map
+- Esri World Imagery draped on the 3DEP hillshade for the sheet; Esri World Topo on the interactive map
 
 **Expected effort:** **Moderate**
 

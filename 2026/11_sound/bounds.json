@@ -7,35 +7,35 @@
   "heardMiles": 10.0,
   "heardLevel": 0.6,
   "barrierScaleM": 90.0,
-  "chickamaugaToCityMiles": 9.28,
-  "chickamaugaToCemeteryMiles": 8.23,
+  "chickamaugaToCityMiles": 9.25,
+  "chickamaugaToCemeteryMiles": 8.24,
   "sources": [
     {
       "id": "chickamauga",
       "name": "Chickamauga",
       "date": "Sept 19\u201320, 1863",
-      "lat": 34.91897,
-      "lon": -85.25454,
-      "elevM": 227.3,
-      "note": "Centroid of the main battlefield unit"
+      "lat": 34.91765,
+      "lon": -85.26068,
+      "elevM": 230.6,
+      "note": "Brotherton House, the September 20 breakthrough"
     },
     {
       "id": "lookout",
       "name": "Lookout Mountain",
       "date": "Nov 24, 1863",
-      "lat": 35.00969,
-      "lon": -85.34395,
-      "elevM": 643.7,
-      "note": "Highest 3DEP cell at the north end of the mountain unit"
+      "lat": 35.01144,
+      "lon": -85.34439,
+      "elevM": 630.8,
+      "note": "Corput's Georgia Battery on the Point"
     },
     {
       "id": "missionary",
       "name": "Missionary Ridge",
       "date": "Nov 25, 1863",
-      "lat": 35.06886,
-      "lon": -85.24052,
-      "elevM": 307.3,
-      "note": "Highest 3DEP cell in the largest ridge reservation"
+      "lat": 35.01933,
+      "lon": -85.26331,
+      "elevM": 319.8,
+      "note": "Bragg's headquarters, center of the line"
     }
   ]
 }
