@@ -24,6 +24,9 @@ Run from the repository root:
 
     python scripts/build_day11_sound.py
     python scripts/build_day11_sound.py --refresh
+
+The companion sheet is 2026/images/day-11-decibels.png. It is one-shot
+exposure in decibels. 0 dB is open ground at 10 miles.
 """
 
 from __future__ import annotations
@@ -55,6 +58,17 @@ HEARD_MILES = 10.0
 HEARD_LEVEL = 0.60
 # Meters of terrain above the path that multiply the proxy by 1/e.
 BARRIER_SCALE_M = 90.0
+# One-shot exposure on the companion sheet. 0 dB is open ground at HEARD_MILES.
+# 63 Hz stands in for the low boom that carries. 0.1 dB/km is the ISO 9613-1
+# order of magnitude near 20 °C and 70% humidity, not a summed spectrum.
+EXPOSURE_HZ = 63.0
+SOUND_SPEED_M_S = 340.0
+AIR_DB_PER_KM = 0.1
+AIR_DB_PER_M = AIR_DB_PER_KM / 1000.0
+BARRIER_CAP_DB = 20.0
+DB_FLOOR = -12.0
+DB_HOT = 18.0
+EXPOSURE_MILES = 28.0
 SOURCE_H_M = 2.0
 EAR_H_M = 1.5
 EARTH_RADIUS_M = 6_371_000.0
@@ -89,6 +103,8 @@ DEM_META = RAW / "day11-3dep.json"
 IMAGERY_PATH = RAW / "day11-imagery.png"
 IMAGERY_META = RAW / "day11-imagery.json"
 GRID_PATH = PROCESSED / "day11_audibility.npz"
+EXPOSURE_PATH = PROCESSED / "day11_exposure.npz"
+OUT_DB_PNG = ROOT / "2026" / "images" / "day-11-decibels.png"
 
 USER_AGENT = "cts-30-day-map-challenge"
 EXPORT_URL = (
@@ -128,6 +144,23 @@ def miles_between(lat0: float, lon0: float, lat1: float, lon1: float) -> float:
     """Equirectangular miles. Fine for a Chattanooga-sized extent."""
     m_lat, m_lon = meters_per_degree((lat0 + lat1) / 2)
     return math.hypot((lat1 - lat0) * m_lat, (lon1 - lon0) * m_lon) / MILE_M
+
+
+def exposure_db(distance_m, barrier_db=0.0):
+    """One-shot level relative to open ground at 10 miles.
+
+    Spreading is 6 dB per doubling. Air absorption is charged against that
+    same 10-mile reference, so a nearer point gets the unused air loss back.
+    """
+    heard = HEARD_MILES * MILE_M
+    distance = np.maximum(np.asarray(distance_m, dtype=np.float64), 1.0)
+    loss = np.asarray(barrier_db, dtype=np.float64)
+    return -20.0 * np.log10(distance / heard) - AIR_DB_PER_M * (distance - heard) - loss
+
+
+def exposure_weight(level: np.ndarray) -> np.ndarray:
+    """Map decibels onto the wash. -12 dB is clear; +18 dB and above is solid."""
+    return np.clip((level - DB_FLOOR) / (DB_HOT - DB_FLOOR), 0.0, 1.0).astype(np.float32)
 
 
 def distance_term(distance_m: np.ndarray) -> np.ndarray:
@@ -706,6 +739,105 @@ def compute_audibility(coarse, sources, cell_x, cell_y) -> dict[str, np.ndarray]
     return fields
 
 
+def _peak_excess(elev, src_r, src_c, zs, dr, dc, steps, dist, zr, cell_x, cell_y):
+    """Highest terrain above the curved chord, and the range at that peak."""
+    limit = int(steps.max()) if steps.size else 0
+    max_excess = np.full(dr.shape[0], -1.0e9, dtype=np.float64)
+    peak_d = np.zeros(dr.shape[0], dtype=np.float64)
+    two_r = 2.0 * EARTH_RADIUS_M
+    zr_adj = zr - (dist * dist) / two_r
+    cell = max(cell_x, cell_y)
+    for step in range(1, limit):
+        active = step < steps
+        if not np.any(active):
+            break
+        frac = step / np.maximum(steps, 1)
+        rr = np.rint(src_r + dr * frac).astype(np.int32)
+        cc = np.rint(src_c + dc * frac).astype(np.int32)
+        np.clip(rr, 0, elev.shape[0] - 1, out=rr)
+        np.clip(cc, 0, elev.shape[1] - 1, out=cc)
+        sample_d = np.hypot((rr - src_r) * cell_y, (cc - src_c) * cell_x)
+        active &= (dist - sample_d) > cell
+        active &= sample_d > cell
+        z_adj = elev[rr, cc] - (sample_d * sample_d) / two_r
+        line = zs + (zr_adj - zs) * (sample_d / np.maximum(dist, 1.0))
+        excess = np.where(active, z_adj - line, -1.0e9)
+        better = excess > max_excess
+        max_excess = np.where(better, excess, max_excess)
+        peak_d = np.where(better, sample_d, peak_d)
+    return max_excess, peak_d
+
+
+def knife_edge_db(excess, peak_d, dist, cell: float) -> np.ndarray:
+    """Single knife-edge loss, capped at 20 dB, as in ISO 9613-2.
+
+    The path difference is the extra length over the highest point on the
+    curved-earth chord. Sub-meter bumps are ignored.
+    """
+    height = np.clip(excess, 0.0, None)
+    d1 = np.clip(peak_d, cell, None)
+    d2 = np.clip(dist - peak_d, cell, None)
+    delta = np.hypot(d1, height) + np.hypot(d2, height) - (d1 + d2)
+    delta = np.where(height > 0.5, np.maximum(delta, 0.0), 0.0)
+    fresnel = np.where(delta > 0, 2.0 * delta / (SOUND_SPEED_M_S / EXPOSURE_HZ), 0.0)
+    loss = np.where(fresnel > 0, 10.0 * np.log10(3.0 + 20.0 * fresnel), 0.0)
+    return np.minimum(loss, BARRIER_CAP_DB)
+
+
+def exposure_from(elev, src_r, src_c, zs, cell_x, cell_y) -> np.ndarray:
+    """Decibels relative to open ground at 10 miles. Weather is not included."""
+    nrows, ncols = elev.shape
+    rows, cols = np.indices((nrows, ncols))
+    dr = (rows - src_r).astype(np.float64)
+    dc = (cols - src_c).astype(np.float64)
+    dist = np.hypot(dr * cell_y, dc * cell_x)
+    cell = max(cell_x, cell_y)
+    level = np.full((nrows, ncols), DB_FLOOR - 30.0, dtype=np.float32)
+    level[src_r, src_c] = np.float32(exposure_db(cell))
+    reach = EXPOSURE_MILES * MILE_M
+    keep = (dist > cell) & (dist <= reach) & np.isfinite(elev)
+    flat_r = rows[keep]
+    flat_c = cols[keep]
+    flat_dr = dr[keep]
+    flat_dc = dc[keep]
+    flat_dist = dist[keep]
+    zr = elev[flat_r, flat_c].astype(np.float64) + EAR_H_M
+    steps = np.maximum(np.abs(flat_dr), np.abs(flat_dc)).astype(np.int32)
+    excess = np.empty(flat_r.shape[0], dtype=np.float64)
+    peak_d = np.empty(flat_r.shape[0], dtype=np.float64)
+    batch = 6000
+    print(f"  rays {flat_r.shape[0]}  max steps {int(steps.max())}", flush=True)
+    for start in range(0, flat_r.shape[0], batch):
+        stop = min(start + batch, flat_r.shape[0])
+        excess[start:stop], peak_d[start:stop] = _peak_excess(
+            elev,
+            src_r,
+            src_c,
+            zs,
+            flat_dr[start:stop],
+            flat_dc[start:stop],
+            steps[start:stop],
+            flat_dist[start:stop],
+            zr[start:stop],
+            cell_x,
+            cell_y,
+        )
+    barrier = knife_edge_db(excess, peak_d, flat_dist, cell)
+    level[flat_r, flat_c] = exposure_db(flat_dist, barrier).astype(np.float32)
+    return level
+
+
+def compute_exposure(coarse, sources, cell_x, cell_y) -> dict[str, np.ndarray]:
+    fields = {}
+    for source in sources:
+        print(f"exposure {source['id']}", flush=True)
+        zs = source["elev_m"] + SOURCE_H_M
+        fields[source["id"]] = exposure_from(
+            coarse, source["crow"], source["ccol"], zs, cell_x, cell_y
+        )
+    return fields
+
+
 def sample_audibility(fields, lat, lon, point_lat, point_lon) -> dict[str, float]:
     r = int(np.clip(np.argmin(np.abs(lat - point_lat)), 0, lat.shape[0] - 1))
     c = int(np.clip(np.argmin(np.abs(lon - point_lon)), 0, lon.shape[0] - 1))
@@ -1027,9 +1159,22 @@ def use_period_type() -> str:
 
 
 def render_poster(
-    elev, bounds, shade, fields_fine, battlefield, cemetery, city, sources, stats
+    elev,
+    bounds,
+    shade,
+    fields_fine,
+    battlefield,
+    cemetery,
+    city,
+    sources,
+    stats,
+    out_path: Path | None = None,
+    kicker: str | None = None,
+    deck: str | None = None,
+    note: str | None = None,
 ):
     use_period_type()
+    out_path = OUT_PNG if out_path is None else out_path
     west, south, east, north = bounds
     m_lat, m_lon = meters_per_degree((south + north) / 2)
     width_m = (east - west) * m_lon
@@ -1178,7 +1323,7 @@ def render_poster(
     fig.text(
         0.5,
         y_in(SHEET_H_IN - 0.78),
-        "Day 11  ·  Senses: Sound  ·  Veterans Day, November 11, 2026",
+        kicker or "Day 11  ·  Senses: Sound  ·  Veterans Day, November 11, 2026",
         color=MUTED,
         fontsize=9,
         fontstyle="italic",
@@ -1188,8 +1333,11 @@ def render_poster(
     fig.text(
         0.5,
         y_in(SHEET_H_IN - 1.08),
-        "Estimated audible reach of Civil War artillery over modern Chattanooga.\n"
-        "A relative proxy, not a decibel model.",
+        deck
+        or (
+            "Estimated audible reach of Civil War artillery over modern Chattanooga.\n"
+            "A relative proxy, not a decibel model."
+        ),
         color=INK,
         fontsize=9,
         ha="center",
@@ -1238,15 +1386,19 @@ def render_poster(
 
     city_mi = stats["chickamauga_to_city_mi"]
     cem_mi = stats["chickamauga_to_cemetery_mi"]
+    if note is None:
+        note = (
+            f"The dashed ring is 10 miles from the Chickamauga field, on open ground. "
+            f"Downtown is {city_mi:.1f} miles from that point; the cemetery is {cem_mi:.1f}.\n"
+            "The wash fades out at 15 miles if no ridge intervenes. Lookout and Missionary Ridge "
+            "cut the reach where they rise above the path.\n"
+            "A ridge about 90 m above the path leaves roughly a third of the proxy.\n"
+            "The cemetery, established December 25, 1863, sits in the valley between the mountain and the ridge."
+        )
     fig.text(
         x_in(0.55),
         y_in(swatch_top - 0.62),
-        f"The dashed ring is 10 miles from the Chickamauga field, on open ground. "
-        f"Downtown is {city_mi:.1f} miles from that point; the cemetery is {cem_mi:.1f}.\n"
-        "The wash fades out at 15 miles if no ridge intervenes. Lookout and Missionary Ridge "
-        "cut the reach where they rise above the path.\n"
-        "A ridge about 90 m above the path leaves roughly a third of the proxy.\n"
-        "The cemetery, established December 25, 1863, sits in the valley between the mountain and the ridge.",
+        note,
         color=MUTED,
         fontsize=8,
         ha="left",
@@ -1266,10 +1418,10 @@ def render_poster(
         linespacing=1.35,
     )
 
-    OUT_PNG.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(OUT_PNG, dpi=SHEET_DPI, facecolor=BG)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out_path, dpi=SHEET_DPI, facecolor=BG)
     plt.close(fig)
-    with Image.open(OUT_PNG) as saved:
+    with Image.open(out_path) as saved:
         pixels = saved.size
         dpi_x, dpi_y = saved.info.get("dpi") or (SHEET_DPI, SHEET_DPI)
     width_in = pixels[0] / dpi_x
@@ -1281,7 +1433,7 @@ def render_poster(
             f"not {expect[0]}x{expect[1]}."
         )
     print(
-        f"wrote {OUT_PNG.relative_to(ROOT)}  {pixels[0]}x{pixels[1]} px  "
+        f"wrote {out_path.relative_to(ROOT)}  {pixels[0]}x{pixels[1]} px  "
         f"{width_in:.2f} x {height_in:.2f} in",
         flush=True,
     )
@@ -1467,6 +1619,120 @@ def check_story(sources, fields, lat, lon, city, cemetery) -> dict:
     }
 
 
+def lookout_sides(fields, lat, lon, look) -> tuple[float, float]:
+    """Level 7 km toward the city, and 7 km over the far side of the mountain."""
+    m_lat, m_lon = meters_per_degree(look["lat"])
+    step = 7000.0
+    east = sample_audibility(
+        fields,
+        lat,
+        lon,
+        look["lat"] + step / m_lat * 0.45,
+        look["lon"] + step / m_lon * 0.9,
+    )
+    west = sample_audibility(
+        fields,
+        lat,
+        lon,
+        look["lat"] - step / m_lat * 0.2,
+        look["lon"] - step / m_lon,
+    )
+    return east["lookout"], west["lookout"]
+
+
+def self_check_exposure() -> None:
+    heard = HEARD_MILES * MILE_M
+    if abs(float(exposure_db(heard))) > 1e-6:
+        raise RuntimeError("Open ground at 10 miles is not 0 dB.")
+    nearer = float(exposure_db(heard / 2.0))
+    expected = 20.0 * math.log10(2.0) + AIR_DB_PER_M * (heard / 2.0)
+    if abs(nearer - expected) > 0.05:
+        raise RuntimeError("Spreading is not 6 dB per doubling of distance.")
+    delta = 2.0 * math.hypot(5000.0, 90.0) - 10_000.0
+    fresnel = 2.0 * delta / (SOUND_SPEED_M_S / EXPOSURE_HZ)
+    loss = min(BARRIER_CAP_DB, 10.0 * math.log10(3.0 + 20.0 * fresnel))
+    if not 8.0 < loss < 16.0:
+        raise RuntimeError(f"A 90 m knife edge returned {loss:.1f} dB, not about 12.")
+
+
+def load_exposure(coarse, sources, cell_x, cell_y, source_key, refresh: bool):
+    fields = None
+    if EXPOSURE_PATH.exists() and not refresh:
+        stored = np.load(EXPOSURE_PATH)
+        cached = stored["source_key"] if "source_key" in stored.files else None
+        same = (
+            cached is not None
+            and cached.shape == source_key.shape
+            and np.allclose(cached, source_key, rtol=0, atol=1e-4)
+        )
+        if same:
+            fields = {key: stored[key] for key in ("chickamauga", "lookout", "missionary")}
+            print(f"using cached {EXPOSURE_PATH.name}", flush=True)
+        else:
+            print("exposure cache is for different gun positions; recomputing", flush=True)
+    if fields is None:
+        fields = compute_exposure(coarse, sources, cell_x, cell_y)
+        np.savez_compressed(EXPOSURE_PATH, source_key=source_key, **fields)
+        print(f"wrote {EXPOSURE_PATH.name}", flush=True)
+    return fields
+
+
+def render_exposure_sheet(
+    elev, bounds, shade, coarse_fields, c_lat, c_lon, chick, cemetery, city, sources, stats
+):
+    at_city = sample_audibility(coarse_fields, c_lat, c_lon, city[0], city[1])
+    at_cem = sample_audibility(
+        coarse_fields, c_lat, c_lon, cemetery.centroid.y, cemetery.centroid.x
+    )
+    look = next(src for src in sources if src["id"] == "lookout")
+    toward_city, far_side = lookout_sides(coarse_fields, c_lat, c_lon, look)
+    print(
+        "exposure dB "
+        f"downtown {at_city['chickamauga']:+.1f}  "
+        f"cemetery {at_cem['chickamauga']:+.1f}  "
+        f"Lookout toward city {toward_city:+.1f}  far side {far_side:+.1f}",
+        flush=True,
+    )
+    if far_side > toward_city - 6.0:
+        raise RuntimeError(
+            "Lookout's far side is not at least 6 dB quieter than the city side."
+        )
+    weights = {
+        key: resize_bilinear(exposure_weight(grid), elev.shape[0], elev.shape[1]).astype(
+            np.float32
+        )
+        for key, grid in coarse_fields.items()
+    }
+    city_db = at_city["chickamauga"]
+    cem_db = at_cem["chickamauga"]
+    note = (
+        "0 dB is one shot on open ground at 10 miles, where Chickamauga was heard.\n"
+        "The dashed ring is that audibility contour. "
+        f"Downtown is {city_db:+.0f} dB from that gun; the cemetery is {cem_db:+.0f}.\n"
+        "The level falls 6 dB when distance is halved, plus 0.1 dB per km of air at about 63 Hz.\n"
+        "A ridge is one knife-edge barrier, at most 20 dB. The wash fades out by -12 dB. "
+        "Weather refraction is not in the model."
+    )
+    render_poster(
+        elev,
+        bounds,
+        shade,
+        weights,
+        chick,
+        cemetery,
+        city,
+        sources,
+        stats,
+        out_path=OUT_DB_PNG,
+        kicker="Day 11  ·  Decibels  ·  Veterans Day, November 11, 2026",
+        deck=(
+            "One-shot sound exposure of Civil War artillery over modern Chattanooga.\n"
+            "Decibels relative to open ground at 10 miles. Not a measurement."
+        ),
+        note=note,
+    )
+
+
 def self_check_decay() -> None:
     heard = HEARD_MILES * MILE_M
     outer = OPEN_MILES * MILE_M
@@ -1484,6 +1750,7 @@ def main() -> None:
     )
     args = parser.parse_args()
     self_check_decay()
+    self_check_exposure()
     RAW.mkdir(parents=True, exist_ok=True)
     PROCESSED.mkdir(parents=True, exist_ok=True)
 
@@ -1535,6 +1802,20 @@ def main() -> None:
     stats["coarse_fields"] = fields
     render_poster(
         elev, bounds, shade, fields_fine, chick, cemetery, city, sources, stats
+    )
+    exposure = load_exposure(coarse, sources, cell_x, cell_y, source_key, args.refresh)
+    render_exposure_sheet(
+        elev,
+        bounds,
+        shade,
+        exposure,
+        c_lat,
+        c_lon,
+        chick,
+        cemetery,
+        city,
+        sources,
+        stats,
     )
     write_web(bounds, parts, cemetery, city, sources, stats, park_feature)
 

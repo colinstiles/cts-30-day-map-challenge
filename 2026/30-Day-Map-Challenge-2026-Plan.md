@@ -299,7 +299,7 @@ The wash is a terrain-shadowed distance proxy. On open ground it is still strong
 
 Chattanooga National Cemetery is called out in the valley between the mountain and the ridge. Gen. George H. Thomas established it on December 25, 1863, for the Union dead of these battles.
 
-The interactive page toggles each battle on an Esri topo basemap. The gallery raster is an 11 by 17 inch sheet set in Bookman Old Style (1860), with World Imagery draped on the hillshade. The sheet outlines only the Chickamauga battlefield and the national cemetery.
+The interactive page toggles each battle on an Esri topo basemap. The gallery raster is an 11 by 17 inch sheet set in Bookman Old Style (1860), with World Imagery draped on the hillshade. The sheet outlines only the Chickamauga battlefield and the national cemetery. A second sheet, `2026/images/day-11-decibels.png`, scores the same points as one-shot exposure in decibels, with open ground at 10 miles as 0 dB.
 
 Working notes: `2026/11_sound/NOTES.md`. Script: `scripts/build_day11_sound.py`.
 

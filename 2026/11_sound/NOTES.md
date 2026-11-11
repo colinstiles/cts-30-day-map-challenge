@@ -29,6 +29,18 @@ Terrain above the straight path multiplies that fade. Each 90 m of ridge above t
 
 The profile is sampled on a grid of about 80 by 100 m. A rise narrower than that can be missed. These ridges are not that narrow.
 
+## Decibel sheet
+
+`2026/images/day-11-decibels.png` is the same ground and the same three points, scored as one-shot sound exposure.
+
+0 dB is open ground at 10 miles, the distance at which Chickamauga was heard in the city. That dashed ring is the audibility contour used here. Closer than 10 miles the level rises 6 dB each time the distance is cut in half. Farther out it keeps falling. There is no hard stop at 15 miles.
+
+Air absorption is 0.1 dB per kilometer, the order of magnitude in ISO 9613-1 near 63 Hz, 20 °C, and 70% humidity. The boom is treated as that one low frequency, not a summed spectrum.
+
+A ridge is one knife edge: the extra path length over the highest point on the curved-earth chord, turned into a Fresnel number, then `10 log10(3 + 20N)` decibels. The loss is capped at 20 dB, the single-diffraction limit in ISO 9613-2. A bump under half a meter is ignored.
+
+The wash drops out at -12 dB and is solid at +18 dB and above. Weather refraction is still absent. The numbers are not a measurement of an 1863 gun.
+
 ## Representative points
 
 Each point is one published place standing in for a field of fire. The script snaps it to the nearest 3DEP cell, about 40 m across. The built coordinates and elevations are in `bounds.json`. These are not a survey of every battery.
@@ -66,6 +78,7 @@ The ground is Esri World Imagery draped on the 3DEP hillshade. Only two boundari
 ## Outputs
 
 - `2026/images/day-11.png` — gallery sheet, 11×17 in
+- `2026/images/day-11-decibels.png` — same sheet, one-shot exposure in decibels
 - `2026/day-11.html` — interactive toggles on an Esri topo basemap
 - `2026/11_sound/audibility-*.png` — transparent washes for the page
 - `2026/11_sound/bounds.json` — extent, distances, source points
