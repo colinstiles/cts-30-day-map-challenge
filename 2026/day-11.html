@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 11 — Where the guns were heard | 30 Day Map Challenge</title>
+  <meta name="description" content="Estimated audible reach of Civil War artillery over modern Chattanooga. A terrain-shadowed proxy, not a decibel model.">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/sound.css">
+</head>
+<body class="sound-page">
+  <div id="sound-map" role="application" aria-label="Audible reach of Civil War artillery over modern Chattanooga"></div>
+
+  <header class="sound-header">
+    <a class="sound-back" href="../index.html">← Gallery</a>
+    <span class="sound-kicker">Day 11 · Senses: Sound · Veterans Day</span>
+    <h1>Where the guns were heard</h1>
+    <p id="sound-lead">Estimated audible reach of the guns at Chickamauga, Lookout Mountain, and Missionary Ridge.</p>
+  </header>
+
+  <div class="sound-controls" role="group" aria-label="Battles">
+    <button type="button" data-battle="chickamauga" aria-pressed="true">Chickamauga</button>
+    <button type="button" data-battle="lookout" aria-pressed="true">Lookout</button>
+    <button type="button" data-battle="missionary" aria-pressed="true">Missionary Ridge</button>
+    <button type="button" id="sound-ring" aria-pressed="true">10-mile ring</button>
+    <a class="sound-static" href="images/day-11.png">Static map</a>
+  </div>
+
+  <footer class="sound-credit" id="sound-credit">Loading the reach…</footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="../assets/js/sound.js"></script>
+</body>
+</html>
