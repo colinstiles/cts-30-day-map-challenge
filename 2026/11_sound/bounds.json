@@ -1,0 +1,41 @@
+{
+  "west": -85.67683,
+  "south": 34.58609,
+  "east": -84.94665,
+  "north": 35.37456,
+  "openMiles": 15.0,
+  "heardMiles": 10.0,
+  "heardLevel": 0.6,
+  "barrierScaleM": 90.0,
+  "chickamaugaToCityMiles": 9.28,
+  "chickamaugaToCemeteryMiles": 8.23,
+  "sources": [
+    {
+      "id": "chickamauga",
+      "name": "Chickamauga",
+      "date": "Sept 19\u201320, 1863",
+      "lat": 34.91897,
+      "lon": -85.25454,
+      "elevM": 227.3,
+      "note": "Centroid of the main battlefield unit"
+    },
+    {
+      "id": "lookout",
+      "name": "Lookout Mountain",
+      "date": "Nov 24, 1863",
+      "lat": 35.00969,
+      "lon": -85.34395,
+      "elevM": 643.7,
+      "note": "Highest 3DEP cell at the north end of the mountain unit"
+    },
+    {
+      "id": "missionary",
+      "name": "Missionary Ridge",
+      "date": "Nov 25, 1863",
+      "lat": 35.06886,
+      "lon": -85.24052,
+      "elevM": 307.3,
+      "note": "Highest 3DEP cell in the largest ridge reservation"
+    }
+  ]
+}

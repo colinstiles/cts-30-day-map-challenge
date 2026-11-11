@@ -33,7 +33,7 @@
 | 8 | Nov 8 | Utopia | Hidden Rapids of the Tallulah River | High |
 | 9 | Nov 9 | Urban-rural | WUI structures in Hamilton County, 11×17 | Moderate |
 | 10 | Nov 10 | Prompting only | AI creates a fictional place/world from scratch, purely via prompting | Moderate |
-| 11 | Nov 11 | Senses: Sound | Interstate high-sound corridors through Chattanooga | Moderate |
+| 11 | Nov 11 | Senses: Sound | Where the guns were heard: Civil War artillery over Chattanooga | Moderate |
 | 12 | Nov 12 | Power | Incan/Aztec controlled areas throughout time | Moderate |
 | 13 | Nov 13 | Interactions | Emerald Ash Borer spread along Tennessee's interstate corridors | High |
 | 14 | Nov 14 | Borgesian map | Map of a single tree | Low |
@@ -286,20 +286,28 @@ Rebuild the geometry with `node scripts/day10_vael_export.js`.
 
 ## Day 11 — Senses: Sound
 **Date:** November 11  
-**Concept:** **High-Sound Interstate Corridors in Chattanooga**
+**Concept:** **Where the guns were heard**  
+**Tools:** Python (`matplotlib`), Leaflet, USGS 3DEP
 
-### Map ideas
-1. Interstate corridors through Chattanooga styled or ranked by estimated traffic noise.
-2. Buffer zones around interstates showing noise falloff distance.
-3. Overlay noise corridors with neighborhoods or land use to show exposure.
+Estimated audible reach of Civil War artillery over modern Chattanooga, for Veterans Day. Three representative points, not surveyed batteries:
 
-### Recommended direction
-Focus specifically on Chattanooga's interstate network (I-24 / I-75 / I-59) and model or symbolize relative noise intensity along those corridors, rather than a generic statewide soundscape.
+- Chickamauga, centroid of the main battlefield unit (Sept 19–20, 1863)
+- Lookout Mountain, the high ground at the north end (Nov 24, 1863)
+- Missionary Ridge, the crest of the largest ridge reservation (Nov 25, 1863)
 
-### Potential data
-- FHWA traffic volume data
-- TDOT interstate network
-- Noise modeling approximations (distance/volume-based proxy if no modeled noise data exists)
+The wash is a terrain-shadowed distance proxy. On open ground it is still strong at 10 miles and fades out at 15. Downtown is 9.3 miles from the Chickamauga point; the cemetery is 8.2. A straight path from the middle of the field toward the city crosses the south end of Missionary Ridge, so that wash is fainter there than on open ground. Lookout cuts the reach on its far side. A ridge about 90 m above the path leaves roughly a third of the proxy. Earth curvature is included. Weather refraction is not. Nothing on the map is a decibel.
+
+Chattanooga National Cemetery is called out in the valley between the mountain and the ridge. Gen. George H. Thomas established it on December 25, 1863, for the Union dead of these battles.
+
+The interactive page toggles each battle on an Esri topo basemap. The gallery raster is the designed sheet.
+
+Working notes: `2026/11_sound/NOTES.md`. Script: `scripts/build_day11_sound.py`.
+
+### Data source
+- [NPS park boundary](https://services1.arcgis.com/fBc8EJBxQRMcHlei/ArcGIS/rest/services/NPS_Land_Resources_Division_Boundary_and_Tract_Data_Service/FeatureServer) (Chickamauga and Chattanooga National Military Park, unit CHCH)
+- USGS 3DEP elevation
+- OpenStreetMap: Chattanooga National Cemetery and the Chattanooga place node
+- Esri Dark Gray Canvas on the sheet; Esri World Topo on the interactive map
 
 **Expected effort:** **Moderate**
 

@@ -17,7 +17,7 @@ const CHALLENGE_YEARS = {
       { day: 8, date: "Nov 8", theme: "Utopia", concept: "Hidden Rapids of the Tallulah River", tool: "Python, Leaflet, 3DEP", embed: "2026/day-08.html" },
       { day: 9, date: "Nov 9", theme: "Urban-rural", concept: "WUI Structures in Hamilton County", tool: "Python, USGS WUI, FEMA" },
       { day: 10, date: "Nov 10", theme: "Prompting only", concept: "Vael: The Crescent Sea", tool: "JavaScript, VAEL:2026", embed: "2026/day-10.html" },
-      { day: 11, date: "Nov 11", theme: "Senses: Sound", concept: "High-Sound Interstate Corridors in Chattanooga", tool: "Tool TBD" },
+      { day: 11, date: "Nov 11", theme: "Senses: Sound", concept: "Where the guns were heard", tool: "Python, Leaflet, USGS 3DEP", embed: "2026/day-11.html" },
       { day: 12, date: "Nov 12", theme: "Power", concept: "Incan and Aztec Territorial Power Over Time", tool: "Tool TBD" },
       { day: 13, date: "Nov 13", theme: "Interactions", concept: "Emerald Ash Borer Spread Along TN's Interstate Corridors", tool: "Tool TBD" },
       { day: 14, date: "Nov 14", theme: "Borgesian map", concept: "The Map of a Single Tree", tool: "Tool TBD" },
