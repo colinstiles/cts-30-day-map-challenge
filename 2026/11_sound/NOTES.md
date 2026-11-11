@@ -79,7 +79,7 @@ The ground is Esri World Imagery draped on the 3DEP hillshade. Only two boundari
 
 - `2026/images/day-11.png` — gallery sheet, 11×17 in
 - `2026/images/day-11-decibels.png` — same sheet, one-shot exposure in decibels
-- `2026/day-11.html` — interactive toggles on an Esri topo basemap
+- `2026/day-11.html` — local interactive toggles, not linked from the gallery
 - `2026/11_sound/audibility-*.png` — transparent washes for the page
 - `2026/11_sound/bounds.json` — extent, distances, source points
 - `2026/11_sound/places.geojson` — park units, cemetery, city, sources

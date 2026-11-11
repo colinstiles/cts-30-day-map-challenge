@@ -1724,7 +1724,7 @@ def render_exposure_sheet(
         sources,
         stats,
         out_path=OUT_DB_PNG,
-        kicker="Day 11  ·  Decibels  ·  Veterans Day, November 11, 2026",
+        kicker="Day 11  ·  Senses: Sound  ·  Veterans Day, November 11, 2026",
         deck=(
             "One-shot sound exposure of Civil War artillery over modern Chattanooga.\n"
             "Decibels relative to open ground at 10 miles. Not a measurement."
