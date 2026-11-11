@@ -286,7 +286,7 @@ Rebuild the geometry with `node scripts/day10_vael_export.js`.
 
 ## Day 11 — Senses: Sound
 **Date:** November 11  
-**Concept:** **Where the guns were heard**  
+**Concept:** Where the guns were heard  
 **Tools:** Python (`matplotlib`), Leaflet, USGS 3DEP
 
 Estimated audible reach of Civil War artillery over modern Chattanooga, for Veterans Day. Three published positions, each standing in for a field of fire, snapped to the nearest elevation cell:
@@ -309,7 +309,7 @@ Working notes: `2026/11_sound/NOTES.md`. Script: `scripts/build_day11_sound.py`.
 - OpenStreetMap: Chattanooga National Cemetery and the Chattanooga place node
 - Esri World Imagery draped on the 3DEP hillshade for the sheet; Esri World Topo on the interactive map
 
-**Expected effort:** **Moderate**
+**Expected effort:** **High**
 
 ---
 
