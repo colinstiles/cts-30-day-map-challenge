@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Day 12 — Year 5: the claim and the hold | 30 Day Map Challenge</title>
-  <meta name="description" content="Year 5 of the full-scale Russia-Ukraine war: claimed regions, assessed occupation on 24 February 2026, and the ground that changed hands after that.">
+  <meta name="description" content="Claimed regions of Ukraine, assessed occupation on 6 January 2026, and the ground that changed hands through 12 November 2026.">
   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css">
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../assets/css/power.css">
 </head>
 <body class="power-page">
-  <div id="power-map" role="application" aria-label="Time map of assessed control in Year 5"></div>
+  <div id="power-map" role="application" aria-label="Time map of assessed control in 2026"></div>
 
   <header class="power-header" id="power-header">
     <div class="power-header-top">
@@ -23,8 +23,8 @@
   </header>
 
   <aside class="power-legend" aria-label="Legend">
-    <div><span class="swatch swatch-claim"></span> Claimed, not held on 24 Feb</div>
-    <div><span class="swatch swatch-held"></span> Held on 24 Feb 2026</div>
+    <div><span class="swatch swatch-claim"></span> Claimed, not held</div>
+    <div><span class="swatch swatch-held"></span> <span id="legend-held">Held on the first day</span></div>
     <div><span class="swatch swatch-gain"></span> Passed to Russian control</div>
     <div><span class="swatch swatch-retaken"></span> Passed back to Ukrainian control</div>
   </aside>
@@ -37,7 +37,7 @@
     <canvas class="power-spark" id="power-spark" aria-hidden="true"></canvas>
     <div class="power-controls">
       <button type="button" id="power-play" aria-pressed="false">Play</button>
-      <input type="range" id="power-slider" min="0" max="1" value="0" aria-label="Date within Year 5">
+      <input type="range" id="power-slider" min="0" max="1" value="0" aria-label="Date in the weekly series">
     </div>
     <p class="power-credit" id="power-credit"></p>
   </footer>

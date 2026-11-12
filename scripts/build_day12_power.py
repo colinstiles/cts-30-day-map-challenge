@@ -15,6 +15,7 @@ verification on.
 from __future__ import annotations
 
 import argparse
+import calendar
 import json
 import sys
 import urllib.error
@@ -50,7 +51,7 @@ AREA_NOTE = (
 )
 
 USER_AGENT = "cts-30-day-map-challenge day12"
-YEAR5_START = date(2026, 2, 24)
+SERIES_START = date(2024, 7, 8)
 GB_API = "https://www.geoboundaries.org/api/current/gbOpen/UKR/{level}/"
 NE_URL = (
     "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/"
@@ -125,6 +126,26 @@ def parse_args() -> argparse.Namespace:
         "--gis-only",
         action="store_true",
         help="Write the GIS package and GeoLibre project, and skip the draft sheet.",
+    )
+    parser.add_argument(
+        "--download-only",
+        action="store_true",
+        help="Refresh the monthly occupied-area GeoJSON files and skip the map.",
+    )
+    parser.add_argument(
+        "--weekly-2026",
+        action="store_true",
+        help="Download weekly 2026 occupied-area files into data/raw/day12/weekly-2026.",
+    )
+    parser.add_argument(
+        "--weekly-diff",
+        action="store_true",
+        help="Write gained and retaken polygons for the weekly 2026 series.",
+    )
+    parser.add_argument(
+        "--weekly-map",
+        action="store_true",
+        help="Draw the sheet and time-map frames from the weekly 2026 series.",
     )
     return parser.parse_args()
 
@@ -310,13 +331,21 @@ def snapshot_stamp(day: date) -> str:
     return day.strftime("%Y%m%d")
 
 
-def resolve_snapshot(day: date, refresh: bool, back: int = 6) -> tuple[date, Path]:
+def resolve_snapshot(day: date, refresh: bool, back: int = 6, dest_dir: Path | None = None) -> tuple[date, Path]:
+    folder = dest_dir or RAW
     for offset in range(back + 1):
         candidate = day - timedelta(days=offset)
         stamp = snapshot_stamp(candidate)
-        dest = RAW / f"deepstatemap_data_{stamp}.geojson"
+        dest = folder / f"deepstatemap_data_{stamp}.geojson"
         if dest.exists() and dest.stat().st_size > 0 and not refresh:
             return candidate, dest
+        if folder != RAW:
+            parent = RAW / dest.name
+            if parent.exists() and parent.stat().st_size > 0 and not refresh:
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                dest.write_bytes(parent.read_bytes())
+                print(f"Copied {dest.name} into {folder.relative_to(ROOT)}")
+                return candidate, dest
         url = SNAPSHOT_URL.format(stamp=stamp)
         try:
             payload = http_get(url)
@@ -330,14 +359,232 @@ def resolve_snapshot(day: date, refresh: bool, back: int = 6) -> tuple[date, Pat
     raise SystemExit(f"No DeepStateMap snapshot within {back} days of {day.isoformat()}.")
 
 
-def weekly_dates(start: date, end: date) -> list[date]:
+def monthly_dates(start: date, end: date) -> list[date]:
+    """The first mirror file, then each later month-end, then `end` when it falls mid-month."""
+    if end < start:
+        raise SystemExit("--end is before 8 July 2024.")
+    days = [start]
+    year, month = start.year, start.month + 1
+    if month == 13:
+        year, month = year + 1, 1
+    while True:
+        last = date(year, month, calendar.monthrange(year, month)[1])
+        if last > end:
+            break
+        days.append(last)
+        month += 1
+        if month == 13:
+            year, month = year + 1, 1
+    if days[-1] != end:
+        days.append(end)
+    return days
+
+
+def weekly_2026_dates() -> list[date]:
+    """Every Tuesday in 2026 through the latest snapshot, which is a Thursday."""
+    start = date(2026, 1, 6)
+    end = date(2026, 11, 12)
     days = []
     cursor = start
-    while cursor < end:
+    while cursor <= end:
         days.append(cursor)
         cursor += timedelta(days=7)
-    days.append(end)
+    if days[-1] != end:
+        days.append(end)
     return days
+
+
+def stamp_occupied_color(path: Path, day: date) -> None:
+    """The mirror polygons have empty properties, so ArcGIS has nothing to symbolize."""
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    features = payload.get("features")
+    if not isinstance(features, list):
+        return
+    for feature in features:
+        props = feature.get("properties")
+        if not isinstance(props, dict):
+            props = {}
+        props["assess_date"] = day.isoformat()
+        props["fill"] = "#9A8F82"
+        props["stroke"] = "#241F1A"
+        props["color_hex"] = "9A8F82"
+        props["color_r"] = 154
+        props["color_g"] = 143
+        props["color_b"] = 130
+        props["color_a"] = 85
+        feature["properties"] = props
+    path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+
+
+def fetch_weekly_2026(refresh: bool) -> None:
+    folder = RAW / "weekly-2026"
+    folder.mkdir(parents=True, exist_ok=True)
+    resolved: list[tuple[date, Path]] = []
+    seen = set()
+    for day in weekly_2026_dates():
+        actual, path = resolve_snapshot(day, refresh, dest_dir=folder)
+        if actual in seen:
+            continue
+        seen.add(actual)
+        resolved.append((actual, path))
+        if actual != day:
+            print(f"Requested {day.isoformat()}, using {actual.isoformat()}")
+        stamp_occupied_color(path, actual)
+    print(
+        f"Weekly 2026: {resolved[0][0].isoformat()} to {resolved[-1][0].isoformat()} "
+        f"({len(resolved)} files) in {folder.relative_to(ROOT)}"
+    )
+
+
+def change_properties(status: str, day: date, baseline: str, area_km2: float) -> dict:
+    if status == "gained":
+        red, green, blue, alpha, hex_color = 161, 92, 56, 95, "A15C38"
+    else:
+        red, green, blue, alpha, hex_color = 62, 107, 88, 95, "3E6B58"
+    return {
+        "assess_date": day.isoformat(),
+        "status": status,
+        "area_km2": area_km2,
+        "baseline": baseline,
+        "fill": f"#{hex_color}",
+        "stroke": "#241F1A",
+        "color_hex": hex_color,
+        "color_r": red,
+        "color_g": green,
+        "color_b": blue,
+        "color_a": alpha,
+    }
+
+
+def write_change_file(status: str, day: date, geom, baseline: str, area_km2: float) -> Path | None:
+    exported = to_wgs(geom)
+    if exported is None:
+        return None
+    dest = RAW / "weekly-2026" / status / f"{status}_{day.strftime('%Y%m%d')}.geojson"
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    feature = {
+        "type": "Feature",
+        "properties": change_properties(status, day, baseline, area_km2),
+        "geometry": mapping(exported),
+    }
+    dest.write_text(
+        json.dumps({"type": "FeatureCollection", "features": [feature]}, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    return dest
+
+
+def weekly_snapshots() -> list[tuple[date, Path]]:
+    folder = RAW / "weekly-2026"
+    found: list[tuple[date, Path]] = []
+    seen = set()
+    for path in sorted(folder.glob("deepstatemap_data_*.geojson")):
+        stamp = path.stem.replace("deepstatemap_data_", "")
+        day = datetime.strptime(stamp, "%Y%m%d").date()
+        if day in seen:
+            continue
+        seen.add(day)
+        found.append((day, path))
+    if len(found) < 2:
+        raise SystemExit(f"Need at least two weekly files in {folder}")
+    return found
+
+
+def build_weekly_differences(refresh: bool, opening_m: float, min_km2: float) -> None:
+    """Gained and retaken ground since the first weekly file, after the 150 m opening."""
+    folder = RAW / "weekly-2026"
+    snapshots = weekly_snapshots()
+
+    for status in ("gained", "retaken"):
+        target = folder / status
+        if target.exists():
+            for old in target.glob("*.geojson"):
+                old.unlink()
+
+    ukraine_frame = fetch_geoboundaries("ADM0", RAW / "ukr-adm0.geojson", refresh)
+    ukraine = gpd.GeoSeries(list(ukraine_frame.geometry), crs=4326).to_crs(ALBERS)
+    ukraine_geom = polygons_only(shapely.union_all(list(ukraine.geometry)).buffer(0))
+
+    dates = []
+    geoms = []
+    for day, path in snapshots:
+        print(f"Preparing {day.isoformat()}")
+        dates.append(day)
+        geoms.append(working_occupied(path, ukraine_geom, refresh))
+
+    frames = build_frames(dates, geoms, opening_m, min_km2)
+    baseline = dates[0].isoformat()
+    written = 0
+    for frame, day in zip(frames, dates):
+        if day == dates[0]:
+            continue
+        for status, key in (("gained", "gained_geom"), ("retaken", "retaken_geom")):
+            area_key = "gained_km2" if status == "gained" else "retaken_km2"
+            path = write_change_file(status, day, frame[key], baseline, frame[area_key])
+            if path is not None:
+                written += 1
+    print(
+        f"Change since {baseline}: {written} files in "
+        f"{(folder / 'gained').relative_to(ROOT)} and {(folder / 'retaken').relative_to(ROOT)}"
+    )
+
+
+def map_context(refresh: bool):
+    ukraine_frame = fetch_geoboundaries("ADM0", RAW / "ukr-adm0.geojson", refresh)
+    oblasts = fetch_geoboundaries("ADM1", RAW / "ukr-adm1.geojson", refresh)
+    download(NE_URL, RAW / "ne_50m_admin_0_countries.geojson", refresh)
+    neighbors = load_polygons(RAW / "ne_50m_admin_0_countries.geojson")
+    name_col = "ADMIN" if "ADMIN" in neighbors.columns else "NAME"
+    neighbors = neighbors[neighbors[name_col] != "Ukraine"]
+    ukraine = gpd.GeoSeries(list(ukraine_frame.geometry), crs=4326).to_crs(ALBERS)
+    ukraine_geom = polygons_only(shapely.union_all(list(ukraine.geometry)).buffer(0))
+    claims = extract_claims(oblasts, ukraine_geom)
+    print("Claimed regions: " + ", ".join(name for name in CLAIM_ORDER if name in claims))
+    return ukraine_geom, neighbors, claims, oblasts
+
+
+def build_weekly_map(refresh: bool, opening_m: float, min_km2: float) -> None:
+    """Sheet, frames, and GeoLibre project for the weekly series since 6 January 2026."""
+    ukraine_geom, neighbors, claims, oblasts = map_context(refresh)
+    dates = []
+    geoms = []
+    for day, path in weekly_snapshots():
+        print(f"Preparing {day.isoformat()}")
+        dates.append(day)
+        geoms.append(working_occupied(path, ukraine_geom, refresh))
+    frames = build_frames(dates, geoms, opening_m, min_km2)
+    rows = oblast_rows(claims, geoms[-1])
+    for row in rows:
+        print(f"{row['name']}: {row['held_pct']:.1f}% of {row['area_km2']:,.0f} km²")
+    meta = {
+        "title": "The claim and the hold",
+        "baseline": dates[0].isoformat(),
+        "end": dates[-1].isoformat(),
+        "opening_m": opening_m,
+        "min_part_km2": min_km2,
+        "work_tolerance_m": WORK_TOLERANCE_M,
+        "projection": "Ukraine Albers, lat_1=46, lat_2=52, lat_0=48, lon_0=32, WGS84",
+        "source": "DeepStateMap.live occupied-area assessments",
+        "source_url": "https://deepstatemap.live/",
+        "boundaries": "geoBoundaries UKR ADM0 and ADM1, CC BY 4.0",
+    }
+    write_frames(frames, claims, geoms[0], ukraine_geom, rows, meta)
+    export_gis(ukraine_geom, neighbors, claims, oblasts, dates, geoms, frames, rows, window_days=6)
+    family = font_family()
+    print(f"Sheet typeface: {family}")
+    render_sheet(ukraine_geom, neighbors, claims, geoms[0], geoms[-1], frames, rows, opening_m, family)
+
+
+def prune_snapshots(keep: list[Path]) -> None:
+    stems = {path.stem for path in keep}
+    for folder in (RAW, PROCESSED):
+        if not folder.exists():
+            continue
+        for old in folder.glob("deepstatemap_data_*"):
+            if old.stem in stems:
+                continue
+            old.unlink()
+            print(f"Removed {old.relative_to(ROOT)}")
 
 
 def round_coords(node, digits: int = 4):
@@ -593,7 +840,7 @@ def render_sheet(ukraine, neighbors, claims, held_start, held_end, frames, rows,
     fig.text(
         0.06,
         0.902,
-        f"Year 5 of the full-scale war,  {baseline['date']}  to  {latest['date']}",
+        f"Assessed control,  {baseline['date']}  to  {latest['date']}",
         fontsize=10,
         color=INK,
         fontfamily=family,
@@ -614,7 +861,7 @@ def render_sheet(ukraine, neighbors, claims, held_start, held_end, frames, rows,
 
     swatches = [
         (CLAIM, "Claimed, still not held"),
-        (HELD, "Held on the first day of Year 5"),
+        (HELD, f"Held on {baseline['date']}"),
         (GAIN, "Passed to Russian control"),
         (RETAKEN, "Passed back to Ukrainian control"),
     ]
@@ -736,7 +983,7 @@ def read_geojson(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def geolibre_layer(layer_id: str, name: str, path: Path, fill: str, opacity: float, time: bool) -> dict:
+def geolibre_layer(layer_id: str, name: str, path: Path, fill: str, opacity: float, time: bool, window_days: int = 6) -> dict:
     layer = {
         "id": layer_id,
         "name": name,
@@ -761,7 +1008,7 @@ def geolibre_layer(layer_id: str, name: str, path: Path, fill: str, opacity: flo
             "min": None,
             "max": None,
             "granularity": "day",
-            "window": {"unit": "day", "before": 6, "after": 1},
+            "window": {"unit": "day", "before": window_days, "after": 1},
         }
     return layer
 
@@ -795,7 +1042,7 @@ def write_geolibre(layers: list[dict], dates: list[date]) -> None:
     print(f"Wrote {GEOLIBRE.relative_to(ROOT)} ({GEOLIBRE.stat().st_size / 1e6:.2f} MB)")
 
 
-def export_gis(ukraine, neighbors, claims, oblasts, dates, geoms, frames, rows) -> None:
+def export_gis(ukraine, neighbors, claims, oblasts, dates, geoms, frames, rows, window_days: int = 6) -> None:
     """EPSG:4326 layers for ArcGIS Pro and GeoLibre. Areas stay in the attribute table."""
     GIS.mkdir(parents=True, exist_ok=True)
     if GPKG.exists():
@@ -924,9 +1171,9 @@ def export_gis(ukraine, neighbors, claims, oblasts, dates, geoms, frames, rows) 
         [
             geolibre_layer("ukraine", "Ukraine", GIS / "ukraine.geojson", "#E4DDD2", 1, False),
             geolibre_layer("claims", "Claimed regions", GIS / "claims.geojson", CLAIM, 0.55, False),
-            geolibre_layer("occupied", "Assessed occupation", GIS / "occupied.geojson", HELD, 0.85, True),
-            geolibre_layer("retaken", "Passed back", retaken_path, RETAKEN, 0.95, True),
-            geolibre_layer("gained", "Passed to Russian control", gained_path, GAIN, 0.95, True),
+            geolibre_layer("occupied", "Assessed occupation", GIS / "occupied.geojson", HELD, 0.85, True, window_days),
+            geolibre_layer("retaken", "Passed back", retaken_path, RETAKEN, 0.95, True, window_days),
+            geolibre_layer("gained", "Passed to Russian control", gained_path, GAIN, 0.95, True, window_days),
             geolibre_layer("cities", "Cities", cities_path, PAPER, 1, False),
         ]
     )
@@ -936,9 +1183,18 @@ def export_gis(ukraine, neighbors, claims, oblasts, dates, geoms, frames, rows) 
 def main() -> None:
     sys.stdout.reconfigure(encoding="utf-8")
     args = parse_args()
+    if args.weekly_2026:
+        RAW.mkdir(parents=True, exist_ok=True)
+        fetch_weekly_2026(args.refresh)
+    if args.weekly_diff:
+        build_weekly_differences(args.refresh, args.opening_m, args.min_km2)
+    if args.weekly_map:
+        build_weekly_map(args.refresh, args.opening_m, args.min_km2)
+    if args.weekly_2026 or args.weekly_diff or args.weekly_map:
+        return
     end = datetime.strptime(args.end, "%Y-%m-%d").date()
-    if end < YEAR5_START:
-        raise SystemExit("--end is before 24 February 2026.")
+    if end < SERIES_START:
+        raise SystemExit("--end is before 8 July 2024.")
 
     RAW.mkdir(parents=True, exist_ok=True)
     ukraine_frame = fetch_geoboundaries("ADM0", RAW / "ukr-adm0.geojson", args.refresh)
@@ -954,7 +1210,7 @@ def main() -> None:
     claims = extract_claims(oblasts, ukraine_geom)
     print("Claimed regions: " + ", ".join(name for name in CLAIM_ORDER if name in claims))
 
-    requested = weekly_dates(YEAR5_START, end)
+    requested = monthly_dates(SERIES_START, end)
     resolved: list[tuple[date, Path]] = []
     seen = set()
     for day in requested:
@@ -965,6 +1221,14 @@ def main() -> None:
         resolved.append((actual, path))
         if actual != day:
             print(f"Requested {day.isoformat()}, using {actual.isoformat()}")
+
+    prune_snapshots([path for _, path in resolved])
+    print(
+        f"Monthly series: {resolved[0][0].isoformat()} to {resolved[-1][0].isoformat()} "
+        f"({len(resolved)} files)"
+    )
+    if args.download_only:
+        return
 
     dates = [item[0] for item in resolved]
     geoms = []
@@ -990,7 +1254,7 @@ def main() -> None:
         "boundaries": "geoBoundaries UKR ADM0 and ADM1, CC BY 4.0",
     }
     write_frames(frames, claims, geoms[0], ukraine_geom, rows, meta)
-    export_gis(ukraine_geom, neighbors, claims, oblasts, dates, geoms, frames, rows)
+    export_gis(ukraine_geom, neighbors, claims, oblasts, dates, geoms, frames, rows, window_days=27)
     if args.gis_only:
         return
     family = font_family()

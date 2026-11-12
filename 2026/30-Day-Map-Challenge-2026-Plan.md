@@ -328,7 +328,7 @@ Power is drawn as three layers from one assessed-control series:
 
 Ochre that remains visible is claimed and still not held. Clay passed to Russian control during Year 5. Green passed back to Ukrainian control. A redraw thinner than about 150 m stays off the change layer, so a vertex edit along the line is not painted as a gain. The build log prints that filtered area beside the unfiltered difference.
 
-The GIS layers for the static sheet are in `2026/12_power/gis/` (`year5-power.gpkg` plus one GeoJSON layer per theme), in EPSG:4326, with areas stored from the Albers measurement. Open that package in ArcGIS Pro or GeoLibre and draw the sheet there. A draft rendering is still written to `2026/images/day-12.png` when the script runs without `--gis-only`.
+The gallery card shows `2026/images/day-12.png` and links the time map. Replace that PNG with the ArcGIS Pro export.
 
 The gallery time map is MapLibre at `2026/day-12.html`. The same weeks open in GeoLibre from `2026/12_power/year5-the-claim-and-the-hold.geolibre.json`, with the time slider bound to `assess_date`.
 

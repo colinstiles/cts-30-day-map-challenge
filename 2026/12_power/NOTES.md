@@ -15,7 +15,7 @@ pip install -r requirements.txt
 python scripts/build_day12_power.py
 ```
 
-The first run downloads Ukraine's outline, the oblasts, a Natural Earth country file, and a weekly stack of occupied-area assessments from 24 February 2026 through the latest snapshot on or before 12 November 2026. Those files stay in `data/raw/day12/` and `data/processed/day12/`. Both folders are gitignored.
+The occupied-area files in `data/raw/day12/` are a monthly series. The first file is 8 July 2024. Each later month keeps the last day of that month, and the newest file is the latest snapshot on or before 12 November 2026. `--download-only` refreshes that batch and removes snapshots that are no longer in it. `--weekly-2026` writes a separate weekly series, every Tuesday from 6 January 2026 through 10 November 2026 plus 12 November 2026, into `data/raw/day12/weekly-2026/`. Those files carry `color_hex` and RGB fields because the mirror polygons have no color. `--weekly-diff` differences each later week against 6 January 2026 and writes the opened change polygons to `weekly-2026/gained/` (clay `#A15C38`) and `weekly-2026/retaken/` (green `#3E6B58`). `--weekly-map` draws the sheet and the gallery time map from that same weekly series. `scripts/day12_to_gdb.py` writes the same fields onto every Day 12 feature class and saves a matching layer file in `day12_layers` next to `2026.gdb`. Add the layer file to the map; the feature class by itself uses Pro's default symbol. Both `data/raw/day12/` and `data/processed/day12/` are gitignored.
 
 `--refresh` ignores that cache. `--opening-m` is the width of redraw left off the change layer (default 150). `--min-km2` drops change pieces smaller than that (default 0.5).
 
@@ -60,7 +60,7 @@ The national map keeps the year's change small on purpose: the ochre is the powe
 - `2026/12_power/gis/year5-power.gpkg` — all layers in one GeoPackage for ArcGIS Pro or GeoLibre. Git ignores `*.gpkg`, so this file stays on the machine that built it.
 - `2026/12_power/gis/*.geojson` — the same layers as GeoJSON, EPSG:4326
 - `2026/12_power/year5-the-claim-and-the-hold.geolibre.json` — GeoLibre project. The time slider is bound to `assess_date`.
-- `2026/images/day-12.png` — draft sheet, replaced when the Pro or GeoLibre layout is done
+- `2026/images/day-12.png` — gallery sheet. Replace this file with the ArcGIS Pro export.
 - `2026/12_power/frames.json` — simplified claim, hold, and weekly change for the MapLibre page
 - `data/raw/day12/` — downloaded assessments and boundaries
 - `data/processed/day12/` — clipped working polygons
