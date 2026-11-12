@@ -19,7 +19,7 @@ const CHALLENGE_YEARS = {
       { day: 9, date: "Nov 9", theme: "Urban-rural", concept: "WUI Structures in Hamilton County", tool: "Python, USGS WUI, FEMA" },
       { day: 10, date: "Nov 10", theme: "Prompting only", concept: "Vael: The Crescent Sea", tool: "JavaScript, VAEL:2026", embed: "2026/day-10.html" },
       { day: 11, date: "Nov 11", theme: "Senses: Sound", concept: "Where the guns were heard", tool: "Python, USGS 3DEP", image: "2026/images/day-11-decibels.png" },
-      { day: 12, date: "Nov 12", theme: "Power", concept: "Incan and Aztec Territorial Power Over Time", tool: "Tool TBD" },
+      { day: 12, date: "Nov 12", theme: "Power", concept: "Year 5: the claim and the hold", tool: "MapLibre, GeoLibre", page: "2026/day-12.html" },
       { day: 13, date: "Nov 13", theme: "Interactions", concept: "Emerald Ash Borer Spread Along TN's Interstate Corridors", tool: "Tool TBD" },
       { day: 14, date: "Nov 14", theme: "Borgesian map", concept: "The Map of a Single Tree", tool: "Tool TBD" },
       { day: 15, date: "Nov 15", theme: "Inside out", concept: "North Chickamauga Creek Gorge, Inverted", tool: "Tool TBD" },

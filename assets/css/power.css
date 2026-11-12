@@ -1,0 +1,183 @@
+.power-page {
+  margin: 0;
+  background: #f3f0ea;
+  color: #241f1a;
+  font-family: Georgia, "Palatino Linotype", Palatino, serif;
+}
+
+.power-page a {
+  color: #69412a;
+}
+
+#power-map {
+  position: fixed;
+  inset: 0;
+  background: #f3f0ea;
+}
+
+.power-header,
+.power-legend,
+.power-dock {
+  position: fixed;
+  z-index: 500;
+  background: rgba(243, 240, 234, 0.92);
+  border: 1px solid rgba(36, 31, 26, 0.18);
+}
+
+.power-header {
+  top: 16px;
+  left: 16px;
+  max-width: min(420px, calc(100vw - 32px));
+  padding: 14px 16px 12px;
+}
+
+.power-header-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.power-back {
+  font-family: Lato, sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+
+.power-kicker {
+  display: block;
+  font-family: Lato, sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #69412a;
+}
+
+.power-header h1 {
+  margin: 4px 0 8px;
+  font-size: 26px;
+  font-weight: normal;
+  line-height: 1.15;
+}
+
+.power-header p {
+  margin: 0;
+  font-family: Lato, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.power-legend {
+  left: 16px;
+  bottom: 168px;
+  padding: 10px 12px;
+  font-family: Lato, sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.power-legend .swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 6px;
+  vertical-align: -1px;
+  border: 1px solid #241f1a;
+}
+
+.leaflet-tooltip.power-city {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: #241f1a;
+  font-family: Lato, sans-serif;
+  font-size: 11px;
+  padding: 0;
+}
+
+.leaflet-tooltip.power-city::before {
+  display: none;
+}
+
+.swatch-claim { background: #c6a15a; }
+.swatch-held { background: #9a8f82; }
+.swatch-gain { background: #a15c38; }
+.swatch-retaken { background: #3e6b58; }
+
+.power-dock {
+  right: 16px;
+  bottom: 16px;
+  left: 16px;
+  padding: 12px 14px 10px;
+}
+
+.power-readout {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: baseline;
+}
+
+.power-date {
+  font-size: 22px;
+}
+
+.power-stats {
+  font-family: Lato, sans-serif;
+  font-size: 13px;
+  text-align: right;
+}
+
+.power-spark {
+  display: block;
+  width: 100%;
+  height: 42px;
+  margin: 6px 0;
+}
+
+.power-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.power-controls button {
+  font-family: Lato, sans-serif;
+  background: #241f1a;
+  color: #f3f0ea;
+  border: 0;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.power-controls input[type="range"] {
+  flex: 1;
+}
+
+.power-credit {
+  margin: 8px 0 0;
+  font-family: Lato, sans-serif;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@media (max-width: 720px) {
+  .power-legend {
+    bottom: auto;
+    top: auto;
+    display: none;
+  }
+
+  .power-header h1 {
+    font-size: 20px;
+  }
+
+  .power-readout {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .power-stats {
+    text-align: left;
+  }
+}

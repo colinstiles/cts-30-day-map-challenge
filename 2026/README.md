@@ -20,7 +20,7 @@ Year folder for the challenge plan, working notes, interactive embeds, and galle
 | Kind | Where | Notes |
 | --- | --- | --- |
 | Gallery raster | `images/day-NN.png` (or `.jpg` / `.jpeg`) | Do not put finals in day folders |
-| Interactive HTML | `2026/day-NN.html` | Keep at year root so `../assets/` paths stay simple |
+| Interactive HTML | `2026/day-NN.html` | Keep at year root so `../assets/` paths stay simple. `embed` replaces the card image. `page` adds a link under the card and leaves the sheet in place. |
 | Day notes / deps | `NN_theme/` | e.g. `06_vintage/NOTES.md` |
 | Raw / processed GIS | `data/raw/`, `data/processed/` | Gitignored; never commit large binaries |
 | Production scripts | `scripts/` | e.g. `scripts/day06_vintage_chattanooga.py` |

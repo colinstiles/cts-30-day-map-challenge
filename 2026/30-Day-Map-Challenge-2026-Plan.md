@@ -34,7 +34,7 @@
 | 9 | Nov 9 | Urban-rural | WUI structures in Hamilton County, 11×17 | Moderate |
 | 10 | Nov 10 | Prompting only | AI creates a fictional place/world from scratch, purely via prompting | Moderate |
 | 11 | Nov 11 | Senses: Sound | Where the guns were heard: Civil War artillery over Chattanooga | Moderate |
-| 12 | Nov 12 | Power | Incan/Aztec controlled areas throughout time | Moderate |
+| 12 | Nov 12 | Power | Year 5 of the Russia-Ukraine war: the claim and the hold | High |
 | 13 | Nov 13 | Interactions | Emerald Ash Borer spread along Tennessee's interstate corridors | High |
 | 14 | Nov 14 | Borgesian map | Map of a single tree | Low |
 | 15 | Nov 15 | Inside out | North Chickamauga Creek Gorge: inverted terrain + inverted forest/developed figure-ground | Moderate |
@@ -315,20 +315,31 @@ Working notes: `2026/11_sound/NOTES.md`. Script: `scripts/build_day11_sound.py`.
 
 ## Day 12 — Power
 **Date:** November 12  
-**Concept:** **Incan and Aztec Territorial Power Over Time**
+**Concept:** Year 5: the claim and the hold  
+**Tools:** Python (`geopandas`, `matplotlib`), Leaflet
 
-### Map ideas
-1. Small multiples or an animated sequence showing Incan empire extent over time.
-2. The same treatment for Aztec-controlled territory.
-3. A side-by-side comparison of both empires at their peak extents.
+Year 5 of the full-scale war runs from 24 February 2026 through 23 February 2027. The map covers the part of that year already elapsed, through 12 November 2026.
 
-### Recommended direction
-This is a historical-boundary mapping exercise, not an infrastructure map. Focus on sourcing credible historical extent data and showing change over time clearly through small multiples or animation.
+Power is drawn as three layers from one assessed-control series:
 
-### Potential data
-- Published historical GIS boundary compilations for Incan and Aztec territorial extent
+- The claim: Crimea, Sevastopol, and the whole of the Luhansk, Donetsk, Zaporizhzhia, and Kherson oblasts.
+- The hold: territory assessed as occupied on the first day of Year 5.
+- The year: ground that assessment shows changing hands between that day and the latest snapshot.
 
-**Expected effort:** **Moderate**
+Ochre that remains visible is claimed and still not held. Clay passed to Russian control during Year 5. Green passed back to Ukrainian control. A redraw thinner than about 150 m stays off the change layer, so a vertex edit along the line is not painted as a gain. The build log prints that filtered area beside the unfiltered difference.
+
+The GIS layers for the static sheet are in `2026/12_power/gis/` (`year5-power.gpkg` plus one GeoJSON layer per theme), in EPSG:4326, with areas stored from the Albers measurement. Open that package in ArcGIS Pro or GeoLibre and draw the sheet there. A draft rendering is still written to `2026/images/day-12.png` when the script runs without `--gis-only`.
+
+The gallery time map is MapLibre at `2026/day-12.html`. The same weeks open in GeoLibre from `2026/12_power/year5-the-claim-and-the-hold.geolibre.json`, with the time slider bound to `assess_date`.
+
+Working notes: `2026/12_power/NOTES.md`. Script: `scripts/build_day12_power.py`.
+
+### Data source
+- [DeepStateMap.live](https://deepstatemap.live/) occupied-area assessments, daily GeoJSON read from the `cyterat/deepstate-map-data` mirror. The sheet links the source. Raw downloads stay in `data/raw/` and are not committed.
+- [geoBoundaries](https://www.geoboundaries.org/) Ukraine ADM0 and ADM1 (CC BY 4.0)
+- Natural Earth 50m admin-0 (public domain), for neighboring countries
+
+**Expected effort:** **High**
 
 ---
 

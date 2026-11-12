@@ -139,6 +139,13 @@
       <h3 class="day-concept">${entry.concept}</h3>
       <span class="day-date">${entry.date} &middot; ${entry.tool}</span>
     `;
+    if (entry.page) {
+      const link = document.createElement("a");
+      link.className = "day-page";
+      link.href = entry.page;
+      link.textContent = "Time map";
+      meta.appendChild(link);
+    }
     return meta;
   }
 
