@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 13 — What the wars moved | 30 Day Map Challenge</title>
+  <meta name="description" content="European conflicts since 1912, the people they moved, and the borders that moved with them. The latest frame continues the Day 12 map of Ukraine.">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/interactions.css">
+</head>
+<body class="ix-page">
+  <script>
+    if (new URLSearchParams(location.search).has("embed")) {
+      document.body.classList.add("ix-embed");
+    }
+  </script>
+
+  <div id="ix-map" role="application" aria-label="Map of flights and border changes in Europe since 1912"></div>
+
+  <header class="ix-header">
+    <div class="ix-header-top">
+      <a class="ix-back" href="../index.html">← Gallery</a>
+      <a class="ix-day12" id="ix-day12" href="day-12.html" hidden>Day 12 →</a>
+    </div>
+    <span class="ix-kicker">Day 13 · Interactions</span>
+    <h1 id="ix-title">What the wars moved</h1>
+    <p id="ix-deck" aria-live="polite">Loading the frames…</p>
+    <div id="ix-detail"></div>
+  </header>
+
+  <aside class="ix-legend" aria-label="Legend">
+    <div><span class="swatch swatch-move"></span> People moved</div>
+    <div><span class="swatch swatch-old"></span> Old border</div>
+    <div><span class="swatch swatch-new"></span> New border</div>
+    <div><span class="swatch swatch-defacto"></span> New line, widely unrecognized</div>
+    <p class="ix-scale">A wider arrow, with more marks traveling it, is a larger movement. The range runs from a few hundred thousand to about 12 million.</p>
+  </aside>
+
+  <footer class="ix-dock">
+    <div class="ix-readout">
+      <div class="ix-years" id="ix-years">—</div>
+      <div class="ix-name" id="ix-name"></div>
+    </div>
+    <div class="ix-controls">
+      <button type="button" id="ix-prev" aria-label="Previous frame">Prev</button>
+      <button type="button" id="ix-play" aria-pressed="false">Play</button>
+      <input type="range" id="ix-slider" min="0" max="1" value="0" aria-label="Frame in the sequence">
+      <button type="button" id="ix-next" aria-label="Next frame">Next</button>
+    </div>
+    <p class="ix-credit" id="ix-credit"></p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="../assets/js/interactions.js"></script>
+</body>
+</html>

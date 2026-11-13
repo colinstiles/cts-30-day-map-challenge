@@ -1,0 +1,293 @@
+.ix-page {
+  margin: 0;
+  background: #f3f0ea;
+  color: #241f1a;
+  font-family: Georgia, "Palatino Linotype", Palatino, serif;
+}
+
+.ix-page a {
+  color: #69412a;
+}
+
+#ix-map {
+  position: fixed;
+  inset: 0;
+  background: #14171c;
+}
+
+.ix-header,
+.ix-legend,
+.ix-dock {
+  position: fixed;
+  z-index: 500;
+  background: rgba(243, 240, 234, 0.92);
+  border: 1px solid rgba(36, 31, 26, 0.18);
+}
+
+.ix-header {
+  top: 16px;
+  left: 16px;
+  max-width: min(420px, calc(100vw - 32px));
+  max-height: calc(100vh - 360px);
+  overflow: auto;
+  padding: 14px 16px 12px;
+}
+
+.ix-header-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.ix-back,
+.ix-day12,
+.ix-kicker,
+.ix-deck,
+.ix-detail,
+.ix-legend,
+.ix-name,
+.ix-credit,
+.ix-controls button {
+  font-family: Lato, sans-serif;
+}
+
+.ix-back,
+.ix-day12 {
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+
+.ix-kicker {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #69412a;
+}
+
+.ix-header h1 {
+  margin: 4px 0 8px;
+  font-size: 26px;
+  font-weight: normal;
+  line-height: 1.15;
+}
+
+.ix-deck {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.ix-detail {
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.ix-detail h2 {
+  margin: 10px 0 4px;
+  font-family: Lato, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #69412a;
+}
+
+.ix-detail p,
+.ix-source {
+  margin: 0 0 6px;
+}
+
+.ix-source {
+  color: #5c534c;
+}
+
+.ix-legend {
+  left: 16px;
+  bottom: 168px;
+  max-width: min(280px, calc(100vw - 32px));
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.ix-legend .swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 6px;
+  vertical-align: -1px;
+  border: 1px solid #241f1a;
+}
+
+.swatch-move { background: #7ec8c3; border-radius: 999px; }
+.ix-legend .swatch-old,
+.ix-legend .swatch-new,
+.ix-legend .swatch-defacto {
+  width: 22px;
+  height: 12px;
+  border: none;
+  border-radius: 2px;
+  background-color: #23262c;
+  vertical-align: middle;
+}
+.ix-legend .swatch-old {
+  background-image: repeating-linear-gradient(90deg, #e7e2d8 0 4px, transparent 4px 7px);
+  background-size: 18px 2px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.ix-legend .swatch-new { background-image: linear-gradient(#f0a07a, #f0a07a); background-size: 16px 3px; background-position: center; background-repeat: no-repeat; }
+.ix-legend .swatch-defacto { background-image: linear-gradient(#e7c56a, #e7c56a); background-size: 16px 3px; background-position: center; background-repeat: no-repeat; }
+
+.ix-scale {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.35;
+  color: #5c534c;
+}
+
+.ix-country {
+  font-family: Lato, sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8a8178;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.ix-label {
+  font-family: Lato, sans-serif;
+  font-size: 11px;
+  line-height: 1.2;
+  color: #241f1a;
+  background: rgba(243, 240, 234, 0.9);
+  border: 1px solid rgba(36, 31, 26, 0.28);
+  padding: 2px 5px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.ix-dock {
+  right: 16px;
+  bottom: 16px;
+  left: 16px;
+  padding: 12px 14px 10px;
+}
+
+.ix-readout {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: baseline;
+}
+
+.ix-years {
+  font-size: 22px;
+}
+
+.ix-name {
+  font-size: 14px;
+  text-align: right;
+}
+
+.ix-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.ix-controls button {
+  background: #241f1a;
+  color: #f3f0ea;
+  border: 0;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.ix-controls button:focus-visible,
+.ix-back:focus-visible,
+.ix-day12:focus-visible {
+  outline: 2px solid #69412a;
+  outline-offset: 2px;
+}
+
+.ix-controls input[type="range"] {
+  flex: 1;
+}
+
+.ix-credit {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@media (max-width: 720px) {
+  .ix-legend {
+    display: none;
+  }
+
+  .ix-header {
+    max-height: calc(100vh - 200px);
+  }
+
+  .ix-header h1 {
+    font-size: 20px;
+  }
+
+  .ix-readout {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .ix-name {
+    text-align: left;
+  }
+}
+
+.ix-embed .ix-header {
+  top: 8px;
+  left: 8px;
+  max-width: min(240px, 70%);
+  max-height: none;
+  padding: 8px 10px;
+}
+
+.ix-embed .ix-header h1 {
+  margin: 2px 0 0;
+  font-size: 16px;
+}
+
+.ix-embed #ix-deck,
+.ix-embed #ix-detail,
+.ix-embed .ix-legend,
+.ix-embed .ix-credit,
+.ix-embed .ix-back,
+.ix-embed .ix-controls,
+.ix-embed .ix-day12 {
+  display: none;
+}
+
+.ix-embed .ix-dock {
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  padding: 6px 8px;
+}
+
+.ix-embed .ix-years {
+  font-size: 14px;
+}
+
+.ix-embed .ix-name {
+  font-size: 12px;
+}
+
+.ix-embed .ix-label {
+  font-size: 10px;
+}

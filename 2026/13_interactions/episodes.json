@@ -1,0 +1,507 @@
+{
+  "title": "What the wars moved",
+  "episodes": [
+    {
+      "id": "balkan",
+      "years": "1912–1913",
+      "title": "The Balkan Wars",
+      "deck": "The Ottoman Empire’s remaining European lands are divided by the Balkan states, and hundreds of thousands of Muslims leave for Anatolia.",
+      "bounds": [[19.0, 38.5], [31.5, 44.5]],
+      "maxZoom": 5.4,
+      "places": [
+        {
+          "kind": "theater",
+          "label": "Balkan theater",
+          "at": [23.4, 41.6],
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [[
+              [19.6, 42.7], [22.4, 43.4], [26.2, 42.6], [28.4, 41.8],
+              [26.8, 40.6], [23.4, 40.2], [20.4, 40.5], [19.4, 41.6], [19.6, 42.7]
+            ]]
+          }
+        }
+      ],
+      "moves": [
+        {
+          "from": [22.0, 41.4],
+          "to": [29.1, 40.2],
+          "people": 400000,
+          "bend": 1.6,
+          "text": "Hundreds of thousands of Muslims left Macedonia and Thrace for Anatolia. Published totals differ. The line uses 400,000 as the order of magnitude."
+        }
+      ],
+      "borders": [],
+      "notes": [
+        "The empire kept a remnant in Europe, essentially Eastern Thrace."
+      ],
+      "source": "Order of magnitude for the Muslim flight: the usual published range for 1912–1914."
+    },
+    {
+      "id": "great-war",
+      "years": "1914–1918",
+      "title": "The continental war",
+      "deck": "About 1.5 million Belgians flee to the Netherlands, France, and Britain. Most later return. The borders of 1914 are still in place at the armistice.",
+      "bounds": [[-8.5, 43.0], [40.0, 61.0]],
+      "maxZoom": 4.2,
+      "places": [
+        {
+          "kind": "front",
+          "label": "Western Front",
+          "at": [4.6, 49.6],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [2.6, 51.15], [2.9, 50.4], [3.4, 49.9], [4.6, 49.25],
+              [5.6, 49.05], [6.4, 48.7], [6.9, 47.9], [7.15, 47.55]
+            ]
+          }
+        },
+        {
+          "kind": "theater",
+          "label": "Eastern Front",
+          "at": [26.0, 51.5],
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [[
+              [19.0, 54.6], [25.5, 56.2], [30.5, 53.5], [32.5, 49.5],
+              [28.0, 47.2], [23.0, 48.2], [19.0, 50.2], [18.6, 52.8], [19.0, 54.6]
+            ]]
+          }
+        }
+      ],
+      "moves": [
+        {
+          "from": [4.35, 50.85],
+          "to": [-0.12, 51.5],
+          "people": 1500000,
+          "bend": 1.4,
+          "text": "About 1.5 million Belgians left in 1914 for the Netherlands, France, and Britain. The arrow ends in London. Most of these people returned after the armistice."
+        }
+      ],
+      "borders": [],
+      "notes": [
+        "The same years include the genocide of the Armenians in the Ottoman Empire. That deportation stays off the flight layer.",
+        "The armistice holds the old borders in place. The settlement is the next frame."
+      ],
+      "source": "Belgian flight: the standard wartime figure of about 1.5 million."
+    },
+    {
+      "id": "settlement",
+      "years": "1918–1923",
+      "title": "The settlement",
+      "deck": "Alsace-Lorraine returns to France. At Lausanne the border is fixed and a population exchange is made compulsory.",
+      "bounds": [[0.5, 35.2], [36.5, 51.5]],
+      "maxZoom": 4.4,
+      "places": [],
+      "moves": [
+        {
+          "from": [27.14, 38.42],
+          "to": [23.73, 37.98],
+          "people": 1200000,
+          "bend": 1.3,
+          "text": "About 1.2 million Greek Orthodox people went to Greece from Anatolia, Eastern Thrace, Pontus, and the Caucasus. Many had already been driven out before the convention was signed."
+        },
+        {
+          "from": [22.94, 40.64],
+          "to": [28.98, 41.01],
+          "people": 400000,
+          "bend": 1.5,
+          "text": "About 400,000 Muslims went from Greece to Turkey under the same convention."
+        }
+      ],
+      "borders": [
+        {
+          "kind": "transfer",
+          "detail": "Alsace-Lorraine returns to France in 1919. The 1871 border, west of the territory, gives way to the 1919 border. From Lauterbourg south, that border is the Rhine.",
+          "old": {
+            "label": "1871 border",
+            "at": [6.35, 48.55],
+            "coordinates": [[6.08, 49.47], [5.98, 49.2], [6.2, 48.95], [6.6, 48.72], [7.05, 48.45], [7.12, 48.1], [7.08, 47.72], [7.32, 47.5]]
+          },
+          "new": {
+            "label": "1919 border",
+            "at": [8.45, 48.45],
+            "coordinates": [[6.23, 49.5], [6.53, 49.39], [6.74, 49.16], [6.89, 49.21], [7.0, 49.18], [7.04, 49.11], [7.45, 49.15], [7.61, 49.06], [8.13, 48.97], [8.14, 48.89], [7.84, 48.64], [7.62, 48.16], [7.53, 47.67], [7.62, 47.59]]
+          }
+        }
+      ],
+      "notes": [
+        "The Paris treaties also dissolve Austria-Hungary. Hungary’s new border leaves millions of Hungarian speakers outside the state. This frame draws the transfer that can be read beside the exchange."
+      ],
+      "source": "Exchange: about 1.2 million Greek Orthodox people and about 400,000 Muslims, the figures attached to the 1923 Lausanne convention and the Greek refugee count."
+    },
+    {
+      "id": "retirada",
+      "years": "1939",
+      "title": "La Retirada",
+      "deck": "The Spanish Civil War ends. Nearly 500,000 people cross into France. The frontier stays.",
+      "bounds": [[-10.0, 35.5], [8.0, 46.5]],
+      "maxZoom": 5.2,
+      "highlight": ["ESP"],
+      "places": [],
+      "moves": [
+        {
+          "from": [2.96, 42.27],
+          "to": [1.44, 43.6],
+          "people": 480000,
+          "bend": 0.6,
+          "text": "Nearly 500,000 people crossed the Pyrenees into France in the first months of 1939, after the fall of Catalonia."
+        }
+      ],
+      "borders": [],
+      "notes": [
+        "The frontier stays. Flight here has no new line to follow."
+      ],
+      "source": "La Retirada: French and Spanish accounts of the early 1939 crossing, nearly 500,000 people."
+    },
+    {
+      "id": "second-war",
+      "years": "1939–1945",
+      "title": "The second continental war",
+      "deck": "The fighting runs from the Atlantic coast to the Volga. Deportation and genocide stay off the flight layer. The next frame is the flight, the expulsion, and the new lines.",
+      "bounds": [[-5.0, 42.0], [46.0, 62.0]],
+      "maxZoom": 3.8,
+      "places": [
+        {
+          "kind": "theater",
+          "label": "The war in the west",
+          "at": [4.0, 50.0],
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [[
+              [2.4, 51.3], [6.4, 51.6], [7.6, 50.2], [6.2, 48.8],
+              [2.4, 48.7], [0.1, 49.4], [1.4, 50.7], [2.4, 51.3]
+            ]]
+          }
+        },
+        {
+          "kind": "theater",
+          "label": "The war in the east",
+          "at": [30.0, 52.0],
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [[
+              [18.2, 54.8], [27.0, 60.5], [33.0, 59.2], [40.0, 51.5],
+              [42.0, 47.5], [36.0, 46.2], [28.0, 45.2], [22.5, 46.8],
+              [18.5, 51.0], [18.2, 54.8]
+            ]]
+          }
+        }
+      ],
+      "moves": [],
+      "borders": [],
+      "notes": [
+        "The genocide of six million Jews, and the murder and deportation of millions of other people, is part of this war. Those routes stay off the flight layer."
+      ],
+      "source": "Theaters are schematic extents of the fighting, drawn so the next frame’s movements have a war to come from."
+    },
+    {
+      "id": "postwar",
+      "years": "1944–1950",
+      "title": "Flight, expulsion, and the new line",
+      "deck": "Poland moves west. Finland cedes Karelia. Italy cedes Istria. The largest forced movement in the sequence leaves with the German population of the east.",
+      "bounds": [[6.0, 42.0], [36.0, 65.0]],
+      "maxZoom": 4.0,
+      "places": [],
+      "moves": [
+        {
+          "from": [17.4, 51.6],
+          "to": [8.4, 51.4],
+          "people": 12000000,
+          "bend": 3.4,
+          "text": "About 12 million Germans fled or were expelled from east of the Oder–Neisse line and from the rest of eastern Europe."
+        },
+        {
+          "from": [24.03, 49.84],
+          "to": [17.04, 51.11],
+          "people": 1500000,
+          "bend": -2.4,
+          "text": "About 1.5 million Poles were resettled west from the lands annexed by the Soviet Union. The arrow runs from Lviv to Wrocław."
+        },
+        {
+          "from": [28.74, 60.71],
+          "to": [24.6, 61.9],
+          "people": 420000,
+          "bend": 1.2,
+          "text": "About 420,000 Finns left the ceded districts, most of them from Karelia. For most of them it was the second evacuation of the war."
+        },
+        {
+          "from": [13.85, 44.87],
+          "to": [11.6, 44.4],
+          "people": 250000,
+          "bend": -0.8,
+          "text": "About 250,000 Italians left Istria and Dalmatia for Italy. Published ranges run higher, toward 350,000."
+        }
+      ],
+      "borders": [
+        {
+          "kind": "transfer",
+          "detail": "The German provinces east of the Oder–Neisse line pass to Poland. The dashed line is the 1937 German border, from the Baltic end of the corridor to Upper Silesia. The solid line is the Oder–Neisse line.",
+          "old": {
+            "label": "1937 border",
+            "at": [16.55, 51.95],
+            "coordinates": [[18.08, 54.83], [17.7, 54.35], [17.4, 53.75], [17.5, 53.2], [16.85, 52.65], [15.95, 52.25], [16.4, 51.75], [17.3, 51.15], [18.15, 50.65], [18.85, 50.27], [18.33, 49.92]]
+          },
+          "new": {
+            "label": "Oder–Neisse",
+            "at": [13.7, 53.35],
+            "coordinates": [[14.23, 53.92], [14.26, 53.73], [14.41, 53.28], [14.37, 53.11], [14.14, 52.93], [14.13, 52.88], [14.51, 52.65], [14.62, 52.53], [14.55, 52.36], [14.68, 52.25], [14.7, 52.11], [14.75, 52.08], [14.6, 51.83], [14.72, 51.66], [14.72, 51.52], [14.91, 51.46], [15.02, 51.25], [14.8, 50.84], [14.7, 50.82]]
+          }
+        },
+        {
+          "kind": "transfer",
+          "detail": "East Prussia is divided. The north, including Königsberg, goes to the Soviet Union. The south goes to Poland. The dashed line is the 1937 southern border of the province.",
+          "old": {
+            "label": "German border",
+            "at": [20.3, 53.05],
+            "coordinates": [[19.3, 54.4], [19.15, 53.95], [19.55, 53.5], [20.15, 53.2], [20.55, 53.35], [21.6, 53.5], [22.4, 53.85], [22.9, 54.25]]
+          },
+          "new": {
+            "label": "1945 division",
+            "at": [20.9, 54.58],
+            "coordinates": [[19.53, 54.43], [20.55, 54.4], [21.7, 54.34], [22.84, 54.39]]
+          }
+        },
+        {
+          "kind": "transfer",
+          "detail": "Poland’s eastern lands pass to the Soviet Union. The dashed line is the 1921 border, from the Daugava to the Zbruch. The solid line is the 1945 border.",
+          "old": {
+            "label": "1921 border",
+            "at": [28.15, 53.15],
+            "coordinates": [[27.45, 55.78], [27.7, 55.2], [27.2, 54.15], [26.95, 53.55], [26.9, 52.9], [27.4, 52.15], [27.2, 51.3], [27.3, 50.6], [26.4, 49.7], [26.44, 48.54]]
+          },
+          "new": {
+            "label": "Curzon line",
+            "at": [22.5, 51.35],
+            "coordinates": [[23.48, 54.06], [23.6, 53.6], [23.86, 53.11], [23.92, 52.77], [23.84, 52.66], [23.41, 52.52], [23.18, 52.29], [23.65, 52.04], [23.63, 51.81], [23.54, 51.71], [23.61, 51.52], [23.66, 51.31], [24.1, 50.87], [23.98, 50.79], [24.09, 50.53], [23.97, 50.41], [23.71, 50.38], [23.41, 50.17], [22.65, 49.54], [22.73, 49.3], [22.71, 49.17], [22.84, 49.04], [22.42, 49.1]]
+          }
+        },
+        {
+          "kind": "transfer",
+          "detail": "Finland cedes the Karelian Isthmus and Ladoga Karelia. The dashed line is the 1939 border. The solid line is the 1944 border.",
+          "old": {
+            "label": "1939 border",
+            "at": [32.15, 61.35],
+            "coordinates": [[29.98, 60.17], [30.45, 60.32], [31.15, 60.5], [31.5, 60.62], [32.15, 61.55], [32.55, 62.05], [31.8, 62.35], [31.19, 62.48]]
+          },
+          "new": {
+            "label": "1944 border",
+            "at": [28.55, 61.15],
+            "coordinates": [[27.72, 60.52], [27.8, 60.54], [28.41, 60.9], [29.25, 61.29], [29.69, 61.55], [30.57, 62.13], [31.19, 62.48]]
+          }
+        },
+        {
+          "kind": "transfer",
+          "detail": "Istria passes from Italy to Yugoslavia. Trieste stays with Italy, west of the new line.",
+          "old": {
+            "label": "Italian border",
+            "at": [14.55, 45.7],
+            "coordinates": [[13.72, 46.45], [14.05, 46.05], [14.3, 45.7], [14.45, 45.35]]
+          },
+          "new": {
+            "label": "1947 line",
+            "at": [13.25, 45.95],
+            "coordinates": [[13.7, 45.53], [13.85, 45.62], [13.72, 45.78], [13.58, 45.98], [13.5, 46.15], [13.63, 46.22], [13.4, 46.32], [13.7, 46.5], [13.56, 46.54]]
+          }
+        }
+      ],
+      "notes": [],
+      "source": "Totals: about 12 million German expellees and refugees; about 1.5 million Poles resettled from the east; about 420,000 Finns; about 250,000 Italians from Istria and Dalmatia."
+    },
+    {
+      "id": "inner-german",
+      "years": "1949–1961",
+      "title": "Before the Wall",
+      "deck": "The occupation line becomes a state border. About 2.7 million people cross it from east to west before it closes in August 1961.",
+      "bounds": [[5.2, 47.0], [16.8, 54.8]],
+      "maxZoom": 5.6,
+      "places": [],
+      "moves": [
+        {
+          "from": [13.74, 51.05],
+          "to": [8.68, 50.11],
+          "people": 2700000,
+          "bend": 1.1,
+          "text": "About 2.7 million people left the German Democratic Republic for the Federal Republic between 1949 and the closing of the border in August 1961."
+        }
+      ],
+      "borders": [
+        {
+          "kind": "transfer",
+          "detail": "Germany had no internal border here in 1937. The occupation line becomes the border between the two German states.",
+          "new": {
+            "label": "New border, 1949",
+            "at": [11.15, 52.3],
+            "coordinates": [
+              [10.99, 53.96], [10.9, 53.85], [10.78, 53.55], [10.56, 53.37],
+              [11.1, 53.22], [11.57, 53.04], [11.35, 52.85], [11.05, 52.55],
+              [10.98, 52.43], [11.01, 52.23], [10.85, 51.95], [10.55, 51.75],
+              [10.25, 51.5], [10.15, 51.15], [10.45, 50.85], [10.7, 50.55],
+              [11.15, 50.45], [11.7, 50.4], [12.1, 50.32]
+            ]
+          }
+        }
+      ],
+      "notes": [],
+      "source": "East-to-west movement, 1949 to August 1961: the usual published total of about 2.7 million."
+    },
+    {
+      "id": "budapest",
+      "years": "1956",
+      "title": "Budapest",
+      "deck": "The uprising is crushed. About 200,000 people leave, most of them first through Austria. The border stays.",
+      "bounds": [[14.5, 45.8], [21.5, 49.2]],
+      "maxZoom": 5.8,
+      "highlight": ["HUN"],
+      "places": [],
+      "moves": [
+        {
+          "from": [19.04, 47.5],
+          "to": [16.37, 48.21],
+          "people": 200000,
+          "bend": 0.45,
+          "text": "About 200,000 Hungarians left after the Soviet intervention. Austria was the first country of refuge."
+        }
+      ],
+      "borders": [],
+      "notes": [
+        "The border stays. The interaction in this frame is flight across a line that does not move."
+      ],
+      "source": "Hungarian refugees, 1956: about 200,000, the historical figure used by UNHCR."
+    },
+    {
+      "id": "cyprus",
+      "years": "1974",
+      "title": "Cyprus",
+      "deck": "A line divides the island. About 200,000 people move across it. The division is still in place.",
+      "bounds": [[32.05, 34.4], [34.25, 35.4]],
+      "maxZoom": 7.6,
+      "highlight": ["CYP"],
+      "places": [],
+      "moves": [
+        {
+          "from": [33.3, 35.25],
+          "to": [33.05, 34.92],
+          "people": 160000,
+          "bend": 0.18,
+          "text": "About 160,000 Greek Cypriots moved south of the line."
+        },
+        {
+          "from": [33.0, 34.92],
+          "to": [33.45, 35.25],
+          "people": 45000,
+          "bend": -0.22,
+          "text": "About 45,000 Turkish Cypriots moved north of the line."
+        }
+      ],
+      "borders": [
+        {
+          "kind": "defacto",
+          "detail": "Turkish forces have held the north since 1974. The island had no dividing line before that year. A government in the north is recognized by Turkey.",
+          "new": {
+            "label": "1974 line",
+            "at": [33.72, 35.02],
+            "coordinates": [[32.7, 35.19], [32.95, 35.12], [33.2, 35.1], [33.36, 35.175], [33.55, 35.15], [33.75, 35.1], [33.96, 35.05]]
+          }
+        }
+      ],
+      "notes": [],
+      "source": "Displacement, 1974: the usual orders of magnitude, about 160,000 Greek Cypriots and about 45,000 Turkish Cypriots."
+    },
+    {
+      "id": "yugoslavia",
+      "years": "1991–1999",
+      "title": "Yugoslavia",
+      "deck": "Republican borders become state borders. The war in Bosnia scatters about 2.2 million people. Kosovo empties in the spring of 1999, and most of those people return.",
+      "bounds": [[14.6, 40.4], [23.4, 49.3]],
+      "maxZoom": 5.6,
+      "highlight": ["BIH", "HRV"],
+      "places": [
+        {
+          "kind": "theater",
+          "label": "Kosovo",
+          "at": [20.9, 42.6],
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [[
+              [20.08, 42.72], [20.75, 43.22], [21.2, 43.22], [21.68, 42.8],
+              [21.5, 42.22], [20.55, 42.18], [20.15, 42.45], [20.08, 42.72]
+            ]]
+          }
+        }
+      ],
+      "moves": [
+        {
+          "from": [18.41, 43.86],
+          "to": [16.37, 48.21],
+          "people": 2200000,
+          "bend": -1.6,
+          "text": "About 2.2 million people were displaced by the war in Bosnia and Herzegovina, inside the country and across Europe. Vienna stands for that dispersal."
+        },
+        {
+          "from": [21.16, 42.66],
+          "to": [19.82, 41.33],
+          "people": 800000,
+          "bend": 0.5,
+          "text": "In the spring of 1999 more than 800,000 people fled Kosovo, most of them to Albania and North Macedonia. Most returned the same year. The arrow ends in Tirana."
+        }
+      ],
+      "borders": [],
+      "notes": [
+        "Slovenia, Croatia, Bosnia and Herzegovina, and North Macedonia take the old republican borders as state borders. Montenegro leaves the state union in 2006. Kosovo’s status remains disputed."
+      ],
+      "source": "Bosnia: about 2.2 million people displaced, the figure used by UNHCR. Kosovo: UNHCR’s count of more than 800,000 refugees in the spring of 1999."
+    },
+    {
+      "id": "ukraine",
+      "years": "2014–2026",
+      "title": "Ukraine",
+      "deck": "Crimea has been administered by Russia since 2014. The full-scale invasion produces the largest European flight since the 1940s. What is claimed, and what is held, is measured on the Day 12 map.",
+      "bounds": [[12.0, 43.5], [40.5, 55.5]],
+      "maxZoom": 4.8,
+      "highlight": ["UKR"],
+      "link": {
+        "href": "day-12.html",
+        "label": "Year 5: the claim and the hold"
+      },
+      "places": [],
+      "moves": [
+        {
+          "from": [24.03, 49.84],
+          "to": [13.4, 52.52],
+          "people": 5200000,
+          "bend": 1.8,
+          "text": "By mid-2026, UNHCR recorded 5.7 million refugees from Ukraine worldwide, about 5.2 million of them in Europe. Berlin stands for that European total. Germany is the largest host country."
+        },
+        {
+          "from": [37.54, 47.1],
+          "to": [24.03, 49.84],
+          "people": 3700000,
+          "bend": -1.2,
+          "text": "IOM counted 3.7 million people internally displaced inside Ukraine at the end of 2025. The arrow runs from Mariupol toward Lviv."
+        }
+      ],
+      "borders": [
+        {
+          "kind": "defacto",
+          "detail": "Russia has administered Crimea since 2014. The line across the neck of the peninsula was an internal boundary. Ukraine and most other states treat the annexation as illegal.",
+          "old": {
+            "label": "Internal line",
+            "at": [33.85, 46.28],
+            "coordinates": [[33.48, 46.16], [33.68, 46.12], [34.05, 46.1], [34.42, 46.02]]
+          },
+          "new": {
+            "label": "Since 2014",
+            "at": [34.15, 45.88],
+            "coordinates": [[33.48, 46.1], [33.68, 46.06], [34.05, 46.04], [34.42, 45.96]]
+          }
+        }
+      ],
+      "notes": [
+        "The four claimed oblasts are the subject of Day 12: the claim, the hold on the first day of Year 5, and the ground that changed hands through 12 November 2026."
+      ],
+      "source": "UNHCR, Europe briefing to the 77th Executive Committee, October 2026: 5.7 million refugees from Ukraine worldwide by mid-2026, about 5.2 million of them in Europe. IOM, end of 2025: 3.7 million internally displaced, as cited in UNHCR’s Europe situation note."
+    }
+  ]
+}
