@@ -22,7 +22,7 @@ The page is `2026/day-13.html`. The gallery embeds it.
 
 ## What the frames do
 
-Day 12 measured one war: the claim, the hold, and the ground that changed hands in Year 5. This map sets that war in a longer sequence. Each frame is an interaction of three things: where the fighting was, who was forced to move, and which border moved.
+Day 12 measured one war: the claim, the hold, and the ground that changed hands in Year 5. This map sets that war in a longer sequence. Each frame is an interaction of three things: where the fighting was, who was forced to move, and which border moved. The frame is cropped to that conflict, and the conflict’s name and years sit on the map.
 
 The basemap is a present-day reference: dark land, water, cities, roads, and boundaries, from Portugal and Ireland to western Russia, Anatolia, and Cyprus. It includes states that did not exist in 1900. Esri draws Crimea with Russia. The line on the 2014 frame is this page’s mark for administration since 2014, and the claim against the hold stays on the Day 12 map.
 

@@ -7,6 +7,9 @@
   const detailEl = document.getElementById("ix-detail");
   const yearsEl = document.getElementById("ix-years");
   const nameEl = document.getElementById("ix-name");
+  const mapYearsEl = document.getElementById("ix-map-years");
+  const mapNameEl = document.getElementById("ix-map-name");
+  const mapTitleEl = document.getElementById("ix-map-title");
   const creditEl = document.getElementById("ix-credit");
   const titleEl = document.getElementById("ix-title");
   const day12El = document.getElementById("ix-day12");
@@ -230,16 +233,19 @@
 
     clearLabels();
     scene.segments.forEach(function (segment) {
-      addLabel(segment.at, segment.label, "ix-label", markers);
+      addLabel(segment.at, segment.label, "ix-label", markers, segment.anchor || "center");
     });
     paint(performance.now());
     kick();
 
     yearsEl.textContent = episode.years;
     nameEl.textContent = episode.title;
+    mapYearsEl.textContent = episode.years;
+    mapNameEl.textContent = episode.title;
+    mapTitleEl.classList.toggle("ix-map-title--low", episode.titleCorner === "low");
     deckEl.textContent = episode.deck;
     if (embed) {
-      titleEl.textContent = episode.title;
+      titleEl.textContent = "What the wars moved";
     }
     fillDetail(episode);
     slider.value = String(index);
@@ -273,6 +279,7 @@
           coords: border.old.coordinates,
           label: border.old.label,
           at: border.old.at,
+          anchor: border.old.anchor,
         });
       }
       if (border.new && border.new.coordinates) {
@@ -282,6 +289,7 @@
           coords: border.new.coordinates,
           label: border.new.label,
           at: border.new.at,
+          anchor: border.new.anchor,
         });
       }
     });
@@ -527,8 +535,8 @@
       creditEl.appendChild(notes);
       creditEl.appendChild(document.createTextNode(". Transfers and arrows are simplified."));
       show(0, false);
-      if (embed && !reduceMotion) {
-        setPlaying(parentVisible);
+      if (!reduceMotion) {
+        setPlaying(!embed || parentVisible);
       }
     }).catch(function () {
       deckEl.textContent = "The frames did not load.";

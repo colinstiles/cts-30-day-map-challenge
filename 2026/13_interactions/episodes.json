@@ -6,8 +6,8 @@
       "years": "1912–1913",
       "title": "The Balkan Wars",
       "deck": "The Ottoman Empire’s remaining European lands are divided by the Balkan states, and hundreds of thousands of Muslims leave for Anatolia.",
-      "bounds": [[19.0, 38.5], [31.5, 44.5]],
-      "maxZoom": 5.4,
+      "bounds": [[20.2, 39.0], [30.8, 43.4]],
+      "maxZoom": 6.5,
       "places": [
         {
           "kind": "theater",
@@ -40,10 +40,10 @@
     {
       "id": "great-war",
       "years": "1914–1918",
-      "title": "The continental war",
+      "title": "The First World War",
       "deck": "About 1.5 million Belgians flee to the Netherlands, France, and Britain. Most later return. The borders of 1914 are still in place at the armistice.",
-      "bounds": [[-8.5, 43.0], [40.0, 61.0]],
-      "maxZoom": 4.2,
+      "bounds": [[-2.2, 49.4], [7.2, 53.0]],
+      "maxZoom": 6.4,
       "places": [
         {
           "kind": "front",
@@ -89,10 +89,10 @@
     {
       "id": "settlement",
       "years": "1918–1923",
-      "title": "The settlement",
+      "title": "Alsace and Lausanne",
       "deck": "Alsace-Lorraine returns to France. At Lausanne the border is fixed and a population exchange is made compulsory.",
-      "bounds": [[0.5, 35.2], [36.5, 51.5]],
-      "maxZoom": 4.4,
+      "bounds": [[4.8, 36.8], [31.5, 50.2]],
+      "maxZoom": 5.2,
       "places": [],
       "moves": [
         {
@@ -116,12 +116,12 @@
           "detail": "Alsace-Lorraine returns to France in 1919. The 1871 border, west of the territory, gives way to the 1919 border. From Lauterbourg south, that border is the Rhine.",
           "old": {
             "label": "1871 border",
-            "at": [6.35, 48.55],
+            "at": [5.15, 48.95],
             "coordinates": [[6.08, 49.47], [5.98, 49.2], [6.2, 48.95], [6.6, 48.72], [7.05, 48.45], [7.12, 48.1], [7.08, 47.72], [7.32, 47.5]]
           },
           "new": {
             "label": "1919 border",
-            "at": [8.45, 48.45],
+            "at": [10.15, 48.7],
             "coordinates": [[6.23, 49.5], [6.53, 49.39], [6.74, 49.16], [6.89, 49.21], [7.0, 49.18], [7.04, 49.11], [7.45, 49.15], [7.61, 49.06], [8.13, 48.97], [8.14, 48.89], [7.84, 48.64], [7.62, 48.16], [7.53, 47.67], [7.62, 47.59]]
           }
         }
@@ -136,8 +136,8 @@
       "years": "1939",
       "title": "La Retirada",
       "deck": "The Spanish Civil War ends. Nearly 500,000 people cross into France. The frontier stays.",
-      "bounds": [[-10.0, 35.5], [8.0, 46.5]],
-      "maxZoom": 5.2,
+      "bounds": [[-1.2, 40.6], [5.2, 44.6]],
+      "maxZoom": 6.6,
       "highlight": ["ESP"],
       "places": [],
       "moves": [
@@ -158,10 +158,10 @@
     {
       "id": "second-war",
       "years": "1939–1945",
-      "title": "The second continental war",
+      "title": "The Second World War",
       "deck": "The fighting runs from the Atlantic coast to the Volga. Deportation and genocide stay off the flight layer. The next frame is the flight, the expulsion, and the new lines.",
-      "bounds": [[-5.0, 42.0], [46.0, 62.0]],
-      "maxZoom": 3.8,
+      "bounds": [[-4.5, 43.5], [42.0, 60.5]],
+      "maxZoom": 4.8,
       "places": [
         {
           "kind": "theater",
@@ -199,10 +199,11 @@
     {
       "id": "postwar",
       "years": "1944–1950",
-      "title": "Flight, expulsion, and the new line",
+      "title": "The postwar expulsions",
+      "titleCorner": "low",
       "deck": "Poland moves west. Finland cedes Karelia. Italy cedes Istria. The largest forced movement in the sequence leaves with the German population of the east.",
-      "bounds": [[6.0, 42.0], [36.0, 65.0]],
-      "maxZoom": 4.0,
+      "bounds": [[7.5, 43.6], [33.5, 63.2]],
+      "maxZoom": 5.0,
       "places": [],
       "moves": [
         {
@@ -240,12 +241,12 @@
           "detail": "The German provinces east of the Oder–Neisse line pass to Poland. The dashed line is the 1937 German border, from the Baltic end of the corridor to Upper Silesia. The solid line is the Oder–Neisse line.",
           "old": {
             "label": "1937 border",
-            "at": [16.55, 51.95],
+            "at": [19.5, 51.55],
             "coordinates": [[18.08, 54.83], [17.7, 54.35], [17.4, 53.75], [17.5, 53.2], [16.85, 52.65], [15.95, 52.25], [16.4, 51.75], [17.3, 51.15], [18.15, 50.65], [18.85, 50.27], [18.33, 49.92]]
           },
           "new": {
             "label": "Oder–Neisse",
-            "at": [13.7, 53.35],
+            "at": [12.85, 53.55],
             "coordinates": [[14.23, 53.92], [14.26, 53.73], [14.41, 53.28], [14.37, 53.11], [14.14, 52.93], [14.13, 52.88], [14.51, 52.65], [14.62, 52.53], [14.55, 52.36], [14.68, 52.25], [14.7, 52.11], [14.75, 52.08], [14.6, 51.83], [14.72, 51.66], [14.72, 51.52], [14.91, 51.46], [15.02, 51.25], [14.8, 50.84], [14.7, 50.82]]
           }
         },
@@ -254,12 +255,12 @@
           "detail": "East Prussia is divided. The north, including Königsberg, goes to the Soviet Union. The south goes to Poland. The dashed line is the 1937 southern border of the province.",
           "old": {
             "label": "German border",
-            "at": [20.3, 53.05],
+            "at": [18.15, 53.85],
             "coordinates": [[19.3, 54.4], [19.15, 53.95], [19.55, 53.5], [20.15, 53.2], [20.55, 53.35], [21.6, 53.5], [22.4, 53.85], [22.9, 54.25]]
           },
           "new": {
             "label": "1945 division",
-            "at": [20.9, 54.58],
+            "at": [21.6, 55.15],
             "coordinates": [[19.53, 54.43], [20.55, 54.4], [21.7, 54.34], [22.84, 54.39]]
           }
         },
@@ -268,12 +269,12 @@
           "detail": "Poland’s eastern lands pass to the Soviet Union. The dashed line is the 1921 border, from the Daugava to the Zbruch. The solid line is the 1945 border.",
           "old": {
             "label": "1921 border",
-            "at": [28.15, 53.15],
+            "at": [29.5, 54.35],
             "coordinates": [[27.45, 55.78], [27.7, 55.2], [27.2, 54.15], [26.95, 53.55], [26.9, 52.9], [27.4, 52.15], [27.2, 51.3], [27.3, 50.6], [26.4, 49.7], [26.44, 48.54]]
           },
           "new": {
             "label": "Curzon line",
-            "at": [22.5, 51.35],
+            "at": [21.15, 50.35],
             "coordinates": [[23.48, 54.06], [23.6, 53.6], [23.86, 53.11], [23.92, 52.77], [23.84, 52.66], [23.41, 52.52], [23.18, 52.29], [23.65, 52.04], [23.63, 51.81], [23.54, 51.71], [23.61, 51.52], [23.66, 51.31], [24.1, 50.87], [23.98, 50.79], [24.09, 50.53], [23.97, 50.41], [23.71, 50.38], [23.41, 50.17], [22.65, 49.54], [22.73, 49.3], [22.71, 49.17], [22.84, 49.04], [22.42, 49.1]]
           }
         },
@@ -282,12 +283,12 @@
           "detail": "Finland cedes the Karelian Isthmus and Ladoga Karelia. The dashed line is the 1939 border. The solid line is the 1944 border.",
           "old": {
             "label": "1939 border",
-            "at": [32.15, 61.35],
+            "at": [32.7, 60.55],
             "coordinates": [[29.98, 60.17], [30.45, 60.32], [31.15, 60.5], [31.5, 60.62], [32.15, 61.55], [32.55, 62.05], [31.8, 62.35], [31.19, 62.48]]
           },
           "new": {
             "label": "1944 border",
-            "at": [28.55, 61.15],
+            "at": [25.7, 62.35],
             "coordinates": [[27.72, 60.52], [27.8, 60.54], [28.41, 60.9], [29.25, 61.29], [29.69, 61.55], [30.57, 62.13], [31.19, 62.48]]
           }
         },
@@ -296,12 +297,12 @@
           "detail": "Istria passes from Italy to Yugoslavia. Trieste stays with Italy, west of the new line.",
           "old": {
             "label": "Italian border",
-            "at": [14.55, 45.7],
+            "at": [15.15, 45.15],
             "coordinates": [[13.72, 46.45], [14.05, 46.05], [14.3, 45.7], [14.45, 45.35]]
           },
           "new": {
             "label": "1947 line",
-            "at": [13.25, 45.95],
+            "at": [12.55, 45.85],
             "coordinates": [[13.7, 45.53], [13.85, 45.62], [13.72, 45.78], [13.58, 45.98], [13.5, 46.15], [13.63, 46.22], [13.4, 46.32], [13.7, 46.5], [13.56, 46.54]]
           }
         }
@@ -312,10 +313,10 @@
     {
       "id": "inner-german",
       "years": "1949–1961",
-      "title": "Before the Wall",
+      "title": "The inner German border",
       "deck": "The occupation line becomes a state border. About 2.7 million people cross it from east to west before it closes in August 1961.",
-      "bounds": [[5.2, 47.0], [16.8, 54.8]],
-      "maxZoom": 5.6,
+      "bounds": [[7.8, 49.4], [14.8, 54.5]],
+      "maxZoom": 6.2,
       "places": [],
       "moves": [
         {
@@ -332,7 +333,7 @@
           "detail": "Germany had no internal border here in 1937. The occupation line becomes the border between the two German states.",
           "new": {
             "label": "New border, 1949",
-            "at": [11.15, 52.3],
+            "at": [9.15, 53.35],
             "coordinates": [
               [10.99, 53.96], [10.9, 53.85], [10.78, 53.55], [10.56, 53.37],
               [11.1, 53.22], [11.57, 53.04], [11.35, 52.85], [11.05, 52.55],
@@ -349,10 +350,10 @@
     {
       "id": "budapest",
       "years": "1956",
-      "title": "Budapest",
+      "title": "The Hungarian uprising",
       "deck": "The uprising is crushed. About 200,000 people leave, most of them first through Austria. The border stays.",
-      "bounds": [[14.5, 45.8], [21.5, 49.2]],
-      "maxZoom": 5.8,
+      "bounds": [[15.4, 46.5], [20.4, 48.9]],
+      "maxZoom": 6.6,
       "highlight": ["HUN"],
       "places": [],
       "moves": [
@@ -373,10 +374,10 @@
     {
       "id": "cyprus",
       "years": "1974",
-      "title": "Cyprus",
+      "title": "The division of Cyprus",
       "deck": "A line divides the island. About 200,000 people move across it. The division is still in place.",
-      "bounds": [[32.05, 34.4], [34.25, 35.4]],
-      "maxZoom": 7.6,
+      "bounds": [[32.15, 34.45], [34.7, 35.75]],
+      "maxZoom": 8.6,
       "highlight": ["CYP"],
       "places": [],
       "moves": [
@@ -401,7 +402,7 @@
           "detail": "Turkish forces have held the north since 1974. The island had no dividing line before that year. A government in the north is recognized by Turkey.",
           "new": {
             "label": "1974 line",
-            "at": [33.72, 35.02],
+            "at": [33.45, 34.58],
             "coordinates": [[32.7, 35.19], [32.95, 35.12], [33.2, 35.1], [33.36, 35.175], [33.55, 35.15], [33.75, 35.1], [33.96, 35.05]]
           }
         }
@@ -412,10 +413,10 @@
     {
       "id": "yugoslavia",
       "years": "1991–1999",
-      "title": "Yugoslavia",
+      "title": "The Yugoslav wars",
       "deck": "Republican borders become state borders. The war in Bosnia scatters about 2.2 million people. Kosovo empties in the spring of 1999, and most of those people return.",
-      "bounds": [[14.6, 40.4], [23.4, 49.3]],
-      "maxZoom": 5.6,
+      "bounds": [[15.4, 40.5], [22.4, 49.0]],
+      "maxZoom": 6.0,
       "highlight": ["BIH", "HRV"],
       "places": [
         {
@@ -456,10 +457,10 @@
     {
       "id": "ukraine",
       "years": "2014–2026",
-      "title": "Ukraine",
+      "title": "The war in Ukraine",
       "deck": "Crimea has been administered by Russia since 2014. The full-scale invasion produces the largest European flight since the 1940s. What is claimed, and what is held, is measured on the Day 12 map.",
-      "bounds": [[12.0, 43.5], [40.5, 55.5]],
-      "maxZoom": 4.8,
+      "bounds": [[12.2, 44.4], [39.0, 54.0]],
+      "maxZoom": 5.4,
       "highlight": ["UKR"],
       "link": {
         "href": "day-12.html",
@@ -488,12 +489,12 @@
           "detail": "Russia has administered Crimea since 2014. The line across the neck of the peninsula was an internal boundary. Ukraine and most other states treat the annexation as illegal.",
           "old": {
             "label": "Internal line",
-            "at": [33.85, 46.28],
+            "at": [32.55, 46.7],
             "coordinates": [[33.48, 46.16], [33.68, 46.12], [34.05, 46.1], [34.42, 46.02]]
           },
           "new": {
             "label": "Since 2014",
-            "at": [34.15, 45.88],
+            "at": [35.55, 45.35],
             "coordinates": [[33.48, 46.1], [33.68, 46.06], [34.05, 46.04], [34.42, 45.96]]
           }
         }
