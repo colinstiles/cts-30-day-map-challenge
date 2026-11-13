@@ -245,7 +245,7 @@
     mapTitleEl.classList.toggle("ix-map-title--low", episode.titleCorner === "low");
     deckEl.textContent = episode.deck;
     if (embed) {
-      titleEl.textContent = "What the wars moved";
+      titleEl.textContent = episode.title;
     }
     fillDetail(episode);
     slider.value = String(index);
