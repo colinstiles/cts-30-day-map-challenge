@@ -12,6 +12,6 @@
   "parkMaxM": 574.6,
   "inversion": "highest + lowest - elevation, using samples inside the park",
   "exaggeration": 6.0,
-  "renderer": "matplotlib+forge3d",
+  "renderer": "matplotlib",
   "padM": 450.0
 }

@@ -224,10 +224,9 @@ def try_forge(z: np.ndarray, cell_m: float, exag: float, samples: int) -> Path |
             ),
             camera=f3d.OrbitCamera(
                 target=(0.0, 0.0, float(np.nanmean(z))),
-                # Far enough to hold the whole grid. The first pass, at
-                # 1.25 times the long side, sat inside the relief.
-                distance=diagonal * 3.2,
+                distance=diagonal * 2.4,
                 azimuth_deg=210.0,
+                # Polar angle from overhead. 42° is a high oblique.
                 elevation_deg=42.0,
                 fov_deg=38.0,
             ),
@@ -237,6 +236,9 @@ def try_forge(z: np.ndarray, cell_m: float, exag: float, samples: int) -> Path |
                 settings={
                     "exaggeration": exag,
                     "sun": {"azimuth_deg": 315.0, "elevation_deg": 28.0},
+                    # "screen" fills the frame and ignores the orbit distance.
+                    # mesh:zup is the orbit camera: theta 0 is overhead.
+                    "camera": {"camera_mode": "mesh:zup"},
                 },
             ),
             output=f3d.OutputSpec(
