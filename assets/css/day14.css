@@ -317,16 +317,9 @@
 .d14-embed .d14-cal,
 .d14-embed .d14-note,
 .d14-embed .d14-tag,
-.d14-embed .d14-leaf-card {
-  display: none;
-}
-
+.d14-embed .d14-leaf-card,
 .d14-embed .d14-collar {
-  top: 36px;
-  bottom: auto;
-  left: 8px;
-  padding: 6px 8px 7px;
-  box-shadow: none;
+  display: none;
 }
 
 @media (max-width: 640px) {

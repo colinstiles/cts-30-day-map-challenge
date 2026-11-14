@@ -107,16 +107,26 @@
   }
 
   function layoutSheet() {
+    var stageW = stage.clientWidth;
+    var stageH = stage.clientHeight;
     var displayWidth = groundWidthM * pxPerCm() * 100;
     var displayHeight = displayWidth * (photo.naturalHeight / photo.naturalWidth);
+    if (embed && stageW > 0 && stageH > 0 && photo.naturalWidth) {
+      var ratio = photo.naturalWidth / photo.naturalHeight;
+      if (stageW / stageH > ratio) {
+        displayHeight = stageH;
+        displayWidth = displayHeight * ratio;
+      } else {
+        displayWidth = stageW;
+        displayHeight = displayWidth / ratio;
+      }
+    }
     sheet.style.width = displayWidth + "px";
     sheet.style.height = displayHeight + "px";
     barLine.style.width = (barCentimeters() * pxPerCm()) + "px";
     barLabel.textContent = barCentimeters() + " cm · 1:1";
     widthTag.textContent = formatLength(concreteWidthM());
 
-    var stageW = stage.clientWidth;
-    var stageH = stage.clientHeight;
     origin.x = stageW / 2 - anchor.u * displayWidth;
     origin.y = stageH / 2 - anchor.v * displayHeight;
     clamp(displayWidth, displayHeight, stageW, stageH);
