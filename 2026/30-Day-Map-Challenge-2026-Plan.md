@@ -36,8 +36,8 @@
 | 11 | Nov 11 | Senses: Sound | Where the guns were heard: Civil War artillery over Chattanooga | Moderate |
 | 12 | Nov 12 | Power | Year 5 of the Russia-Ukraine war: the claim and the hold | High |
 | 13 | Nov 13 | Interactions | What the wars moved: conflict, flight, and the new line | High |
-| 14 | Nov 14 | Borgesian map | Map of a single tree | Low |
-| 15 | Nov 15 | Inside out | North Chickamauga Creek Gorge: inverted terrain + inverted forest/developed figure-ground | Moderate |
+| 14 | Nov 14 | Borgesian map | One oak leaf, at the size of the leaf | Low |
+| 15 | Nov 15 | Inside out | North Chickamauga Creek Gorge State Park, elevation turned over | Moderate |
 | 16 | Nov 16 | Collaborative map | Declassified CIA map of Konar Valley, Afghanistan | Moderate |
 | 17 | Nov 17 | Light & dark | Sri Chinmoy Self-Transcendence Race | Moderate |
 | 18 | Nov 18 | NULL | 1994 Marathon des Sables, Mauro Prosperi gets blown 291km off course | Moderate |
@@ -315,7 +315,7 @@ Working notes: `2026/11_sound/NOTES.md`. Script: `scripts/build_day11_sound.py`.
 
 ## Day 12 — Power
 **Date:** November 12  
-**Concept:** Year 5: the claim and the hold  
+**Concept:** Year 5 of the struggle for Ukraine  
 **Tools:** Python (`geopandas`, `matplotlib`), Leaflet
 
 Year 5 of the full-scale war runs from 24 February 2026 through 23 February 2027. The map covers the part of that year already elapsed, through 12 November 2026.
@@ -345,7 +345,7 @@ Working notes: `2026/12_power/NOTES.md`. Script: `scripts/build_day12_power.py`.
 
 ## Day 13 — Interactions
 **Date:** November 13  
-**Concept:** What the wars moved  
+**Concept:** Movement of humans and borders from European conflicts  
 **Tools:** MapLibre
 
 Day 12 measured one war’s claim against what was held. Day 13 places that war in a longer European sequence, from the Balkan Wars of 1912 to the invasion of Ukraine. Each frame is an interaction: where the fighting was, who was forced to move, and which border moved.
@@ -369,18 +369,13 @@ Working notes: `2026/13_interactions/NOTES.md`. Basemap: `scripts/build_day13_ba
 
 ## Day 14 — Borgesian Map
 **Date:** November 14  
-**Concept:** **The Map of a Single Tree**
+**Concept:** **One oak leaf, at the size of the leaf**
 
-### Map ideas
-1. An extremely detailed "map" of one individual tree — branches, canopy extent, root zone — as if it were a landscape.
-2. Treat the tree's structure (trunk, limbs, canopy) with map conventions: contours, labels, scale.
-3. A conceptual piece where tree anatomy is rendered using cartographic symbology (elevation = height, "watersheds" = branch structure).
+A geotagged photograph of an oak leaf on a sidewalk (`2026/14_borgesian/borgesian-leaf.jpg`), shown at 1:1 in `2026/day-14.html`. The photograph is the map. There is no other scale: dragging pans across the slab, one centimeter of concrete to one centimeter on the screen.
 
-### Recommended direction
-Pick one real or representative tree and go absurdly deep — treat its canopy and branch structure the way you would treat terrain, applying genuine cartographic techniques (contour-like lines, hierarchy, labeling) to a non-geographic subject.
+The subject leaf is the one on the measured line between the 30 cm and 40 cm ticks. A point there opens a popup with *Quercus alba* and links to the Tennessee White Oak Initiative and the FEIS review. `scripts/build_day14_static_map.py` writes the gallery sheet.
 
-### Design concept
-The point is Borges' map-as-territory idea taken literally at the smallest possible scale: a single tree treated with the full apparatus of a detailed topographic map.
+The ground width is the camera's focus distance when the JPEG records a plausible one. Otherwise the concrete between the grass edges is taken as 4 feet. A bar on the page is meant to match a ruler, because a browser's centimeter is not always a physical centimeter. The camera is oblique, so the centimeter grid holds along that measured line and drifts toward the edges of the frame. The page does not print the photograph's coordinates.
 
 **Expected effort:** **Low**
 
@@ -396,11 +391,11 @@ The point is Borges' map-as-territory idea taken literally at the smallest possi
 3. Pair the two inversions (terrain and land-cover) side by side as a diptych for the day.
 
 ### Recommended direction
-Build two inversions of the same place rather than one: an inverted terrain relief of the gorge itself, and an inverted forest-vs-developed figure/ground treatment of the surrounding land cover. Together they make "inside out" a method, not just a visual trick, and set up Day 26's right-side-up treatment of the same gorge as a quiet callback.
+One relief of the state park, turned over. USGS 3DEP elevation inside the park frame is reflected through its midpoint, so the creek bottom becomes the crest and the rims become the trough. The boundary is TDEC's March 2024 state-park polygon (TSP-0322). forge3d path-traces the relief when it is installed and a GPU is available; otherwise the same grid is drawn with matplotlib. The forest/developed figure-ground idea stays off this sheet. Day 26 can put the gorge right-side up.
 
 ### Technical opportunity
-- DEM of North Chickamauga Creek Gorge, elevation-inverted
-- Land cover classification (forest vs. developed/non-forest) rendered as an inverted figure/ground composition
+- DEM of North Chickamauga Creek Gorge State Park, elevation reflected through the frame midpoint
+- Script: `scripts/build_day15_inside_out.py`
 
 **Expected effort:** **Moderate**
 
@@ -618,7 +613,7 @@ Make this the month's signature hydrology map — a tightly focused, highly poli
 
 ## Day 27 — New Tool
 **Date:** November 27  
-**Concept:** **A 3D Model in Sketchfab**
+**Concept:** **A 3D Model in Sketchfab or forge3d (https://github.com/milos-agathon/forge3d)**
 
 ### Map ideas
 1. Build and publish a 3D terrain or landscape model in Sketchfab.
@@ -796,7 +791,7 @@ If the month becomes difficult to sustain, prioritize these maps as likely portf
 
 1. **Day 5 — Sight:** 3D animated view from the Cherokee fire tower
 2. **Day 6 — Vintage:** Historic USGS Chattanooga topo + modern hillshade (py3dep)
-3. **Day 14 — Borgesian:** The map of a single tree
+3. **Day 14 — Borgesian:** One oak leaf, at the size of the leaf
 4. **Day 17 — Light & Dark:** Tennessee bird migration, day vs. night
 5. **Day 22 — Projections:** A newly designed map projection
 6. **Day 26 — Water:** North Chickamauga Creek Gorge watershed
