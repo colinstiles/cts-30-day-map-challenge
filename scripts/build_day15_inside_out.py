@@ -224,11 +224,13 @@ def try_forge(z: np.ndarray, cell_m: float, exag: float, samples: int) -> Path |
             ),
             camera=f3d.OrbitCamera(
                 target=(0.0, 0.0, float(np.nanmean(z))),
-                distance=diagonal * 2.4,
+                # The renderer clips at 1.5 times the long side. A farther
+                # camera is outside the world and the frame is black.
+                distance=diagonal * 0.75,
                 azimuth_deg=210.0,
                 # Polar angle from overhead. 42° is a high oblique.
                 elevation_deg=42.0,
-                fov_deg=38.0,
+                fov_deg=72.0,
             ),
             lighting=f3d.LightingPreset(
                 name="default",
