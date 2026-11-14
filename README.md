@@ -27,6 +27,8 @@ The gallery is linked from [colinstiles.com](https://colinstiles.com) (see the `
 
 `index.html` is a static page served by GitHub Pages with HTTPS enforced. It has no build step.
 
+- **Share links** at the top open an X or LinkedIn share dialog, or copy the link for the year on screen.
+- **Month progress** fills by how many days of that year's November are complete, out of 30. A past November is full. A future one stays empty.
 - **Year tabs** switch between challenge years. The newest year loads by default, and `?year=2026` links to a specific one.
 - **Day cards** show the day number, theme, concept, date, and tools. Each card links to the full-size map.
 - **Interactive maps** can live as HTML pages (for example `2026/day-04.html`) and embed in a card via the `embed` field in `days-data.js`.
@@ -82,4 +84,4 @@ Dependabot checks GitHub Actions and pip dependencies monthly.
 ## Point of Contact
 
 * **Project Owner:** Colin T. Stiles | colin@colinstiles.com
-* **Last Updated:** 2026-11-13
+* **Last Updated:** 2026-11-14
