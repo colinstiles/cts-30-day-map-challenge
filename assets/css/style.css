@@ -61,6 +61,82 @@ a {
   color: var(--primary-color);
 }
 
+.challenge-tools {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 4px 0 22px;
+  max-width: 520px;
+}
+
+.share-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.share-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  background: var(--background-panel);
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  font-family: inherit;
+  font-size: var(--font-size-small);
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.share-link svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+.share-link:hover {
+  background: var(--primary-color);
+  color: var(--background-page);
+}
+
+.share-link:focus-visible {
+  outline: 2px solid var(--secondary-color);
+  outline-offset: 2px;
+}
+
+.share-link.is-copied {
+  border-color: var(--secondary-color);
+  color: var(--secondary-color);
+}
+
+.month-progress-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+  color: var(--text-color-muted);
+  font-size: var(--font-size-small);
+}
+
+.month-progress-track {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--background-panel);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.month-progress-fill {
+  height: 100%;
+  width: 0;
+  background: var(--primary-color);
+  border-radius: inherit;
+  transition: width 0.3s ease;
+}
+
 .challenge-header p {
   margin: 0 0 20px;
   color: var(--text-color-muted);

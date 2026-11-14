@@ -47,7 +47,7 @@
 
   function padding() {
     if (embed) {
-      return { top: 52, bottom: 40, left: 14, right: 14 };
+      return { top: 16, bottom: 16, left: 16, right: 16 };
     }
     if (window.innerWidth < 720) {
       return { top: 120, bottom: 168, left: 14, right: 14 };

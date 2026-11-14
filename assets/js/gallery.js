@@ -143,7 +143,7 @@
       const link = document.createElement("a");
       link.className = "day-page";
       link.href = entry.page;
-      link.textContent = "Time map";
+      link.textContent = entry.pageLabel || "Time map";
       meta.appendChild(link);
     }
     return meta;
@@ -184,9 +184,132 @@
       });
   }
 
+  function pageUrl(year) {
+    const url = new URL(window.location.href);
+    url.hash = "";
+    url.search = "";
+    url.searchParams.set("year", year);
+    return url.toString();
+  }
+
+  function shareMessage(year) {
+    return `Colin Stiles's #30DayMapChallenge ${year} — one map a day, every November.`;
+  }
+
+  function renderShare(year) {
+    const url = pageUrl(year);
+    const text = shareMessage(year);
+    const x = document.getElementById("share-x");
+    const linkedin = document.getElementById("share-linkedin");
+    const copy = document.getElementById("share-copy");
+    if (x) {
+      x.href = `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+    }
+    if (linkedin) {
+      linkedin.href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+    }
+    if (copy) {
+      copy.dataset.url = url;
+    }
+  }
+
+  // The challenge month is always November. Count the current calendar day
+  // while that November is underway, and the full 30 days once it has passed.
+  function daysCompleted(year) {
+    const yearNum = Number(year);
+    const today = new Date();
+    const todayKey = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+    const startKey = yearNum * 10000 + 1101;
+    const endKey = yearNum * 10000 + 1130;
+    if (todayKey < startKey) {
+      return 0;
+    }
+    if (todayKey > endKey) {
+      return 30;
+    }
+    return today.getDate();
+  }
+
+  function renderProgress(year) {
+    const done = daysCompleted(year);
+    const bar = document.getElementById("month-progress");
+    const fill = document.getElementById("month-progress-fill");
+    const title = document.getElementById("month-progress-title");
+    const count = document.getElementById("month-progress-count");
+    if (!bar || !fill || !title || !count) {
+      return;
+    }
+    fill.style.width = `${(done / 30) * 100}%`;
+    bar.setAttribute("aria-valuenow", String(done));
+    bar.setAttribute("aria-valuetext", `${done} of 30 days of November ${year} completed`);
+    bar.setAttribute("aria-label", `Days of November ${year} completed`);
+    title.textContent = `November ${year}`;
+    count.textContent = `${done} of 30 days`;
+  }
+
+  function resetCopyLabel() {
+    const copy = document.getElementById("share-copy");
+    const label = document.getElementById("share-copy-label");
+    window.clearTimeout(copyResetTimer);
+    if (!copy || !label) {
+      return;
+    }
+    copy.classList.remove("is-copied");
+    label.textContent = "Copy link";
+  }
+
+  let copyResetTimer = 0;
+
+  function bindCopyLink() {
+    const copy = document.getElementById("share-copy");
+    const label = document.getElementById("share-copy-label");
+    if (!copy || !label || copy.dataset.bound === "true") {
+      return;
+    }
+    copy.dataset.bound = "true";
+    copy.addEventListener("click", async () => {
+      const url = copy.dataset.url || pageUrl(initialYear());
+      let copied = false;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        try {
+          await navigator.clipboard.writeText(url);
+          copied = true;
+        } catch (error) {
+          copied = false;
+        }
+      }
+      if (!copied) {
+        const field = document.createElement("textarea");
+        field.value = url;
+        field.setAttribute("readonly", "");
+        field.style.position = "fixed";
+        field.style.left = "-9999px";
+        document.body.appendChild(field);
+        field.select();
+        try {
+          copied = document.execCommand("copy");
+        } catch (error) {
+          copied = false;
+        }
+        field.remove();
+      }
+      window.clearTimeout(copyResetTimer);
+      if (copied) {
+        copy.classList.add("is-copied");
+        label.textContent = "Copied";
+      } else {
+        label.textContent = "Copy failed";
+      }
+      copyResetTimer = window.setTimeout(resetCopyLabel, 2000);
+    });
+  }
+
   function setActiveYear(year) {
     renderYearTabs(year);
     renderYear(year);
+    renderShare(year);
+    renderProgress(year);
+    resetCopyLabel();
     document.title = `30 Day Map Challenge ${year} | Colin Stiles`;
   }
 
@@ -200,6 +323,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
+    bindCopyLink();
     setActiveYear(initialYear());
   });
 })();

@@ -290,57 +290,13 @@
   }
 }
 
-.ix-embed .ix-header {
-  top: 8px;
-  left: 8px;
-  max-width: min(240px, 70%);
-  max-height: none;
-  padding: 8px 10px;
-}
-
-.ix-embed .ix-header h1 {
-  margin: 2px 0 0;
-  font-size: 16px;
-}
-
-.ix-embed #ix-deck,
-.ix-embed #ix-detail,
+.ix-embed .ix-header,
+.ix-embed .ix-map-title,
 .ix-embed .ix-legend,
-.ix-embed .ix-credit,
-.ix-embed .ix-back,
-.ix-embed .ix-controls,
-.ix-embed .ix-day12 {
+.ix-embed .ix-dock,
+.ix-embed .maplibregl-ctrl-logo,
+.ix-embed .maplibregl-ctrl-attrib {
   display: none;
-}
-
-.ix-embed .ix-dock {
-  left: 8px;
-  right: 8px;
-  bottom: 8px;
-  padding: 6px 8px;
-}
-
-.ix-embed .ix-map-title {
-  top: 10px;
-  right: 10px;
-  padding: 6px 8px 7px;
-}
-
-.ix-embed .ix-map-title--low {
-  top: auto;
-  bottom: 52px;
-}
-
-.ix-embed .ix-map-title h2 {
-  font-size: 18px;
-}
-
-.ix-embed .ix-years {
-  font-size: 14px;
-}
-
-.ix-embed .ix-name {
-  font-size: 12px;
 }
 
 .ix-embed .ix-label {
