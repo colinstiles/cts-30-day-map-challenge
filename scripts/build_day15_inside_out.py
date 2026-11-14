@@ -224,10 +224,12 @@ def try_forge(z: np.ndarray, cell_m: float, exag: float, samples: int) -> Path |
             ),
             camera=f3d.OrbitCamera(
                 target=(0.0, 0.0, float(np.nanmean(z))),
-                distance=diagonal * 1.25,
+                # Far enough to hold the whole grid. The first pass, at
+                # 1.25 times the long side, sat inside the relief.
+                distance=diagonal * 3.2,
                 azimuth_deg=210.0,
-                elevation_deg=28.0,
-                fov_deg=32.0,
+                elevation_deg=42.0,
+                fov_deg=38.0,
             ),
             lighting=f3d.LightingPreset(
                 name="default",

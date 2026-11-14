@@ -143,9 +143,18 @@ a {
   max-width: 70ch;
 }
 
-.challenge-header a.plan-link {
+.challenge-header a.plan-link,
+.challenge-header a.code-link {
+  display: block;
+  width: max-content;
   color: var(--secondary-color);
+  font-family: var(--font-family-base);
   font-size: var(--font-size-small);
+  font-weight: 400;
+}
+
+.challenge-header a.plan-link {
+  margin-bottom: 6px;
 }
 
 .year-tabs {
