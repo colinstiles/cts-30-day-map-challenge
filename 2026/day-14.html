@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 14 — On exactitude | 30 Day Map Challenge</title>
+  <meta name="description" content="An oak leaf on a sidewalk, mapped at 1:1. The photograph is the map: one centimeter of concrete is one centimeter on the screen.">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/day14.css">
+</head>
+<body class="d14-page">
+  <script>
+    if (new URLSearchParams(location.search).has("embed")) {
+      document.body.classList.add("d14-embed");
+    }
+  </script>
+
+  <div id="d14-stage" tabindex="0" role="application" aria-label="Life-size map of a sidewalk. Drag to move across the concrete.">
+    <div id="d14-sheet">
+      <img id="d14-photo" src="14_borgesian/borgesian-leaf.jpg" alt="Oak leaf lying on a concrete sidewalk, displayed at life size" draggable="false">
+      <svg id="d14-grid" aria-hidden="true"></svg>
+      <div id="d14-leaf" class="d14-leaf-mark">
+        <button type="button" id="d14-leaf-hit" class="d14-leaf-dot" aria-expanded="false" aria-controls="d14-leaf-pop" aria-label="White oak, Quercus alba"></button>
+        <div id="d14-leaf-pop" class="d14-leaf-card" hidden>
+          <p class="d14-leaf-name">White oak</p>
+          <p class="d14-leaf-latin"><em>Quercus alba</em></p>
+          <a href="https://naturalresources.tennessee.edu/tennessee-white-oak-initiative/" target="_blank" rel="noopener noreferrer">Tennessee White Oak Initiative</a>
+          <a href="https://research.fs.usda.gov/feis/species-reviews/quealb" target="_blank" rel="noopener noreferrer">Quercus alba, FEIS</a>
+        </div>
+      </div>
+      <p id="d14-width" class="d14-tag">4 ft</p>
+    </div>
+  </div>
+
+  <div id="d14-probe" aria-hidden="true"></div>
+  <div id="d14-cm" class="d14-cm" aria-hidden="true"></div>
+
+  <header class="d14-head">
+    <a class="d14-back" href="../index.html">← Gallery</a>
+    <p class="d14-kicker">Day 14 · Borgesian map</p>
+    <h1>On Exactitude</h1>
+    <p class="d14-deck">The fallen White Oak leaf on my sidewalk.</p>
+  </header>
+
+  <p class="d14-when" id="d14-when"></p>
+
+  <footer class="d14-collar">
+    <div class="d14-bar" id="d14-bar">
+      <span class="d14-bar-line" id="d14-bar-line"></span>
+      <span class="d14-bar-label" id="d14-bar-label">10 cm · 1:1</span>
+    </div>
+    <div class="d14-cal">
+      <button type="button" id="d14-minus" aria-label="Make the scale bar shorter">−</button>
+      <button type="button" id="d14-plus" aria-label="Make the scale bar longer">+</button>
+      <button type="button" id="d14-reset">Reset</button>
+      <span>Match the bar to a ruler.</span>
+    </div>
+    <p class="d14-note" id="d14-note">Loading the photograph…</p>
+  </footer>
+
+  <script src="../assets/js/day14-borges.js"></script>
+</body>
+</html>
