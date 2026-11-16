@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 16 — Afghanistan's Konar Valley | 30 Day Map Challenge</title>
+  <meta name="description" content="The November 2001 CIA sheet of the Konar Valley, set back on modern 3D terrain.">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/konar.css">
+  <script>
+    window.CESIUM_BASE_URL = "https://cdn.jsdelivr.net/npm/cesium@1.144.0/Build/Cesium/";
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cesium@1.144.0/Build/Cesium/Widgets/widgets.css">
+</head>
+<body class="konar-page">
+  <script>
+    if (new URLSearchParams(location.search).has("embed")) {
+      document.body.classList.add("konar-embed");
+    }
+  </script>
+
+  <div id="konar-view" role="application" aria-label="3D terrain of Afghanistan's Konar Valley"></div>
+  <div class="konar-ui">
+    <header class="konar-header">
+      <a class="konar-back" href="../index.html">← Gallery</a>
+      <span class="konar-kicker">Day 16 · Collaborative map</span>
+      <h1>Afghanistan's Konar Valley</h1>
+      <p>
+        The November 2001 CIA sheet, cut as the same block and set on terrain.
+      </p>
+    </header>
+    <div class="konar-compass" id="konar-compass" title="North"><span>N</span></div>
+    <div class="konar-scale" id="konar-scale" hidden title="Ground distance">
+      <span id="konar-scale-label"></span>
+      <div id="konar-scale-bar" class="konar-scale-bar"></div>
+    </div>
+    <div class="konar-status" id="konar-status" role="status">Loading terrain…</div>
+    <footer class="konar-dock">
+      <div class="konar-controls">
+        <div class="konar-group" role="group" aria-label="Camera">
+          <button type="button" id="konar-sheet" aria-pressed="true">The sheet</button>
+          <button type="button" id="konar-valley" aria-pressed="false">The valley</button>
+        </div>
+        <div class="konar-group" role="group" aria-label="Surface">
+          <button type="button" id="konar-satellite" aria-pressed="true">Satellite</button>
+          <button type="button" id="konar-relief" aria-pressed="false">Relief</button>
+        </div>
+        <div class="konar-group" role="group" aria-label="Layers">
+          <button type="button" id="konar-labels" aria-pressed="true">Labels</button>
+          <button type="button" id="konar-boundaries" aria-pressed="false">Boundaries</button>
+          <button type="button" id="konar-roads" aria-pressed="false">Roads</button>
+        </div>
+        <label class="konar-exag" for="konar-exag-range">
+          Relief <span id="konar-exag-value">1.8×</span>
+          <input id="konar-exag-range" type="range" min="1" max="3" step="0.1" value="1.8" aria-label="Terrain exaggeration">
+        </label>
+        <a class="konar-source" href="16_collaborative/2001-Afghanistan-Konar-Valley-3D.jpg">2001 sheet</a>
+      </div>
+      <p class="konar-credit">
+        Sheet: CIA Cartography Center, 802538AI 11-01. Names are printed as on that sheet.
+        Terrain and imagery: Esri, Maxar, Airbus, USGS, NASA, and the GIS User Community.
+        Boundaries: geoBoundaries. Roads: OpenStreetMap contributors. The scale is ground distance.
+      </p>
+    </footer>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/cesium@1.144.0/Build/Cesium/Cesium.js"></script>
+  <script src="../assets/js/konar.js"></script>
+</body>
+</html>

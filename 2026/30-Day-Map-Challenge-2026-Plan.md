@@ -411,10 +411,19 @@ One relief of the state park, turned over. USGS 3DEP elevation inside the park f
 3. Collaborate with someone else by splitting the work: one person handles georeferencing/sourcing, the other handles redesign.
 
 ### Recommended direction
-"Collaborative" here can mean collaborating across time with the original cartographer — source the declassified map, georeference it, and produce a modern reinterpretation or direct comparison.
+Collaborate with the 2001 cartographer. The CIA sheet is a cut block of eastern Afghanistan, seen from the southwest, with the Konar running from the high country down to the Kabul River at Jalalabad. The page keeps that block and that oblique, and replaces the shaded relief with modern elevation and satellite imagery.
+
+### How it is built
+- `2026/day-16.html` is the gallery embed. Cesium draws the globe. There is no ion token.
+- Terrain is Esri World Elevation. Satellite mode uses Esri World Imagery. Relief mode drapes Esri World Hillshade on the same mesh, so the ridges read the way they do on the printed sheet.
+- The globe is clipped to the sheet's footprint. Two cameras: the whole block, and a closer pass up the valley. Relief exaggeration starts at 1.8, from a valley-floor height of 900 m.
+- Names are the ones printed on the sheet. Towns use published coordinates. Province labels sit in the province, not on the capital. Labels, boundaries, and major roads can each be turned off. The scale bar is ground distance.
+- Boundaries are geoBoundaries lines clipped to the block. Roads are OpenStreetMap motorway, trunk, and primary. Both start off. The sheet's legend says the boundary drawing is not necessarily authoritative, and these lines are a reference, not that sheet's trace.
+- The scan is `2026/16_collaborative/2001-Afghanistan-Konar-Valley-3D.jpg`.
 
 ### Potential data
-- CIA / declassified map archives (e.g., University of Texas Perry-Castañeda Library historical map collection)
+- CIA Cartography Center sheet 802538AI 11-01 (November 2001), in `2026/16_collaborative/`
+- Esri World Elevation (Terrain3D) and World Imagery
 
 **Expected effort:** **Moderate**
 
