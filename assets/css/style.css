@@ -37,7 +37,7 @@ a {
 .challenge-shell {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 40px 18px 56px;
+  padding: 40px 56px 56px 18px;
 }
 
 .challenge-header {
@@ -112,29 +112,53 @@ a {
   color: var(--secondary-color);
 }
 
+.month-progress {
+  position: fixed;
+  top: 50%;
+  right: 12px;
+  z-index: 20;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
 .month-progress-label {
   display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 6px;
+  flex-direction: column;
+  gap: 10px;
   color: var(--text-color-muted);
   font-size: var(--font-size-small);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  letter-spacing: 0.04em;
 }
 
 .month-progress-track {
-  height: 8px;
-  border-radius: 999px;
-  background: var(--background-panel);
-  border: 1px solid var(--border-color);
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 14px;
+  height: min(70vh, 560px);
+  background: transparent;
+  border: 0;
+  overflow: visible;
 }
 
-.month-progress-fill {
-  height: 100%;
-  width: 0;
+.month-progress-day {
+  flex: 1 1 0;
+  min-height: 0;
+  border-radius: 2px;
+  background: var(--background-panel);
+  border: 1px solid var(--border-color);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.month-progress-day.is-complete {
   background: var(--primary-color);
-  border-radius: inherit;
-  transition: width 0.3s ease;
+  border-color: var(--primary-color);
 }
 
 .challenge-header p {
@@ -350,7 +374,18 @@ a {
 
 @media (max-width: 600px) {
   .challenge-shell {
-    padding: 24px 14px 40px;
+    padding: 24px 42px 40px 14px;
+  }
+
+  .month-progress {
+    right: 6px;
+    gap: 6px;
+  }
+
+  .month-progress-track {
+    width: 10px;
+    height: min(62vh, 420px);
+    gap: 2px;
   }
 
   .day-grid {

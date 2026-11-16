@@ -230,20 +230,37 @@
     return today.getDate();
   }
 
+  function ensureProgressDays(track) {
+    if (track.dataset.ready === "true") {
+      return;
+    }
+    const fragment = document.createDocumentFragment();
+    for (let day = 1; day <= 30; day += 1) {
+      const cell = document.createElement("span");
+      cell.className = "month-progress-day";
+      cell.dataset.day = String(day);
+      cell.title = `Day ${day}`;
+      fragment.appendChild(cell);
+    }
+    track.replaceChildren(fragment);
+    track.dataset.ready = "true";
+  }
+
   function renderProgress(year) {
     const done = daysCompleted(year);
     const bar = document.getElementById("month-progress");
-    const fill = document.getElementById("month-progress-fill");
-    const title = document.getElementById("month-progress-title");
     const count = document.getElementById("month-progress-count");
-    if (!bar || !fill || !title || !count) {
+    if (!bar || !count) {
       return;
     }
-    fill.style.width = `${(done / 30) * 100}%`;
+    ensureProgressDays(bar);
+    bar.querySelectorAll(".month-progress-day").forEach((cell) => {
+      const day = Number(cell.dataset.day);
+      cell.classList.toggle("is-complete", day <= done);
+    });
     bar.setAttribute("aria-valuenow", String(done));
     bar.setAttribute("aria-valuetext", `${done} of 30 days of November ${year} completed`);
     bar.setAttribute("aria-label", `Days of November ${year} completed`);
-    title.textContent = `November ${year}`;
     count.textContent = `${done} of 30 days`;
   }
 
