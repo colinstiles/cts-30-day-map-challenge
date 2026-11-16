@@ -439,7 +439,10 @@ Collaborate with the 2001 cartographer. The CIA sheet is a cut block of eastern 
 3. Pair the tiny physical course with the enormous cumulative distance (3,100 miles) covered by looping it thousands of times, day and night without stopping, as the "light & dark" contrast.
 
 ### Recommended direction
-The race's defining feature is that it runs continuously through day and night for weeks at a time — use that literal day/night cycle, not a generic hillshade or lighting treatment, as the organizing idea for the map.
+The race's defining feature is that it runs through day and night for 52 days. Use that literal day/night cycle, not a generic hillshade, as the organizing idea for the map.
+
+### Map
+`2026/day-17.html` draws the Jamaica block (164th Place, Grand Central Parkway, 168th Street, 84th Avenue). A runner circles the certified loop while the miles count to 3,100. The block is drawn from the street centerlines, with the four street names on the loop. Each of the 52 days runs 6 a.m. to midnight, night into daylight, then the finish opens into morning. Daylight behind the map is white, and the block stays dark. The course line brightens and thickens as the laps add up. The ring around the block is all 52 days, gold for daylight miles and blue for the miles run before sunrise or after sunset. The mileage sits on that ring.
 
 **Expected effort:** **Moderate**
 
@@ -459,6 +462,9 @@ https://www.bbc.com/news/magazine-30046426
 
 ### Recommended direction
 Tie this directly to the NULL theme: his real position was genuinely unknown for over a week. Resist the urge to fully reconstruct his path — the honest map is the one that shows the known points and leaves the gap in between empty.
+
+### Map
+`2026/day-18.html` is a static sheet of the western Sahara. Three fixes are marked. Nothing is drawn between them. The start is 30.093° N, 6.876° W, near Foum Zguid. The finish is 30.333° N, 5.835° W, at Zagora. The sandstorm left him at 27.669° N, 8.143° W, in Tindouf. Measured straight, Tindouf is 296 km from the start and 372 km from the finish. The track is null. The coast and the Algeria border are Natural Earth 1:10 million. The sheet is sand, clay, and umber.
 
 **Expected effort:** **Moderate**
 
@@ -801,7 +807,7 @@ If the month becomes difficult to sustain, prioritize these maps as likely portf
 1. **Day 5 — Sight:** 3D animated view from the Cherokee fire tower
 2. **Day 6 — Vintage:** Historic USGS Chattanooga topo + modern hillshade (py3dep)
 3. **Day 14 — Borgesian:** One oak leaf, at the size of the leaf
-4. **Day 17 — Light & Dark:** Tennessee bird migration, day vs. night
+4. **Day 17 — Light & Dark:** Self-Transcendence 3100, daylight and night on one Queens block
 5. **Day 22 — Projections:** A newly designed map projection
 6. **Day 26 — Water:** North Chickamauga Creek Gorge watershed
 7. **Day 28 — Feeling:** 3D hydro model of recent Nepal flooding
