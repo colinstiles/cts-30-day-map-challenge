@@ -49,7 +49,7 @@
 
   const embed = document.body.classList.contains("konar-embed");
   let viewer = null;
-  let labelsOn = true;
+  let labelsOn = !embed;
   const labels = [];
   let surface = "satellite";
   let allowed = true;
@@ -347,8 +347,8 @@
     }
     const overlay = overlays[name];
     press(overlay.button, on);
-    if (name === "boundaries") {
-      legendEl.hidden = !on;
+    if (name === "boundaries" && !on) {
+      legendEl.hidden = true;
     }
     if (!on) {
       if (overlay.primitive) {
@@ -395,6 +395,9 @@
       } catch (error) {
         overlay.promise = null;
         press(overlay.button, false);
+        if (name === "boundaries") {
+          legendEl.hidden = true;
+        }
         fail(overlay.fail);
         return;
       }
@@ -406,6 +409,9 @@
       overlay.entities.forEach((entity) => {
         entity.show = true;
       });
+    }
+    if (name === "boundaries" && overlay.button.getAttribute("aria-pressed") === "true") {
+      legendEl.hidden = false;
     }
     viewer.scene.requestRender();
   }
