@@ -23,7 +23,7 @@ const CHALLENGE_YEARS = {
       { day: 13, date: "Nov 13", theme: "Interactions", concept: "Movements of People and Borders from European Conflicts", tool: "MapLibre", embed: "2026/day-13.html" },
       { day: 14, date: "Nov 14", theme: "Borgesian map", concept: "One oak leaf, at the size of the leaf", tool: "JavaScript", embed: "2026/day-14.html" },
       { day: 15, date: "Nov 15", theme: "Inside out", concept: "North Chickamauga Creek Gorge, turned over", tool: "Python, USGS 3DEP" },
-      { day: 16, date: "Nov 16", theme: "Collaborative map", concept: "Afghanistan's Konar Valley, on modern terrain", tool: "Cesium, Esri World Elevation", embed: "2026/day-16.html" },
+      { day: 16, date: "Nov 16", theme: "Collaborative map", concept: "Afghanistan's Konar Valley, CIA 2001", tool: "Cesium", embed: "2026/day-16.html" },
       { day: 17, date: "Nov 17", theme: "Light & dark", concept: "TBD", tool: "Tool TBD" },
       { day: 18, date: "Nov 18", theme: "NULL", concept: "TBD", tool: "Tool TBD" },
       { day: 19, date: "Nov 19", theme: "Senses: Smell", concept: "TBD", tool: "Tool TBD" },

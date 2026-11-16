@@ -46,7 +46,7 @@ Town coordinates are published city locations. Province labels are placed in the
 
 Labels start on. Boundaries and roads start off.
 
-Boundaries are geoBoundaries lines, clipped to the block and saved as `boundaries.geojson`. The international line is Afghanistan's ADM0 edge. Province lines are ADM1 edges for Afghanistan and Pakistan. The sheet's own legend says the boundary representation is not necessarily authoritative. These lines are a current reference, not a trace of the 2001 drawing.
+Boundaries are geoBoundaries lines, clipped to the block and saved as `boundaries.geojson`. The international line is Afghanistan's ADM0 edge. Province lines are the ADM1 edges that do not retrace that border, and a shared province edge is drawn once. The legend names the two lines. They are sampled onto the elevation and lifted with the relief slider, and the part of a line behind a ridge still draws. The sheet's own legend says the boundary representation is not necessarily authoritative. These lines are a current reference, not a trace of the 2001 drawing.
 
 Roads are OpenStreetMap motorway, trunk, and primary ways inside the block, saved as `roads.geojson`. They are the main paved routes, including the Kabul–Jalalabad road and the road up the valley. They are not every track.
 

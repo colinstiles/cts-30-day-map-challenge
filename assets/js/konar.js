@@ -40,6 +40,7 @@
   const exagRange = document.getElementById("konar-exag-range");
   const exagValue = document.getElementById("konar-exag-value");
   const scaleEl = document.getElementById("konar-scale");
+  const legendEl = document.getElementById("konar-legend");
   const scaleBar = document.getElementById("konar-scale-bar");
   const scaleLabel = document.getElementById("konar-scale-label");
 
@@ -163,7 +164,7 @@
     return viewer.entities.add({
       position: Cesium.Cartesian3.fromDegrees(place.lon, place.lat),
       point: town ? {
-        pixelSize: 7,
+        pixelSize: 10,
         color: Cesium.Color.fromCssColorString("#D99A5B"),
         outlineColor: Cesium.Color.fromCssColorString("#15150F"),
         outlineWidth: 1,
@@ -172,16 +173,17 @@
       } : undefined,
       label: {
         text: place.name,
-        font: town ? "700 14px Lato, sans-serif" : "400 15px Lato, sans-serif",
+        font: town ? "700 22px Lato, sans-serif" : "700 20px Lato, sans-serif",
         fillColor: Cesium.Color.fromCssColorString("#1C1A14"),
-        outlineColor: Cesium.Color.fromCssColorString("#F4EFE2"),
-        outlineWidth: 4,
-        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+        showBackground: true,
+        backgroundColor: Cesium.Color.fromCssColorString("#F4EFE2").withAlpha(0.92),
+        backgroundPadding: new Cesium.Cartesian2(8, 5),
+        style: Cesium.LabelStyle.FILL,
         verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-        pixelOffset: new Cesium.Cartesian2(0, town ? -10 : 0),
+        pixelOffset: new Cesium.Cartesian2(0, town ? -12 : 0),
         heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
-        scaleByDistance: new Cesium.NearFarScalar(30000, 1.15, 420000, 0.45)
+        scaleByDistance: new Cesium.NearFarScalar(40000, 1.1, 480000, 0.9)
       },
       show: labelsOn
     });
@@ -241,6 +243,70 @@
     }
   };
 
+  function boundaryPositions(cartos, kind) {
+    const factor = viewer.scene.verticalExaggeration || 1;
+    const relative = viewer.scene.verticalExaggerationRelativeHeight || 0;
+    const lift = kind === "international" ? 90 : 50;
+    return cartos.map((carto) => {
+      const height = Number.isFinite(carto.height) ? carto.height : relative;
+      const exaggerated = relative + (height - relative) * factor + lift;
+      return Cesium.Cartesian3.fromRadians(carto.longitude, carto.latitude, exaggerated);
+    });
+  }
+
+  async function buildBoundaries(data) {
+    const lines = [];
+    data.features.forEach((feature) => {
+      const kind = feature.properties.kind;
+      groundLines(feature).forEach((line) => {
+        if (line.length < 2) {
+          return;
+        }
+        lines.push({
+          kind: kind,
+          cartos: line.map((pair) => Cesium.Cartographic.fromDegrees(pair[0], pair[1]))
+        });
+      });
+    });
+    const sample = lines.flatMap((line) => line.cartos);
+    try {
+      await Promise.race([
+        Cesium.sampleTerrain(viewer.terrainProvider, 10, sample),
+        new Promise(function (_, reject) {
+          window.setTimeout(function () {
+            reject(new Error("timeout"));
+          }, 12000);
+        })
+      ]);
+    } catch (error) {
+      sample.forEach((carto) => {
+        if (!Number.isFinite(carto.height)) {
+          const globeHeight = viewer.scene.globe.getHeight(carto);
+          carto.height = Number.isFinite(globeHeight) ? globeHeight : 1800;
+        }
+      });
+    }
+    const entities = lines.map((line) => {
+      const style = lineStyle("boundaries", line.kind);
+      const color = Cesium.Color.fromCssColorString(style.color);
+      return viewer.entities.add({
+        polyline: {
+          positions: new Cesium.CallbackProperty(function () {
+            return boundaryPositions(line.cartos, line.kind);
+          }, false),
+          width: style.width + 1.5,
+          material: color,
+          depthFailMaterial: color,
+          arcType: Cesium.ArcType.NONE,
+          clampToGround: false
+        },
+        show: false
+      });
+    });
+    overlays.boundaries.lines = lines;
+    overlays.boundaries.entities = entities;
+  }
+
   function buildOverlay(name, data) {
     const instances = [];
     data.features.forEach((feature) => {
@@ -281,14 +347,22 @@
     }
     const overlay = overlays[name];
     press(overlay.button, on);
+    if (name === "boundaries") {
+      legendEl.hidden = !on;
+    }
     if (!on) {
       if (overlay.primitive) {
         overlay.primitive.show = false;
       }
+      if (overlay.entities) {
+        overlay.entities.forEach((entity) => {
+          entity.show = false;
+        });
+      }
       viewer.scene.requestRender();
       return;
     }
-    if (!overlay.primitive) {
+    if (!overlay.primitive && !overlay.entities) {
       if (!overlay.promise) {
         overlay.promise = fetch(overlay.url).then((response) => {
           if (!response.ok) {
@@ -296,6 +370,9 @@
           }
           return response.json();
         }).then((data) => {
+          if (name === "boundaries") {
+            return buildBoundaries(data);
+          }
           overlay.primitive = buildOverlay(name, data);
           return overlay.primitive;
         });
@@ -305,7 +382,14 @@
         await overlay.promise;
         say("");
         if (overlay.button.getAttribute("aria-pressed") !== "true") {
-          overlay.primitive.show = false;
+          if (overlay.primitive) {
+            overlay.primitive.show = false;
+          }
+          if (overlay.entities) {
+            overlay.entities.forEach((entity) => {
+              entity.show = false;
+            });
+          }
           return;
         }
       } catch (error) {
@@ -315,7 +399,14 @@
         return;
       }
     }
-    overlay.primitive.show = true;
+    if (overlay.primitive) {
+      overlay.primitive.show = true;
+    }
+    if (overlay.entities) {
+      overlay.entities.forEach((entity) => {
+        entity.show = true;
+      });
+    }
     viewer.scene.requestRender();
   }
 
