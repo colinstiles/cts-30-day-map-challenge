@@ -1,0 +1,268 @@
+/* Day 8 — Tugalo Undammed swipe */
+
+.utopia-page {
+  margin: 0;
+  overflow: hidden;
+  background: #10140f;
+  color: #f2efe4;
+  font-family: "Lato", "Helvetica Neue", Arial, sans-serif;
+}
+
+#utopia-map {
+  position: fixed;
+  inset: 0;
+  background: #1a2218;
+}
+
+.utopia-page .leaflet-container {
+  background: #1a2218;
+}
+
+.utopia-page .leaflet-control-zoom {
+  margin-bottom: 78px;
+  border: 1px solid #3a4a30;
+}
+
+#utopia-utopia-map,
+#utopia-clip {
+  position: absolute;
+  inset: 0;
+}
+
+#utopia-clip {
+  z-index: 400;
+  width: 50%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+#utopia-now-map {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 100vw;
+}
+
+.utopia-header,
+.utopia-swipe,
+.utopia-label {
+  position: fixed;
+  z-index: 1000;
+}
+
+.utopia-header {
+  top: 18px;
+  left: 18px;
+  max-width: 420px;
+  padding: 14px 16px;
+  border: 1px solid #3a4a30;
+  background: rgba(16, 20, 15, 0.9);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
+.utopia-header-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.utopia-back {
+  display: inline-block;
+  color: #9cbb74;
+  font-size: 0.78rem;
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.utopia-toggle {
+  margin-left: auto;
+  padding: 4px 8px;
+  border: 1px solid #3a4a30;
+  background: transparent;
+  color: #9cbb74;
+  font: inherit;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.utopia-toggle:hover,
+.utopia-toggle:focus-visible {
+  color: #ffe66d;
+  border-color: #ffe66d;
+}
+
+.utopia-header.is-collapsed #utopia-details {
+  display: none;
+}
+
+.utopia-header.is-collapsed .utopia-header-top {
+  margin-bottom: 4px;
+}
+
+.utopia-kicker {
+  display: block;
+  color: #d99a5b;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.utopia-header h1 {
+  margin: 4px 0 6px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.35rem, 2.6vw, 1.9rem);
+  font-weight: 400;
+  color: #ffe66d;
+}
+
+.utopia-header p {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: #c8c4b6;
+}
+
+.utopia-details p + p {
+  margin-top: 8px;
+}
+
+.utopia-link a {
+  color: #9cbb74;
+}
+
+.utopia-link a:hover,
+.utopia-link a:focus-visible {
+  color: #ffe66d;
+}
+
+.utopia-note {
+  font-size: 0.68rem;
+  line-height: 1.35;
+  color: #8a877a;
+}
+
+.utopia-label {
+  top: 18px;
+  padding: 8px 10px;
+  background: rgba(16, 20, 15, 0.88);
+  border: 1px solid #3a4a30;
+  color: #f2efe4;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.utopia-label--now {
+  left: 18px;
+  top: auto;
+  bottom: 88px;
+}
+
+.utopia-label--utopia {
+  right: 18px;
+}
+
+#utopia-divider {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  z-index: 450;
+  width: 2px;
+  margin-left: -1px;
+  background: #ffe66d;
+  pointer-events: none;
+  box-shadow: 0 0 0 1px rgba(16, 20, 15, 0.8);
+}
+
+.utopia-swipe {
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  width: min(420px, calc(100vw - 32px));
+  padding: 10px 14px;
+  background: rgba(16, 20, 15, 0.92);
+  border: 1px solid #3a4a30;
+}
+
+.utopia-swipe label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #9cbb74;
+}
+
+.utopia-swipe input {
+  width: 100%;
+  accent-color: #ffe66d;
+}
+
+.utopia-place.leaflet-div-icon,
+.utopia-dam-icon.leaflet-div-icon {
+  background: transparent;
+  border: none;
+}
+
+.utopia-place span {
+  display: block;
+  transform: translate(-50%, -50%);
+  color: #f4f0e4;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  text-shadow:
+    0 0 4px #10140f,
+    0 1px 2px #10140f,
+    0 0 1px #10140f;
+}
+
+.utopia-page--embed .utopia-header,
+.utopia-page--embed .utopia-label,
+.utopia-page--embed .utopia-swipe,
+.utopia-page--embed .utopia-back {
+  display: none;
+}
+
+.utopia-page--embed .leaflet-control-zoom {
+  margin-bottom: 12px;
+}
+
+@media (max-width: 700px) {
+  .utopia-label--utopia {
+    top: 12px;
+    right: 12px;
+    bottom: auto;
+  }
+
+  .utopia-header {
+    top: 52px;
+    left: 12px;
+    right: 12px;
+    max-width: none;
+  }
+
+  .utopia-header.is-collapsed {
+    top: 12px;
+    right: auto;
+    max-width: calc(100vw - 168px);
+    padding: 8px 10px;
+  }
+
+  .utopia-header.is-collapsed h1 {
+    margin: 0;
+    font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .utopia-label--now {
+    bottom: 88px;
+  }
+}

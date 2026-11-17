@@ -1,4 +1,0 @@
-# Optional. The gallery sheet builds from the repo requirements
-# (numpy, matplotlib, and shapely via geopandas).
-# forge3d path-traces a second plate when a GPU is available.
-forge3d

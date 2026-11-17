@@ -1,0 +1,236 @@
+/* Day 17 — Self-Transcendence 3100, light and dark */
+
+html,
+body.d17-page {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #10131a;
+  color: #f2efe4;
+  font-family: Lato, "Segoe UI", sans-serif;
+}
+
+#d17-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.d17-ui {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.d17-ui > * {
+  pointer-events: auto;
+}
+
+.d17-header {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  max-width: min(380px, calc(100% - 32px));
+  padding: 12px 14px 13px;
+  background: rgba(16, 18, 22, 0.82);
+  border: 1px solid rgba(242, 239, 228, 0.16);
+}
+
+.d17-back {
+  display: inline-block;
+  margin-bottom: 6px;
+  color: #b8b5a8;
+  font-size: 0.75rem;
+  text-decoration: none;
+}
+
+.d17-back:hover {
+  color: #9cbb74;
+}
+
+.d17-kicker {
+  display: block;
+  color: #d99a5b;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.d17-header h1 {
+  margin: 4px 0 6px;
+  font-size: 1.2rem;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.d17-header p {
+  margin: 0;
+  color: #d9d4c6;
+  font-size: 0.86rem;
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+.d17-readout {
+  position: absolute;
+  left: 16px;
+  bottom: 108px;
+  min-width: 0;
+  padding: 8px 12px;
+  background: rgba(16, 18, 22, 0.78);
+  border: 1px solid rgba(242, 239, 228, 0.16);
+}
+
+.d17-miles,
+.d17-miles-unit {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.d17-when,
+.d17-phase,
+.d17-split {
+  margin: 0;
+  font-size: 0.84rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.35;
+}
+
+.d17-phase {
+  color: #f2efe4;
+  font-weight: 700;
+}
+
+.d17-when,
+.d17-split {
+  color: #d9d4c6;
+  font-weight: 300;
+}
+
+.d17-split {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.d17-split #d17-day-mi::before,
+.d17-split #d17-night-mi::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 5px;
+  border-radius: 50%;
+  vertical-align: 0;
+}
+
+.d17-split #d17-day-mi::before {
+  background: #e4c56a;
+}
+
+.d17-split #d17-night-mi::before {
+  background: #8ea4d4;
+}
+
+.d17-dock {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  align-items: center;
+  padding: 10px 16px 12px;
+  background: rgba(16, 18, 22, 0.9);
+  border-top: 1px solid rgba(242, 239, 228, 0.12);
+}
+
+.d17-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.d17-dock button {
+  padding: 6px 12px;
+  border: 1px solid #3a3b2d;
+  background: transparent;
+  color: #f2efe4;
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.d17-dock button:hover {
+  border-color: #9cbb74;
+  color: #9cbb74;
+}
+
+.d17-dock input[type="range"] {
+  width: min(280px, 36vw);
+  accent-color: #d99a5b;
+}
+
+.d17-speed {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: #d9d4c6;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.d17-speed input[type="range"] {
+  width: min(120px, 22vw);
+}
+
+.d17-speed span {
+  min-width: 2.4em;
+  color: #f2efe4;
+  font-variant-numeric: tabular-nums;
+}
+
+.d17-credit {
+  flex: 1 1 280px;
+  margin: 0;
+  color: #b8b5a8;
+  font-size: 0.72rem;
+  font-weight: 300;
+  line-height: 1.35;
+}
+
+body.d17-embed .d17-header,
+body.d17-embed .d17-dock,
+body.d17-embed .d17-readout {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .d17-header {
+    max-width: calc(100% - 32px);
+  }
+
+  .d17-header p {
+    display: none;
+  }
+
+  .d17-readout {
+    bottom: 96px;
+  }
+
+  .d17-credit {
+    display: none;
+  }
+}

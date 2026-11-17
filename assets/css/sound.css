@@ -1,0 +1,171 @@
+.sound-page {
+  margin: 0;
+  overflow: hidden;
+  background: #14140f;
+  color: #f3efe4;
+}
+
+#sound-map {
+  position: fixed;
+  inset: 0;
+  background: #1a1c16;
+}
+
+.sound-header,
+.sound-controls,
+.sound-credit {
+  position: fixed;
+  z-index: 1000;
+}
+
+.sound-header {
+  top: 16px;
+  left: 16px;
+  max-width: min(420px, calc(100vw - 32px));
+  padding: 14px 16px 12px;
+  border: 1px solid rgba(231, 225, 210, 0.18);
+  border-radius: 4px;
+  background: rgba(20, 20, 15, 0.9);
+}
+
+.sound-back,
+.sound-kicker {
+  display: block;
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sound-back {
+  margin-bottom: 8px;
+  color: #b7b3a6;
+  text-decoration: none;
+}
+
+.sound-back:hover,
+.sound-back:focus-visible {
+  color: #f3efe4;
+}
+
+.sound-kicker {
+  color: #e2a04a;
+  font-weight: 700;
+}
+
+.sound-header h1 {
+  margin: 4px 0 6px;
+  font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+  font-weight: 900;
+  letter-spacing: 0.01em;
+}
+
+.sound-header p {
+  margin: 0;
+  color: #d9d4c6;
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+
+.sound-controls {
+  left: 16px;
+  bottom: 52px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-width: min(560px, calc(100vw - 32px));
+}
+
+.sound-controls button,
+.sound-static {
+  border: 1px solid rgba(231, 225, 210, 0.28);
+  border-radius: 999px;
+  background: rgba(20, 20, 15, 0.9);
+  color: #f3efe4;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 7px 12px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.sound-controls button[aria-pressed="false"] {
+  color: #8d897e;
+  background: rgba(20, 20, 15, 0.72);
+}
+
+.sound-controls button[data-battle="chickamauga"][aria-pressed="true"] {
+  box-shadow: inset 0 0 0 2px #e2a04a;
+}
+
+.sound-controls button[data-battle="lookout"][aria-pressed="true"] {
+  box-shadow: inset 0 0 0 2px #7eb0c4;
+}
+
+.sound-controls button[data-battle="missionary"][aria-pressed="true"] {
+  box-shadow: inset 0 0 0 2px #d2644a;
+}
+
+.sound-controls button#sound-ring[aria-pressed="true"] {
+  box-shadow: inset 0 0 0 2px #f3efe4;
+}
+
+.sound-controls button:focus-visible,
+.sound-static:focus-visible,
+.sound-back:focus-visible {
+  outline: 2px solid #e2a04a;
+  outline-offset: 2px;
+}
+
+.sound-credit {
+  right: 12px;
+  bottom: 28px;
+  left: auto;
+  max-width: min(460px, 42vw);
+  color: #cfcabe;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  text-align: right;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
+}
+
+.leaflet-container {
+  background: #1a1c16;
+  font-family: inherit;
+}
+
+.is-embed .sound-header p,
+.is-embed .sound-credit,
+.is-embed .sound-static {
+  display: none;
+}
+
+.is-embed .sound-header {
+  top: 8px;
+  left: 8px;
+  padding: 8px 10px;
+}
+
+.is-embed .sound-header h1 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.is-embed .sound-back {
+  display: none;
+}
+
+.is-embed .sound-controls {
+  left: 8px;
+  bottom: 8px;
+}
+
+@media (max-width: 640px) {
+  .sound-header p {
+    display: none;
+  }
+
+  .sound-credit {
+    display: none;
+  }
+}
