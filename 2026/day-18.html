@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 18 — NULL | 30 Day Map Challenge</title>
+  <meta name="description" content="Static map of the 1994 Marathon des Sables. The start near Foum Zguid, the finish at Zagora, and Tindouf are recorded. The track between them is null.">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/day18.css">
+</head>
+<body class="d18-page">
+  <script>
+    if (new URLSearchParams(location.search).has("embed")) {
+      document.body.classList.add("d18-embed");
+    }
+  </script>
+
+  <canvas id="d18-canvas" aria-label="Static map of the western Sahara. Recorded fixes at the start near Foum Zguid, the finish at Zagora, and Tindouf. The track between them is null."></canvas>
+
+  <div class="d18-ui">
+    <header class="d18-header">
+      <a class="d18-back" href="../index.html">← Gallery</a>
+      <span class="d18-kicker">Day 18 · NULL</span>
+      <h1>Marathon des Sables, 1994</h1>
+      <p>
+        Mauro Prosperi left the race in a sandstorm. The start and the finish were recorded. Tindouf was recorded. The track was not.
+      </p>
+    </header>
+
+    <footer class="d18-dock">
+      <dl class="d18-sheet">
+        <dt>Start</dt>
+        <dd>30.093° N, 6.876° W</dd>
+        <dt>Finish</dt>
+        <dd>30.333° N, 5.835° W</dd>
+        <dt>Found</dt>
+        <dd>27.669° N, 8.143° W</dd>
+        <dt>Track</dt>
+        <dd class="is-null">NULL</dd>
+      </dl>
+      <p class="d18-credit">
+        Foum Zguid to Zagora is the recorded race. Tindouf is 296 km from the start and 372 km from the finish, straight-line. That line is not drawn. Coast and the Algeria border are Natural Earth, 1:10 million.
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/day18-geom.js"></script>
+  <script src="../assets/js/day18-null.js"></script>
+</body>
+</html>
