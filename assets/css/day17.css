@@ -183,6 +183,25 @@ body.d17-page {
   accent-color: #d99a5b;
 }
 
+.d17-speed {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: #d9d4c6;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.d17-speed input[type="range"] {
+  width: min(120px, 22vw);
+}
+
+.d17-speed span {
+  min-width: 2.4em;
+  color: #f2efe4;
+  font-variant-numeric: tabular-nums;
+}
+
 .d17-credit {
   flex: 1 1 280px;
   margin: 0;
@@ -193,23 +212,9 @@ body.d17-page {
 }
 
 body.d17-embed .d17-header,
-body.d17-embed .d17-dock {
-  display: none;
-}
-
+body.d17-embed .d17-dock,
 body.d17-embed .d17-readout {
-  top: 10px;
-  left: 10px;
-  bottom: auto;
-  min-width: 0;
-  max-width: calc(100% - 96px);
-  padding: 7px 9px 8px;
-}
-
-body.d17-embed .d17-when,
-body.d17-embed .d17-phase,
-body.d17-embed .d17-split {
-  font-size: 0.72rem;
+  display: none;
 }
 
 @media (max-width: 720px) {

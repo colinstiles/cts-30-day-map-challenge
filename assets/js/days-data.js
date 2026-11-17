@@ -16,16 +16,16 @@ const CHALLENGE_YEARS = {
       { day: 6, date: "Nov 6", theme: "Vintage", concept: "Chattanooga Then & Now", tool: "Leaflet, USGS HTMC, Esri World Street Map", embed: "2026/day-06.html" },
       { day: 7, date: "Nov 7", theme: "10 Minute Map", concept: "Chimney Tops 2 Pixel Fire (Sevier Co. 2016)", tool: "HTML canvas", embed: "2026/day-07.html" },
       { day: 8, date: "Nov 8", theme: "Utopia", concept: "Hidden Rapids of the Tallulah River", tool: "Python, Leaflet, 3DEP", embed: "2026/day-08.html" },
-      { day: 9, date: "Nov 9", theme: "Urban-rural", concept: "WUI Structures in Hamilton County", tool: "Python, USGS WUI, FEMA" },
-      { day: 10, date: "Nov 10", theme: "Prompting only", concept: "Vael: The Crescent Sea", tool: "JavaScript, VAEL:2026", embed: "2026/day-10.html" },
+      { day: 9, date: "Nov 9", theme: "Urban-Rural", concept: "WUI Structures in Hamilton County", tool: "Python, USGS WUI, FEMA" },
+      { day: 10, date: "Nov 10", theme: "Prompting Only", concept: "Vael: The Crescent Sea", tool: "Cursor, Grok, JavaScript", embed: "2026/day-10.html" },
       { day: 11, date: "Nov 11", theme: "Senses: Sound", concept: "Cannons of the Chattanooga Campaign", tool: "Python", image: "2026/images/day-11-decibels.png" },
-      { day: 12, date: "Nov 12", theme: "Power", concept: "Year 5 of the Struggle over Ukraine", tool: "ArcGIS Pro", page: "2026/day-12.html" },
+      { day: 12, date: "Nov 12", theme: "Power", concept: "Year 5 for the Struggle over Ukraine", tool: "ArcGIS Pro", page: "2026/day-12.html" },
       { day: 13, date: "Nov 13", theme: "Interactions", concept: "Movements of People and Borders from European Conflicts", tool: "MapLibre", embed: "2026/day-13.html" },
-      { day: 14, date: "Nov 14", theme: "Borgesian map", concept: "One oak leaf, at the size of the leaf", tool: "JavaScript", embed: "2026/day-14.html" },
-      { day: 15, date: "Nov 15", theme: "Inside out", concept: "North Chickamauga Creek Gorge, turned over", tool: "Python, USGS 3DEP" },
-      { day: 16, date: "Nov 16", theme: "Collaborative map", concept: "Afghanistan's Konar Valley, CIA 2001", tool: "Cesium", embed: "2026/day-16.html" },
-      { day: 17, date: "Nov 17", theme: "Light & dark", concept: "Self-Transcendence 3100 Mile Race", tool: "JavaScript, OpenStreetMap", embed: "2026/day-17.html" },
-      { day: 18, date: "Nov 18", theme: "NULL", concept: "Marathon des Sables, the unrecorded week", tool: "JavaScript, Natural Earth", embed: "2026/day-18.html" },
+      { day: 14, date: "Nov 14", theme: "Borgesian Map", concept: "1:1 Scale of an Oak Leaf", tool: "JavaScript", embed: "2026/day-14.html" },
+      { day: 15, date: "Nov 15", theme: "Inside Out", concept: "Inverted Elevation of North Chickamauga Creek Gorge", tool: "forge3d, matplotlib" },
+      { day: 16, date: "Nov 16", theme: "Collaborative Map", concept: "Afghanistan's Konar Valley, CIA 2001", tool: "Cesium", embed: "2026/day-16.html" },
+      { day: 17, date: "Nov 17", theme: "Light & Dark", concept: "Self-Transcendence 3100 Mile Race", tool: "JavaScript, OpenStreetMap", embed: "2026/day-17.html" },
+      { day: 18, date: "Nov 18", theme: "NULL", concept: "1994 Null route along the Marathon des Sables, Morroco and Algeria", tool: "ArcGIS Pro", embed: "2026/day-18.html" },
       { day: 19, date: "Nov 19", theme: "Senses: Smell", concept: "TBD", tool: "Tool TBD" },
       { day: 20, date: "Nov 20", theme: "Hexagons", concept: "TBD", tool: "Tool TBD" },
       { day: 21, date: "Nov 21", theme: "OpenStreetMap", concept: "TBD", tool: "Tool TBD" },
@@ -34,10 +34,10 @@ const CHALLENGE_YEARS = {
       { day: 24, date: "Nov 24", theme: "Network", concept: "TBD", tool: "Tool TBD" },
       { day: 25, date: "Nov 25", theme: "Is this a map?", concept: "TBD", tool: "Tool TBD" },
       { day: 26, date: "Nov 26", theme: "Water", concept: "TBD", tool: "Tool TBD" },
-      { day: 27, date: "Nov 27", theme: "New tool", concept: "TBD", tool: "Sketchfab" },
+      { day: 27, date: "Nov 27", theme: "New Tool", concept: "TBD", tool: "Sketchfab" },
       { day: 28, date: "Nov 28", theme: "Senses: Feeling", concept: "TBD", tool: "Tool TBD" },
       { day: 29, date: "Nov 29", theme: "Raster", concept: "TBD", tool: "Tool TBD" },
-      { day: 30, date: "Nov 30", theme: "Pen & paper", concept: "TBD", tool: "Tool TBD" }
+      { day: 30, date: "Nov 30", theme: "Pen & Paper", concept: "TBD", tool: "Tool TBD" }
     ]
   }
 };

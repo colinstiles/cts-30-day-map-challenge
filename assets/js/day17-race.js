@@ -406,6 +406,7 @@
   var parentVisible = true;
   var elapsed = 0;
   var last = 0;
+  var speed = 1;
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var embed = document.body.classList.contains("d17-embed");
   var scrubbing = false;
@@ -807,7 +808,7 @@
       if (!last) last = now;
       var delta = Math.min(80, now - last);
       last = now;
-      elapsed += delta;
+      elapsed += delta * speed;
       if (elapsed >= CYCLE_MS) elapsed = 0;
     } else {
       last = now;
@@ -826,6 +827,13 @@
     els.nightMi = document.getElementById("d17-night-mi");
     els.play = document.getElementById("d17-play");
     els.slider = document.getElementById("d17-slider");
+    els.speed = document.getElementById("d17-speed");
+    els.speedLabel = document.getElementById("d17-speed-label");
+
+    if (embed) {
+      var ui = document.querySelector(".d17-ui");
+      if (ui) ui.setAttribute("aria-hidden", "true");
+    }
 
     if (reduceMotion) {
       playing = false;
@@ -846,6 +854,20 @@
         elapsed = (Number(els.slider.value) / 1000) * (RACE_MS + CODA_MS);
         draw();
         scrubbing = false;
+      });
+    }
+    function setSpeed(percent) {
+      speed = Math.max(0.25, Math.min(4, Number(percent) / 100));
+      if (els.speed) els.speed.value = String(Math.round(speed * 100));
+      if (els.speedLabel) {
+        var shown = speed % 1 === 0 ? String(speed) : speed.toFixed(2).replace(/0$/, "");
+        els.speedLabel.textContent = shown + "×";
+      }
+    }
+    if (els.speed) {
+      setSpeed(els.speed.value);
+      els.speed.addEventListener("input", function () {
+        setSpeed(els.speed.value);
       });
     }
 
