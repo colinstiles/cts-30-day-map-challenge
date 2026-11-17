@@ -1,0 +1,22 @@
+{
+"type": "FeatureCollection",
+"name": "cities",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "name": "Kyiv", "label": true }, "geometry": { "type": "Point", "coordinates": [ 30.5234, 50.4501 ] } },
+{ "type": "Feature", "properties": { "name": "Kharkiv", "label": true }, "geometry": { "type": "Point", "coordinates": [ 36.2304, 49.9935 ] } },
+{ "type": "Feature", "properties": { "name": "Sumy", "label": false }, "geometry": { "type": "Point", "coordinates": [ 34.7981, 50.9077 ] } },
+{ "type": "Feature", "properties": { "name": "Dnipro", "label": true }, "geometry": { "type": "Point", "coordinates": [ 35.0462, 48.4647 ] } },
+{ "type": "Feature", "properties": { "name": "Zaporizhzhia", "label": false }, "geometry": { "type": "Point", "coordinates": [ 35.1396, 47.8388 ] } },
+{ "type": "Feature", "properties": { "name": "Donetsk", "label": true }, "geometry": { "type": "Point", "coordinates": [ 37.8028, 48.0159 ] } },
+{ "type": "Feature", "properties": { "name": "Luhansk", "label": false }, "geometry": { "type": "Point", "coordinates": [ 39.3078, 48.574 ] } },
+{ "type": "Feature", "properties": { "name": "Mariupol", "label": false }, "geometry": { "type": "Point", "coordinates": [ 37.5434, 47.0971 ] } },
+{ "type": "Feature", "properties": { "name": "Kherson", "label": true }, "geometry": { "type": "Point", "coordinates": [ 32.6169, 46.6354 ] } },
+{ "type": "Feature", "properties": { "name": "Simferopol", "label": true }, "geometry": { "type": "Point", "coordinates": [ 34.1024, 44.9521 ] } },
+{ "type": "Feature", "properties": { "name": "Sevastopol", "label": false }, "geometry": { "type": "Point", "coordinates": [ 33.5254, 44.6166 ] } },
+{ "type": "Feature", "properties": { "name": "Odesa", "label": true }, "geometry": { "type": "Point", "coordinates": [ 30.7233, 46.4825 ] } },
+{ "type": "Feature", "properties": { "name": "Kupiansk", "label": false }, "geometry": { "type": "Point", "coordinates": [ 37.6165, 49.7064 ] } },
+{ "type": "Feature", "properties": { "name": "Kramatorsk", "label": false }, "geometry": { "type": "Point", "coordinates": [ 37.5564, 48.7233 ] } },
+{ "type": "Feature", "properties": { "name": "Pokrovsk", "label": false }, "geometry": { "type": "Point", "coordinates": [ 37.1758, 48.282 ] } }
+]
+}

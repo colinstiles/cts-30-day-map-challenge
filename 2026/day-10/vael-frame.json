@@ -1,0 +1,41 @@
+{
+  "name": "Vael",
+  "title": "The Crescent Sea",
+  "generator": "vael-world.js@1",
+  "seed": 20261110,
+  "continent": "Cairn",
+  "crs": {
+    "id": "VAEL:2026",
+    "type": "geographic",
+    "datum": "Vael Sphere 2026",
+    "ellipsoid": {
+      "a": 1250000,
+      "b": 1250000,
+      "unit": "metre"
+    },
+    "primeMeridian": {
+      "name": "Cape Orro",
+      "longitude": 0,
+      "note": "The meridian through Cape Orro, capital of Orro Reach. Not Greenwich."
+    },
+    "equator": "The Vael equator crosses the Glass Mere.",
+    "angularUnit": "degree",
+    "not": "WGS84"
+  },
+  "mappedExtent": {
+    "west": -11.2,
+    "east": 88.8,
+    "south": -36,
+    "north": 40
+  },
+  "designShift": {
+    "lon": 3.2,
+    "lat": 0,
+    "note": "world = design - shift; shift is frozen"
+  },
+  "display": {
+    "projection": "plate carree",
+    "note": "Plate carrée is the Day 10 drawing. It is not the datum. Day 22 replaces it."
+  },
+  "geometry": "2026/10_prompting/vael.geojson"
+}
