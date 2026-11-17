@@ -7,11 +7,13 @@ Year folder for the challenge plan, working notes, interactive embeds, and galle
 ```text
 2026/
 ├── 30-Day-Map-Challenge-2026-Plan.md   # Master plan (linked from the gallery)
-├── images/                             # Finished maps for challenge.colinstiles.com
-│   └── day-NN.png|jpg|jpeg             # Gallery picks these up automatically
-├── day-NN.html                         # Optional interactive map (register `embed` in days-data.js)
+├── day-01/ … day-30/                   # Per-day folders
+│   ├── day-NN.png|jpg|jpeg             # Gallery raster (auto-detected or via `image` field)
+│   ├── day-NN.html                     # Optional interactive map (registered in `embed` field)
+│   └── day-NN-*.png|json               # Working assets, variants, bounds
+├── images/                             # Deprecated; kept for history. Now empty.
 ├── 00_reference/                       # Shared basemaps, templates, style notes
-├── 01_points/ … 30_pen_paper/          # Per-day working notes, deps, scratch
+├── 01_points/ … 30_pen_paper/          # Per-day working notes, deps, scratch (optional)
 └── README.md                           # This file
 ```
 
@@ -19,10 +21,11 @@ Year folder for the challenge plan, working notes, interactive embeds, and galle
 
 | Kind | Where | Notes |
 | --- | --- | --- |
-| Gallery raster | `images/day-NN.png` (or `.jpg` / `.jpeg`) | Do not put finals in day folders |
-| Interactive HTML | `2026/day-NN.html` | Keep at year root so `../assets/` paths stay simple. `embed` replaces the card image. `page` adds a link under the card and leaves the sheet in place. |
-| Day notes / deps | `NN_theme/` | e.g. `06_vintage/NOTES.md` |
+| Gallery raster | `day-NN/day-NN.png` (or `.jpg` / `.jpeg`) | Each day's final map in its folder. Registered via `image` field in days-data.js. |
+| Interactive HTML | `day-NN/day-NN.html` | Optional. Registered via `embed` field in days-data.js. Uses `../../assets/` for relative paths. |
+| Working assets | `day-NN/day-NN-*.png|json` | Variants, overlays, bounds, process files. |
+| Day notes / deps | `NN_theme/` | e.g. `06_vintage/NOTES.md`. Optional; for context and reference. |
 | Raw / processed GIS | `data/raw/`, `data/processed/` | Gitignored; never commit large binaries |
 | Production scripts | `scripts/` | e.g. `scripts/day06_vintage_chattanooga.py` |
 
-Gallery metadata lives in `assets/js/days-data.js` (`imageDir: "2026/images"`). Keep day concepts there in sync with the plan table.
+Gallery metadata lives in `assets/js/days-data.js`. Each day with an image or embed has an explicit `image` or `embed` field. Keep day concepts in sync with the plan table.
