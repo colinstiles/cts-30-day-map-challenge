@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 17 — Self-Transcendence 3100 | 30 Day Map Challenge</title>
+  <meta name="description" content="The Sri Chinmoy Self-Transcendence 3100 Mile Race: one Queens block, run from 6 a.m. to midnight for 52 days, from the dark into the light.">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900|Barlow+Condensed:500,600" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/day17.css">
+</head>
+<body class="d17-page">
+  <script>
+    if (new URLSearchParams(location.search).has("embed")) {
+      document.body.classList.add("d17-embed");
+    }
+  </script>
+
+  <canvas id="d17-canvas" aria-label="Map of the Self-Transcendence 3100 mile loop in Jamaica, Queens"></canvas>
+
+  <div class="d17-ui">
+    <header class="d17-header">
+      <a class="d17-back" href="../index.html">← Gallery</a>
+      <span class="d17-kicker">Day 17 · Light &amp; dark</span>
+      <h1>Self-Transcendence 3100</h1>
+      <p>
+        One block in Jamaica, Queens, New York. 3,100 miles in 52 days. The course is open from 6 a.m. to midnight.
+        Welcome to the Sri Chinmoy Self-Transcendence.
+      </p>
+    </header>
+
+    <div class="d17-readout" aria-live="polite">
+      <p class="d17-miles" id="d17-miles">0</p>
+      <p class="d17-miles-unit">miles</p>
+      <p class="d17-when" id="d17-when">Day 1 of 52 · 6:00 a.m.</p>
+      <p class="d17-phase" id="d17-phase">Dawn</p>
+      <p class="d17-split" id="d17-split"><span id="d17-day-mi">Daylight 0</span><span id="d17-night-mi">Night 0</span></p>
+    </div>
+
+    <footer class="d17-dock">
+      <div class="d17-controls">
+        <button type="button" id="d17-play" aria-pressed="true">Pause</button>
+        <input type="range" id="d17-slider" min="0" max="1000" value="0" aria-label="Race progress">
+      </div>
+      <p class="d17-credit">
+        164th Place, the Grand Central Parkway, 168th Street,
+        and 84th Avenue (Abigail Adams Avenue). Each certified lap is 0.5488 miles,
+        5,649 laps. The block is drawn from OpenStreetMap. Sunrise and sunset are
+        calculated for this block, 30 August–20 October 2026. Each of the 52 days
+        runs from night into daylight. The ring is those days, and the number on
+        it is the miles.
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/day17-race.js"></script>
+</body>
+</html>
