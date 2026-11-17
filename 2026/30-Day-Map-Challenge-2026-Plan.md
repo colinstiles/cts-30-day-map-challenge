@@ -369,7 +369,8 @@ Working notes: `2026/13_interactions/NOTES.md`. Basemap: `scripts/build_day13_ba
 
 ## Day 14 — Borgesian Map
 **Date:** November 14  
-**Concept:** **One oak leaf, at the size of the leaf**
+**Concept:** One oak leaf on a 1:1 scale
+**Tools:** JavaScript
 
 A geotagged photograph of an oak leaf on a sidewalk (`2026/14_borgesian/borgesian-leaf.jpg`), shown at 1:1 in `2026/day-14.html`. The photograph is the map. There is no other scale: dragging pans across the slab, one centimeter of concrete to one centimeter on the screen.
 
@@ -383,15 +384,11 @@ The ground width is the camera's focus distance when the JPEG records a plausibl
 
 ## Day 15 — Inside Out
 **Date:** November 15  
-**Concept:** **North Chickamauga Creek Gorge, Inverted**
+**Concept:** North Chickamauga Creek Gorge, Inverted
+**Tools:** forge3d, matplotlib
 
 ### Map ideas
-1. Invert the gorge's elevation model so the gorge walls read as peaks and the ridgelines read as a valley.
-2. A companion figure/ground inversion: render developed land as the visible "shape" and forest as the void, instead of the usual other way around.
-3. Pair the two inversions (terrain and land-cover) side by side as a diptych for the day.
-
-### Recommended direction
-One relief of the state park, turned over. USGS 3DEP elevation inside the park frame is reflected through its midpoint, so the creek bottom becomes the crest and the rims become the trough. The boundary is TDEC's March 2024 state-park polygon (TSP-0322). forge3d path-traces the relief when it is installed and a GPU is available; otherwise the same grid is drawn with matplotlib. The forest/developed figure-ground idea stays off this sheet. Day 26 can put the gorge right-side up.
+- Invert the gorge's elevation model so the gorge walls read as peaks and the ridgelines read as a valley
 
 ### Technical opportunity
 - DEM of North Chickamauga Creek Gorge State Park, elevation reflected through the frame midpoint
@@ -403,15 +400,11 @@ One relief of the state park, turned over. USGS 3DEP elevation inside the park f
 
 ## Day 16 — Collaborative Map
 **Date:** November 16  
-**Concept:** **Reworking a Declassified CIA Map of Konar Valley**
+**Concept:** Reworking a Declassified CIA Map of Konar Valley
+**Tools:** Cesium
 
 ### Map ideas
-1. Source a declassified CIA map of the Konar Valley, Afghanistan, and reinterpret or redraw it with modern cartographic technique.
-2. Georeference the historical map and overlay modern data for comparison.
-3. Collaborate with someone else by splitting the work: one person handles georeferencing/sourcing, the other handles redesign.
-
-### Recommended direction
-Collaborate with the 2001 cartographer. The CIA sheet is a cut block of eastern Afghanistan, seen from the southwest, with the Konar running from the high country down to the Kabul River at Jalalabad. The page keeps that block and that oblique, and replaces the shaded relief with modern elevation and satellite imagery.
+- Source a declassified CIA map of the Konar Valley, Afghanistan, and reinterpret or redraw it with modern cartographic technique.
 
 ### How it is built
 - `2026/day-16.html` is the gallery embed. Cesium draws the globe. There is no ion token.
@@ -421,7 +414,7 @@ Collaborate with the 2001 cartographer. The CIA sheet is a cut block of eastern 
 - Boundaries are geoBoundaries lines clipped to the block. Roads are OpenStreetMap motorway, trunk, and primary. Both start off. The sheet's legend says the boundary drawing is not necessarily authoritative, and these lines are a reference, not that sheet's trace.
 - The scan is `2026/16_collaborative/2001-Afghanistan-Konar-Valley-3D.jpg`.
 
-### Potential data
+### Data source
 - CIA Cartography Center sheet 802538AI 11-01 (November 2001), in `2026/16_collaborative/`
 - Esri World Elevation (Terrain3D) and World Imagery
 
@@ -431,18 +424,17 @@ Collaborate with the 2001 cartographer. The CIA sheet is a cut block of eastern 
 
 ## Day 17 — Light & Dark
 **Date:** November 17  
-**Concept:** **Sri Chinmoy Self-Transcendence Race**
+**Concept:** Sri Chinmoy Self-Transcendence Race
+**Tools:** JavaScript
 
 ### Map ideas
-1. Map the race's short city-block loop course, run continuously day and night for over 50 days straight, with a light/dark treatment showing runner activity across the full day-night cycle.
-2. A time-of-day ring or spiral visualization of lap activity around the loop, distinguishing daylight hours from night hours.
-3. Pair the tiny physical course with the enormous cumulative distance (3,100 miles) covered by looping it thousands of times, day and night without stopping, as the "light & dark" contrast.
-
-### Recommended direction
-The race's defining feature is that it runs through day and night for 52 days. Use that literal day/night cycle, not a generic hillshade, as the organizing idea for the map.
+- Map the race's short city-block loop course, run continuously day and night for over 50 days straight, with a light/dark treatment showing runner activity across the full day-night cycle.
 
 ### Map
 `2026/day-17.html` draws the Jamaica block (164th Place, Grand Central Parkway, 168th Street, 84th Avenue). A runner circles the certified loop while the miles count to 3,100. The block is drawn from the street centerlines, with the four street names on the loop. Each of the 52 days runs 6 a.m. to midnight, night into daylight, then the finish opens into morning. Daylight behind the map is white, and the block stays dark. The course line brightens and thickens as the laps add up. The ring around the block is all 52 days, gold for daylight miles and blue for the miles run before sunrise or after sunset. The mileage sits on that ring.
+
+### Data source
+- OpenStreetMap
 
 **Expected effort:** **Moderate**
 
@@ -450,7 +442,8 @@ The race's defining feature is that it runs through day and night for 52 days. U
 
 ## Day 18 — NULL
 **Date:** November 18  
-**Concept:** **1994 Marathon des Sables: Mauro Prosperi's 291km Off Course**
+**Concept:** 1994 Marathon des Sables: Mauro Prosperi's 291km Off Course
+**Tools:** ArcGIS Pro
 
 ### Map ideas
 1. The known race route of the 1994 Marathon des Sables alongside Mauro Prosperi's last known position before he vanished into a sandstorm.
@@ -459,9 +452,8 @@ The race's defining feature is that it runs through day and night for 52 days. U
 
 ### Hyperlink
 https://www.bbc.com/news/magazine-30046426 
+https://www.theguardian.com/lifeandstyle/2023/jul/04/how-we-survive-mauro-prosperi-lost-desert-raw-bats-urine
 
-### Recommended direction
-Tie this directly to the NULL theme: his real position was genuinely unknown for over a week. Resist the urge to fully reconstruct his path — the honest map is the one that shows the known points and leaves the gap in between empty.
 
 ### Map
 `2026/day-18.html` is a static sheet of the western Sahara. Three fixes are marked. Nothing is drawn between them. The start is 30.093° N, 6.876° W, near Foum Zguid. The finish is 30.333° N, 5.835° W, at Zagora. The sandstorm left him at 27.669° N, 8.143° W, in Tindouf. Measured straight, Tindouf is 296 km from the start and 372 km from the finish. The track is null. The coast and the Algeria border are Natural Earth 1:10 million. The sheet is sand, clay, and umber.
@@ -472,26 +464,23 @@ Tie this directly to the NULL theme: his real position was genuinely unknown for
 
 ## Day 19 — Senses: Smell
 **Date:** November 19  
-**Concept:** **Distribution of Ponderosa Pine**
+**Concept:** Distribution of Ponderosa Pine
 
 ### Map ideas
 1. A range map of Ponderosa Pine across its natural distribution.
 2. A Ponderosa Pine density/abundance surface.
 3. Pair the distribution map with a note on its distinctive vanilla/butterscotch bark scent as the "smell" connection.
 
-### Recommended direction
-Make this a straightforward, well-executed species distribution map. The "smell" theme is carried by Ponderosa Pine's famously scented bark, so let the map focus on range and density.
+### Data source
+- [USFS FIA Bigmap](https://data.fs.usda.gov/geodata/rastergateway/bigmap/index.php)
 
-### Potential data
-- USFS FIA / USGS tree species range data
-
-**Expected effort:** **Moderate**
+**Expected effort:** **Low**
 
 ---
 
 ## Day 20 — Hexagons
 **Date:** November 20  
-**Concept:** **Wildfire Potential Hazard in Hexagons**
+**Concept:** Wildfire Potential Hazard in Hexagons
 
 ### Map ideas
 1. Wildfire Hazard Potential (WHP) data aggregated into a hex grid.
@@ -501,8 +490,8 @@ Make this a straightforward, well-executed species distribution map. The "smell"
 ### Recommended direction
 Use the USFS Wildfire Hazard Potential dataset directly, aggregated to hexagons, so the hex pattern reflects a real, meaningful hazard gradient.
 
-### Potential data
-- USFS Wildfire Hazard Potential (WHP) raster
+### Data source
+- [USFS Wildfire Hazard Potential (WHP) raster]()
 
 **Expected effort:** **Moderate**
 
@@ -510,7 +499,7 @@ Use the USFS Wildfire Hazard Potential dataset directly, aggregated to hexagons,
 
 ## Day 21 — OpenStreetMap
 **Date:** November 21  
-**Concept:** **Who Contributes to OpenStreetMap, Per Capita**
+**Concept:** Who Contributes to OpenStreetMap, Per Capita
 
 ### Map ideas
 1. A world choropleth of OSM contributors or edits per capita by country.
@@ -524,7 +513,7 @@ Pull OSM contributor/edit statistics normalized by country population, and build
 - OpenStreetMap contributor statistics
 - World Bank population data
 
-**Expected effort:** **Moderate**
+**Expected effort:** **Low**
 
 ---
 
