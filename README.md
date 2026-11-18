@@ -31,17 +31,17 @@ The gallery is linked from [colinstiles.com](https://colinstiles.com) (see the `
 - **Month progress** is a vertical strip of 30 day boxes on the right. Completed days fill in order. A past November is full. A future one stays empty.
 - **Year tabs** switch between challenge years. The newest year loads by default, and `?year=2026` links to a specific one.
 - **Day cards** show the day number, theme, concept, date, and tools. Each card links to the full-size map.
-- **Interactive maps** can live as HTML pages (for example `2026/day-04.html`) and embed in a card via the `embed` field in `days-data.js`.
+- **Interactive maps** can live as HTML pages (for example `2026/day-04/day-04.html`) and embed in a card via the `embed` field in `days-data.js`.
 - **Placeholders** show "Coming Nov N" for any day that doesn't have an image yet.
 
-The page is driven by two folders:
+The page is driven by gallery metadata and organized by year:
 
 | Path | Purpose |
 | --- | --- |
-| `assets/2026/js/days-data.js` | One entry per day for every year: date, theme, concept, and tool. Optional `embed` points at an interactive HTML map. Optional `image` names a file other than `day-NN`. |
-| `<year>/day-NN/` | Each day's folder with image, HTML embed, notes, and supporting data. |
+| `assets/2026/js/days-data.js` | One entry per day for every year: date, theme, concept, and tool. Optional `embed` points at an interactive HTML map. Optional `image` names a file (default `<year>/day-NN/day-NN.png`). |
+| `<year>/day-NN/` | Each day gets its own folder with the final map image, optional HTML embed, notes (NOTES.md), and all supporting data. |
 
-The page itself lives in `index.html`, with styling in `assets/2026/css/style.css` and logic in `assets/2026/js/gallery.js`.
+The page itself lives in `index.html`, with styling in `assets/2026/css/style.css` and logic in `assets/2026/js/gallery.js`. All assets (CSS, JS, day data) are organized under `assets/<year>/` for year-based scalability.
 
 Open `index.html` directly in a browser, or run `python -m http.server` from the repository root and visit `http://localhost:8000`.
 
@@ -58,21 +58,30 @@ Keep the table and the `assets/2026/js/days-data.js` concepts in sync when a day
 ```text
 ├── .devcontainer/            # VS Code dev container config
 ├── .github/workflows/        # CI workflow (ci.yml) and Dependabot config
-├── assets/
-│   ├── css/style.css         # Gallery styling
-│   └── js/                   # Gallery logic, day data, and optional Mars globe script
-├── 2026/                     # Plan, day-NN.html embeds, images/, NN_theme/ work folders
-│   ├── images/               # Gallery exports: day-NN.png|jpg|jpeg
-│   ├── day-04.html           # Example interactive embed
-│   └── 01_points/ …          # Per-day notes (e.g. 06_vintage/)
-├── 2027/                     # Next year (images/ scaffolded)
+├── assets/                   # Shared gallery assets (all years)
+│   ├── 2026/
+│   │   ├── css/              # 2026 gallery and day-specific CSS
+│   │   └── js/               # 2026 gallery logic, day data, Mars globe script
+│   └── 2027/                 # Scaffolded for next year
+├── 2026/                     # 2026 Challenge year
+│   ├── 30-Day-Map-Challenge-2026-Plan.md  # Yearly plan
+│   ├── day-01/ … day-30/     # Per-day folders: image, HTML, notes, data
+│   ├── 00_reference/ … 30_pen_paper/  # Optional theme-based work folders
+│   └── README.md             # Year-specific documentation
+├── 2027/                     # Next year (scaffolded)
 ├── data/
-│   ├── processed/            # Derived outputs and archived originals (gitignored)
-│   └── raw/                  # Unaltered downloads, read-only (gitignored)
-├── notebooks/                # Jupyter notebooks for exploration
-├── scripts/                  # Production-ready Python or Node.js scripts
+│   ├── 2026/
+│   │   ├── processed/        # Derived outputs (gitignored)
+│   │   └── raw/              # Unaltered downloads (gitignored)
+│   └── 2027/                 # Scaffolded
+├── notebooks/
+│   ├── 2026/                 # 2026 Jupyter exploration
+│   └── 2027/                 # Scaffolded
+├── scripts/
+│   ├── 2026/                 # 2026 build and processing scripts
+│   └── 2027/                 # Scaffolded
 ├── src/                      # Reusable production Python code
-├── index.html                # Gallery page, served at challenge.colinstiles.com
+├── index.html                # Gallery page (challenge.colinstiles.com)
 ├── requirements.txt          # Core Python dependencies (pinned)
 ├── requirements-dev.txt      # Development tools (JupyterLab, ruff, pytest, pre-commit)
 ├── AGENTS.md / CLAUDE.md     # Instructions for AI coding agents
