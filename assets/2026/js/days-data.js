@@ -27,7 +27,7 @@ const CHALLENGE_YEARS = {
       { day: 17, date: "Nov 17", theme: "Light & Dark", concept: "Self-Transcendence 3100 Mile Race", tool: "JavaScript, OpenStreetMap", embed: "2026/day-17/day-17.html" },
       { day: 18, date: "Nov 18", theme: "NULL", concept: "1994 Null route along the Marathon des Sables, Morroco and Algeria", tool: "ArcGIS Pro", image: "2026/day-18/day-18.png" },
       { day: 19, date: "Nov 19", theme: "Senses: Smell", concept: "Distribution of Ponderosa Pine's Intoxicating Scent", tool: "ArcGIS Pro, FIA BIGMAP", image: "2026/day-19/day-19.png" },
-      { day: 20, date: "Nov 20", theme: "Hexagons", concept: "Tennessee Wildfire Hazard Potential", tool: "ArcGIS Pro, Python" },
+      { day: 20, date: "Nov 20", theme: "Hexagons", concept: "Tennessee Wildfire Hazard Potential", tool: "ArcGIS Pro, Python", image: "2026/day-20/day-20.png" },
       { day: 21, date: "Nov 21", theme: "OpenStreetMap", concept: "Who Maps OpenStreetMap, Per Capita", tool: "Python, ohsomeNow", image: "2026/day-21/day-21.png" },
       { day: 22, date: "Nov 22", theme: "Projections", concept: "TBD", tool: "Tool TBD" },
       { day: 23, date: "Nov 23", theme: "Senses: Taste", concept: "TBD", tool: "Tool TBD" },
