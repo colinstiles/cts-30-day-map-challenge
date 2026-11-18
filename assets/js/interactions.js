@@ -21,7 +21,7 @@
   const map = new maplibregl.Map({
     container: "ix-map",
     attributionControl: false,
-    style: new URL("13_interactions/human-geography-dark.json", pageUrl).href,
+    style: new URL("2026/day-13/human-geography-dark.json", pageUrl).href,
     bounds: [[-12, 34], [46, 71]],
     fitBoundsOptions: { padding: padding() },
     maxZoom: 12,
@@ -520,7 +520,7 @@
 
   map.on("load", function () {
     addLayers();
-    fetch(new URL("13_interactions/episodes.json", pageUrl)).then(function (response) {
+    fetch(new URL("2026/day-13/episodes.json", pageUrl)).then(function (response) {
       if (!response.ok) {
         throw new Error("frames");
       }
@@ -530,7 +530,7 @@
       slider.max = String(episodes.length - 1);
       creditEl.appendChild(document.createTextNode("Basemap: Esri, TomTom, Garmin, FAO, NOAA, USGS, © OpenStreetMap contributors, and the GIS User Community. "));
       const notes = document.createElement("a");
-      notes.href = "13_interactions/NOTES.md";
+      notes.href = "2026/day-13/NOTES.md";
       notes.textContent = "Notes and sources";
       creditEl.appendChild(notes);
       creditEl.appendChild(document.createTextNode(". Transfers and arrows are simplified."));
