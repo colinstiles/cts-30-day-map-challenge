@@ -23,7 +23,7 @@
     host.className = "mars-globe";
     host.hidden = true;
     frame.appendChild(host);
-    ["assets/js/mars-texture.js", "assets/js/mars.js"].forEach((src) => {
+    ["assets/2026/js/mars-texture.js", "assets/2026/js/mars.js"].forEach((src) => {
       const script = document.createElement("script");
       script.src = src;
       script.async = false;
