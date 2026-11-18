@@ -463,7 +463,7 @@
       "maxZoom": 5.4,
       "highlight": ["UKR"],
       "link": {
-        "href": "day-12.html",
+        "href": "../day-12/day-12.html",
         "label": "Year 5: the claim and the hold"
       },
       "places": [],

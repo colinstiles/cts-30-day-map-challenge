@@ -530,7 +530,7 @@
       slider.max = String(episodes.length - 1);
       creditEl.appendChild(document.createTextNode("Basemap: Esri, TomTom, Garmin, FAO, NOAA, USGS, © OpenStreetMap contributors, and the GIS User Community. "));
       const notes = document.createElement("a");
-      notes.href = "2026/day-13/NOTES.md";
+      notes.href = "NOTES.md";
       notes.textContent = "Notes and sources";
       creditEl.appendChild(notes);
       creditEl.appendChild(document.createTextNode(". Transfers and arrows are simplified."));
