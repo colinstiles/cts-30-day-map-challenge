@@ -21,7 +21,7 @@
   const map = new maplibregl.Map({
     container: "ix-map",
     attributionControl: false,
-    style: new URL("2026/day-13/human-geography-dark.json", pageUrl).href,
+    style: new URL("human-geography-dark.json", pageUrl).href,
     bounds: [[-12, 34], [46, 71]],
     fitBoundsOptions: { padding: padding() },
     maxZoom: 12,
@@ -520,7 +520,7 @@
 
   map.on("load", function () {
     addLayers();
-    fetch(new URL("2026/day-13/episodes.json", pageUrl)).then(function (response) {
+    fetch(new URL("episodes.json", pageUrl)).then(function (response) {
       if (!response.ok) {
         throw new Error("frames");
       }
