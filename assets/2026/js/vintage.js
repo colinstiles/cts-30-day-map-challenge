@@ -31,7 +31,7 @@
     maxZoom: 17
   });
 
-  L.imageOverlay("images/day-06-historic.png", HISTORIC_BOUNDS, {
+  L.imageOverlay("day-06-historic.png", HISTORIC_BOUNDS, {
     interactive: false
   }).addTo(historicMap);
 

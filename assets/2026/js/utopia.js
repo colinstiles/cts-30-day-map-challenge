@@ -93,8 +93,8 @@
 
   function initOverlays(frameBounds) {
     bounds = frameBounds;
-    L.imageOverlay("images/day-08-utopia.png", bounds, { interactive: false }).addTo(utopiaMap);
-    L.imageOverlay("images/day-08-now.png", bounds, { interactive: false }).addTo(nowMap);
+    L.imageOverlay("day-08-utopia.png", bounds, { interactive: false }).addTo(utopiaMap);
+    L.imageOverlay("day-08-now.png", bounds, { interactive: false }).addTo(nowMap);
     coverBounds(bounds);
     placeDam();
     syncNowMap();
@@ -140,7 +140,7 @@
     syncNowMap();
   });
 
-  fetch("images/day-08-bounds.json")
+  fetch("day-08-bounds.json")
     .then((r) => (r.ok ? r.json() : null))
     .then((data) => {
       if (data && data.bounds) bounds = data.bounds;
