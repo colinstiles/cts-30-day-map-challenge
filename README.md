@@ -38,10 +38,10 @@ The page is driven by two folders:
 
 | Path | Purpose |
 | --- | --- |
-| `assets/js/days-data.js` | One entry per day for every year: date, theme, concept, and tool. Optional `embed` points at an interactive HTML map. Optional `image` names a file other than `day-NN`. |
-| `<year>/images/day-NN.png` | The finished map for each day. `.jpg` and `.jpeg` also work. |
+| `assets/2026/js/days-data.js` | One entry per day for every year: date, theme, concept, and tool. Optional `embed` points at an interactive HTML map. Optional `image` names a file other than `day-NN`. |
+| `<year>/day-NN/` | Each day's folder with image, HTML embed, notes, and supporting data. |
 
-The page itself lives in `index.html`, with styling in `assets/css/style.css` and logic in `assets/js/gallery.js`.
+The page itself lives in `index.html`, with styling in `assets/2026/css/style.css` and logic in `assets/2026/js/gallery.js`.
 
 Open `index.html` directly in a browser, or run `python -m http.server` from the repository root and visit `http://localhost:8000`.
 
@@ -51,7 +51,7 @@ Each year has a planning document in its own folder:
 
 - `2026/30-Day-Map-Challenge-2026-Plan.md`: the day-by-day plan, with the table of themes, concepts, and effort levels at the top.
 
-Keep the table and the `assets/js/days-data.js` concepts in sync when a day's topic changes.
+Keep the table and the `assets/2026/js/days-data.js` concepts in sync when a day's topic changes.
 
 ## Repository Structure
 

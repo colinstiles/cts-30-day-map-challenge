@@ -22,7 +22,7 @@ Year folder for the challenge plan, working notes, interactive embeds, and galle
 | Kind | Where | Notes |
 | --- | --- | --- |
 | Gallery raster | `day-NN/day-NN.png` (or `.jpg` / `.jpeg`) | Each day's final map in its folder. Registered via `image` field in days-data.js. |
-| Interactive HTML | `day-NN/day-NN.html` | Optional. Registered via `embed` field in days-data.js. Uses `../../assets/` for relative paths. |
+| Interactive HTML | `day-NN/day-NN.html` | Optional. Registered via `embed` field in days-data.js. Uses `../../assets/2026/` for relative paths. |
 | Working assets | `day-NN/day-NN-*.png|json` | Variants, overlays, bounds, process files. |
 | Day notes / deps | `NN_theme/` | e.g. `06_vintage/NOTES.md`. Optional; for context and reference. |
 | Raw / processed GIS | `data/raw/`, `data/processed/` | Gitignored; never commit large binaries |
