@@ -529,11 +529,14 @@ Pull OSM contributor/edit statistics normalized by country population, and build
 ### Recommended direction
 This is the most technical day of the month — actually define a projection's transformation equations (even a novel variant or hybrid of existing ones), fitted to the fictional world's own shape and extent rather than to Earth. Reusing Day 10's invented geography means the projection's distortion characteristics are being designed for a world nobody has ever had to project before.
 
-Day 10's world is Vael. Reuse `2026/10_prompting/vael-frame.json` and `2026/10_prompting/vael.geojson`. Those coordinates are degrees on the Vael sphere (`VAEL:2026`, R = 1,250 km), not WGS84.
+Day 10's world is Vael. Reuse `2026/day-10/vael-frame.json` and the generator in `assets/2026/js/vael-world.js`. Those coordinates are degrees on the Vael sphere (`VAEL:2026`, R = 1,250 km), not WGS84.
 
 ### Technical opportunity
 - Custom projection math (e.g., via a Python/PROJ pipeline or a pyproj custom CRS) fit to Day 10's fictional coordinate frame
 - Distortion comparison (Tissot's indicatrix) against the new projection
+
+### Map
+`2026/day-22/day-22.png` is the Mere projection with the land left off. Gold rings are angular distance from the center, so the radius is true distance. The ellipses are Tissot’s indicatrix. The forward equations and the curve of `k = c / sin c` are on the sheet. See `2026/day-22/NOTES.md`.
 
 **Expected effort:** **Moderate**
 

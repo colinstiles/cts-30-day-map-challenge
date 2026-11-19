@@ -29,7 +29,7 @@ const CHALLENGE_YEARS = {
       { day: 19, date: "Nov 19", theme: "Senses: Smell", concept: "Distribution of Ponderosa Pine's Intoxicating Scent", tool: "ArcGIS Pro, FIA BIGMAP", image: "2026/day-19/day-19.png" },
       { day: 20, date: "Nov 20", theme: "Hexagons", concept: "Tennessee Wildfire Hazard Potential", tool: "ArcGIS Pro, Python", image: "2026/day-20/day-20.png" },
       { day: 21, date: "Nov 21", theme: "OpenStreetMap", concept: "Who Maps OpenStreetMap, Per Capita", tool: "Python, ohsomeNow", image: "2026/day-21/day-21.png" },
-      { day: 22, date: "Nov 22", theme: "Projections", concept: "TBD", tool: "Tool TBD" },
+      { day: 22, date: "Nov 22", theme: "Projections", concept: "The Mere projection of Vael", tool: "Python, VAEL:2026", image: "2026/day-22/day-22.png" },
       { day: 23, date: "Nov 23", theme: "Senses: Taste", concept: "TBD", tool: "Tool TBD" },
       { day: 24, date: "Nov 24", theme: "Network", concept: "TBD", tool: "Tool TBD" },
       { day: 25, date: "Nov 25", theme: "Is this a map?", concept: "TBD", tool: "Tool TBD" },
