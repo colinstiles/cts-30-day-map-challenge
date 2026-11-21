@@ -6,25 +6,29 @@ stats (no hashtag filter). Someone who edited in two countries is
 counted in both. The map shows where mapping happened, not the
 mapper's nationality.
 
-Population is World Bank SP.POP.TOTL from the Open Knowledge
-population table, the latest year published for each country. The
-color is contributors per 100,000 residents. Countries with no
-population figure stay blank.
+Population is World Bank SP.POP.TOTL for 2025 from the Open Knowledge
+population table. Taiwan is not in that series. Its population is the
+Ministry of the Interior household-registration total at 31 December
+2025, 23,299,132 people. The color is contributors per 100,000
+residents. Countries with no population figure stay blank.
 
 Countries are Natural Earth 1:50m. Antarctica is left off the sheet.
-The projection is EPSG:8857, Equal Earth.
+Two Lambert azimuthal equal-area maps share one scale. The cut is in
+the Atlantic, so the Americas are on the left and Europe, Africa, Asia,
+and Oceania are on the right. A country stays whole on the side of its
+main landmass.
 
-Downloads are cached under data/raw/, which is gitignored. The country
-table is 2026/21_osm/contributors.csv. The gallery sheet is
-2026/images/day-21.png.
+Downloads are cached under data/2026/raw/, which is gitignored. The
+country table is 2026/day-21/contributors.csv. The gallery sheet is
+2026/day-21/day-21.png.
 
 A corporate proxy may need the local Zscaler CA on SSL_CERT_FILE. Do
 not disable TLS verification.
 
 Run from the repository root:
 
-    python scripts/build_day21_osm.py
-    python scripts/build_day21_osm.py --refresh
+    python scripts/2026/build_day21_osm.py
+    python scripts/2026/build_day21_osm.py --refresh
 """
 
 from __future__ import annotations
@@ -41,10 +45,10 @@ from matplotlib.colors import LogNorm
 from matplotlib.patches import FancyBboxPatch
 import _env  # noqa: F401  (loads .env for SSL_CERT_FILE / REQUESTS_CA_BUNDLE)
 
-ROOT = Path(__file__).resolve().parents[1]
-RAW = ROOT / "data" / "raw"
-DAY = ROOT / "2026" / "21_osm"
-OUT_PNG = ROOT / "2026" / "images" / "day-21.png"
+ROOT = Path(__file__).resolve().parents[2]
+RAW = ROOT / "data" / "2026" / "raw"
+DAY = ROOT / "2026" / "day-21"
+OUT_PNG = DAY / "day-21.png"
 COUNTRIES_PATH = RAW / "ne_50m_admin_0_countries.geojson"
 OHSOME_PATH = RAW / "day21_ohsome_users.json"
 POP_PATH = RAW / "day21_worldbank_pop.csv"
@@ -66,18 +70,30 @@ START = "2024-01-01T00:00:00Z"
 END = "2026-07-01T00:00:00Z"
 # Natural Earth and ohsome codes that are not the World Bank ISO3.
 ISO_FIX = {"KOS": "XKX", "XK": "XKX"}
+# World Bank SP.POP.TOTL omits Taiwan. Household-registration population
+# at 31 December 2025, Ministry of the Interior, Republic of China.
+# https://www.ris.gov.tw/app/en/2121?sn=26245250
+TAIWAN_ISO = "TWN"
+TAIWAN_POPULATION = 23_299_132
+TAIWAN_YEAR = 2025
 
 FIG_W, FIG_H = 16.0, 10.0
 DPI = 160
 
-PAPER = "#F4F0E6"
-INK = "#1C2430"
-MUTED = "#5C6570"
-OCEAN = "#D5E0E4"
-NODATA = "#E4E0D6"
-EDGE = "#F4F0E6"
-# Sequential green, light enough that the lowest class still reads on paper.
-RAMP = ("#E7F2EA", "#A9D3B5", "#5AAA78", "#1F7A4D", "#0C3D28")
+PAPER = "#141210"
+INK = "#F6F1E4"
+MUTED = "#C4B8A4"
+OCEAN = "#1A242C"
+NODATA = "#3A3834"
+EDGE = "#141210"
+PANEL = "#221C16"
+# Light purple (fewer) through mauve to dark gold (more).
+RAMP = ("#D9C6F2", "#B794D4", "#A67C8C", "#C49A4E", "#6E5424", "#3F3014")
+# Atlantic cut. Land to the west is the Americas map. A few Siberian
+# islands sit west of the date line; they stay with Asia.
+ATLANTIC_CUT = -30.0
+WEST_CRS = "+proj=laea +lat_0=12 +lon_0=-80 +datum=WGS84 +units=m +no_defs"
+EAST_CRS = "+proj=laea +lat_0=8 +lon_0=45 +datum=WGS84 +units=m +no_defs"
 
 SESSION = requests.Session()
 SESSION.headers["User-Agent"] = "cts-30-day-map-challenge day-21 educational map"
@@ -141,6 +157,9 @@ def build_table(countries: gpd.GeoDataFrame, refresh: bool) -> gpd.GeoDataFrame:
     users = fetch_users(refresh)
     people = fetch_population(refresh)
     table = countries.merge(users, on="iso3", how="left").merge(people, on="iso3", how="left")
+    taiwan = table["iso3"].eq(TAIWAN_ISO)
+    table.loc[taiwan, "population"] = TAIWAN_POPULATION
+    table.loc[taiwan, "year"] = TAIWAN_YEAR
     table["per_100k"] = table["contributors"] / table["population"] * 100_000
     DAY.mkdir(parents=True, exist_ok=True)
     export = table.drop(columns="geometry").sort_values("per_100k", ascending=False)
@@ -154,40 +173,58 @@ def _ranked(table: gpd.GeoDataFrame, high: bool) -> list[tuple[str, float]]:
     return list(zip(ordered["name"], ordered["per_100k"], strict=True))
 
 
-def render(table: gpd.GeoDataFrame) -> None:
-    mapped = table.to_crs("EPSG:8857")
-    # Log scale. The top is the highest rate among countries of at
-    # least one million people, so Monaco and St-Martin do not squeeze
-    # the rest of the world into one pale green. They share the darkest color.
-    big = mapped.loc[mapped["population"] >= 1_000_000, "per_100k"].dropna()
-    vmin = 0.5
-    vmax = max(float(big.max()), vmin * 10)
-    norm = LogNorm(vmin=vmin, vmax=vmax)
-    cmap = plt.matplotlib.colors.LinearSegmentedColormap.from_list("osm", RAMP)
+def _split_hemispheres(table: gpd.GeoDataFrame) -> tuple[gpd.GeoDataFrame, gpd.GeoDataFrame]:
+    parts = table.explode(index_parts=False).reset_index(drop=True)
+    parts = parts[~parts.geometry.is_empty & parts.geometry.notna()].copy()
+    point = parts.geometry.representative_point()
+    # Far eastern Russia crosses the date line and would otherwise land
+    # on the Americas map.
+    with_asia = (point.x < -160) & (point.y > 50)
+    western = (point.x < ATLANTIC_CUT) & ~with_asia
+    return parts.loc[western].copy(), parts.loc[~western].copy()
 
-    fig = plt.figure(figsize=(FIG_W, FIG_H), dpi=DPI, facecolor=PAPER)
-    ax = fig.add_axes((0.03, 0.12, 0.72, 0.74))
+
+def _draw_hemisphere(ax, frame: gpd.GeoDataFrame, crs: str, norm, cmap) -> None:
+    projected = frame.to_crs(crs)
     ax.set_facecolor(OCEAN)
-    mapped.plot(
+    projected.plot(
         ax=ax,
         column="per_100k",
         cmap=cmap,
         norm=norm,
-        linewidth=0.25,
+        linewidth=0.3,
         edgecolor=EDGE,
-        missing_kwds={"color": NODATA, "linewidth": 0.25, "edgecolor": EDGE},
+        missing_kwds={"color": NODATA, "linewidth": 0.3, "edgecolor": EDGE},
     )
-    bounds = mapped.total_bounds
-    pad_x = (bounds[2] - bounds[0]) * 0.02
-    pad_y = (bounds[3] - bounds[1]) * 0.03
+    bounds = projected.total_bounds
+    pad_x = (bounds[2] - bounds[0]) * 0.04
+    pad_y = (bounds[3] - bounds[1]) * 0.05
     ax.set_xlim(bounds[0] - pad_x, bounds[2] + pad_x)
     ax.set_ylim(bounds[1] - pad_y, bounds[3] + pad_y)
     ax.set_axis_off()
 
+
+def render(table: gpd.GeoDataFrame) -> None:
+    # Log scale. The dark end is the highest rate among countries of at
+    # least one million people, so Monaco and St-Martin do not stretch it.
+    # They share that darkest gold.
+    big = table.loc[table["population"] >= 1_000_000, "per_100k"].dropna()
+    vmin = 0.5
+    vmax = max(float(big.max()), vmin * 10)
+    norm = LogNorm(vmin=vmin, vmax=vmax)
+    cmap = plt.matplotlib.colors.LinearSegmentedColormap.from_list("osm", RAMP)
+    western, eastern = _split_hemispheres(table)
+
+    fig = plt.figure(figsize=(FIG_W, FIG_H), dpi=DPI, facecolor=PAPER)
+    west_ax = fig.add_axes((0.015, 0.22, 0.33, 0.60))
+    east_ax = fig.add_axes((0.34, 0.22, 0.40, 0.60))
+    _draw_hemisphere(west_ax, western, WEST_CRS, norm, cmap)
+    _draw_hemisphere(east_ax, eastern, EAST_CRS, norm, cmap)
+
     fig.text(
         0.035,
         0.93,
-        "Who maps OpenStreetMap",
+        "Contributors to OpenStreetMap",
         fontsize=26,
         color=INK,
         fontweight="medium",
@@ -204,8 +241,11 @@ def render(table: gpd.GeoDataFrame) -> None:
         va="center",
     )
 
+    map_left, map_right = 0.015, 0.74
+    bar_width = 0.42
+    bar_left = (map_left + map_right) / 2 - bar_width / 2
     sm = plt.cm.ScalarMappable(norm=norm, cmap=cmap)
-    cax = fig.add_axes((0.08, 0.075, 0.36, 0.018))
+    cax = fig.add_axes((bar_left, 0.145, bar_width, 0.016))
     bar = fig.colorbar(sm, cax=cax, orientation="horizontal")
     bar.outline.set_visible(False)
     ticks = [0.5, 1, 2, 5, 10, 25, 50, 100, 200, 500, 1000]
@@ -213,54 +253,58 @@ def render(table: gpd.GeoDataFrame) -> None:
     bar.set_ticks(ticks)
     bar.set_ticklabels([f"{tick:g}" for tick in ticks])
     bar.ax.tick_params(labelsize=8, colors=MUTED, length=0)
+    fig.text(bar_left, 0.168, "Fewer Contributors", fontsize=9, color=MUTED, ha="left", va="bottom")
     fig.text(
-        0.08,
-        0.108,
-        "Contributors per 100,000 residents. Darkest green is the top of this scale or higher.",
+        bar_left + bar_width,
+        0.168,
+        "More Contributors",
         fontsize=9,
         color=MUTED,
+        ha="right",
+        va="bottom",
     )
 
-    panel = fig.add_axes((0.76, 0.12, 0.21, 0.74))
+    panel = fig.add_axes((0.755, 0.520, 0.215, 0.340))
     panel.set_xlim(0, 1)
     panel.set_ylim(0, 1)
     panel.set_axis_off()
     panel.add_patch(
         FancyBboxPatch(
-            (0.0, 0.02),
-            0.98,
-            0.96,
-            boxstyle="round,pad=0.012,rounding_size=0.02",
-            facecolor="#EFEBE1",
+            (0.0, 0.0),
+            1.0,
+            1.0,
+            boxstyle="round,pad=0.004,rounding_size=0.02",
+            facecolor=PANEL,
             edgecolor="none",
             transform=panel.transAxes,
+            clip_on=False,
         )
     )
 
     def write_rank(title: str, rows: list[tuple[str, float]], y: float) -> float:
-        panel.text(0.08, y, title, fontsize=11, color=INK, fontweight="medium", va="top")
-        y -= 0.055
+        panel.text(0.07, y, title, fontsize=11, color=INK, fontweight="medium", va="top")
+        y -= 0.072
         for name, rate in rows:
             label = f"{rate:.0f}" if rate >= 10 else f"{rate:.1f}"
-            panel.text(0.08, y, name, fontsize=10, color=INK, va="top")
-            panel.text(0.92, y, label, fontsize=10, color=MUTED, ha="right", va="top")
-            y -= 0.048
-        return y - 0.03
+            panel.text(0.07, y, name, fontsize=10, color=INK, va="top")
+            panel.text(0.93, y, label, fontsize=10, color=MUTED, ha="right", va="top")
+            y -= 0.064
+        return y - 0.018
 
-    y = 0.90
-    panel.text(0.08, y, "Countries over 1 million", fontsize=9, color=MUTED, va="top")
-    y = write_rank("Highest per 100,000", _ranked(mapped, high=True), y - 0.06)
-    write_rank("Lowest per 100,000", _ranked(mapped, high=False), y)
+    y = 0.95
+    panel.text(0.07, y, "Countries over 1 million", fontsize=9, color=MUTED, va="top")
+    y = write_rank("Highest per 100,000", _ranked(table, high=True), y - 0.075)
+    write_rank("Lowest per 100,000", _ranked(table, high=False), y)
 
     fig.text(
-        0.035,
-        0.035,
-        "A person is counted in every country they edited.  "
-        "Blank countries have no World Bank population.  "
-        "Sources: HeiGIT ohsomeNow, World Bank population, Natural Earth.",
+        0.02,
+        0.028,
+        "Sources: HeiGIT ohsomeNow, World Bank, Taiwan Ministry of the Interior, "
+        "Natural Earth. Created by Colin T. Stiles.",
         fontsize=8,
         color=MUTED,
         ha="left",
+        va="bottom",
     )
 
     OUT_PNG.parent.mkdir(parents=True, exist_ok=True)
