@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 24 — The thickest crypto corridors | 30 Day Map Challenge</title>
+  <meta name="description" content="The five largest country-to-country flows of Bitcoin, Ether, USDC, and Tether, July 2023 through June 2024.">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="../../assets/2026/css/day24.css">
+</head>
+<body class="d24-page">
+  <script>
+    if (new URLSearchParams(location.search).has("embed")) {
+      document.body.classList.add("d24-embed");
+    }
+  </script>
+
+  <div id="d24-map" role="application" aria-label="Map of the largest published crypto corridors"></div>
+
+  <aside class="d24-panel" id="d24-panel">
+    <a class="d24-back" href="../../index.html">← Gallery</a>
+    <p class="d24-kicker">Day 24 · Network</p>
+    <h1>The thickest crypto corridors</h1>
+    <p class="d24-deck">
+      Five largest country-to-country flows in each asset, July 2023 through June 2024.
+      These twenty links are a few percent of the cross-border total.
+    </p>
+    <div class="d24-filters" id="d24-filters" role="group" aria-label="Assets"></div>
+    <button type="button" class="d24-clear" id="d24-clear" hidden>Show every corridor</button>
+    <ul class="d24-list" id="d24-list"></ul>
+    <p class="d24-note" id="d24-note"></p>
+  </aside>
+
+  <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="../../assets/2026/js/day24-network.js"></script>
+</body>
+</html>
