@@ -558,6 +558,9 @@ Build on the agriculture angle but push it outward — show where Tennessee-grow
 - USDA / Tennessee Department of Agriculture export statistics
 - USA Trade Online
 
+### Map
+`2026/day-23/day-23.png` is a static sheet of Tennessee distilled-spirits exports in fiscal year 2025. Two orthographic globes carry the flows. Line width and color distinguish the five largest foreign buyers. Jack Daniel's and George Dickel are marked on a locator of Tennessee. The lines are the state total, not a brand share. See `2026/day-23/NOTES.md`.
+
 **Expected effort:** **Moderate**
 
 ---
@@ -577,6 +580,9 @@ This is a global network map, not a Tennessee-specific one. Focus on clean node-
 ### Potential data
 - Blockchain analytics providers (e.g., public Chainalysis reports)
 - On-chain flow data, if accessible
+
+### Map
+`2026/day-24/day-24.png` is the five largest country-to-country flows in each of Bitcoin, Ether, USDC, and Tether, July 2023 through June 2024. Line width is billion dollars. Circle area sums the corridors drawn from that country. Those twenty links are a few percent of each asset's cross-border volume. See `2026/day-24/NOTES.md`.
 
 **Expected effort:** **High**
 
