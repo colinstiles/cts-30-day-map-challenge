@@ -15,7 +15,7 @@ The dots are drawing points, not cities and not exchange domiciles. The United K
 
 Germany appears because of one Bitcoin corridor, 4.89 billion dollars to the United States. It is not a top-five sender in any of the four assets.
 
-The gallery card opens `2026/day-24/day-24.html`, a tilted kepler.gl map. The same twenty corridors rise as 3D arcs. Thickness is billion dollars and color is the asset. The side panel filters by asset. The static sheet is the print version.
+The gallery card opens `2026/day-24/day-24.html`, a tilted kepler.gl map. The same twenty corridors rise as 3D arcs. Thickness is billion dollars and color is the asset. Where several assets share a country pair, each asset is on its own lane, and the two directions sit side by side. The side panel filters by asset. The static sheet is the print version.
 
 Rebuild the sheet from the repository root:
 

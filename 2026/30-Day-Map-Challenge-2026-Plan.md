@@ -582,7 +582,7 @@ This is a global network map, not a Tennessee-specific one. Focus on clean node-
 - On-chain flow data, if accessible
 
 ### Map
-`2026/day-24/day-24.html` is the gallery map, a tilted kepler.gl map of the five largest country-to-country flows in each of Bitcoin, Ether, USDC, and Tether, July 2023 through June 2024. Each corridor rises as a 3D arc. Thickness is billion dollars and color is the asset. Circle area sums the corridors drawn from that country. The static sheet is `2026/day-24/day-24.png`. See `2026/day-24/NOTES.md`.
+`2026/day-24/day-24.html` is the gallery map, a tilted kepler.gl map of the five largest country-to-country flows in each of Bitcoin, Ether, USDC, and Tether, July 2023 through June 2024. Each corridor rises as a 3D arc. Thickness is billion dollars and color is the asset. Assets that share a country pair are drawn on separate lanes. Circle area sums the corridors drawn from that country. The static sheet is `2026/day-24/day-24.png`. See `2026/day-24/NOTES.md`.
 
 **Expected effort:** **High**
 

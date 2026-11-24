@@ -159,11 +159,50 @@
       return {info: {id: id, label: label}, data: {fields: fields, rows: rows}};
     }
 
+    var ASSET_ORDER = ["Bitcoin", "Ether", "Tether", "USDC"];
+
+    function pairKey(a, b) {
+      return a < b ? a + "|" + b : b + "|" + a;
+    }
+
+    function corridorGroups() {
+      var groups = {};
+      CORRIDORS.forEach(function (row) {
+        var key = pairKey(row[0], row[1]);
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(row);
+      });
+      return groups;
+    }
+
     function corridorRows() {
+      var groups = corridorGroups();
       return CORRIDORS.map(function (row) {
         var from = PLACES[row[0]];
         var to = PLACES[row[1]];
-        return [row[0], row[1], row[2], row[3], row[4], from[1], from[0], to[1], to[0]];
+        var group = groups[pairKey(row[0], row[1])];
+        var assets = [];
+        group.forEach(function (item) {
+          if (assets.indexOf(item[2]) < 0) assets.push(item[2]);
+        });
+        assets.sort(function (a, b) {
+          return ASSET_ORDER.indexOf(a) - ASSET_ORDER.indexOf(b);
+        });
+        var dx = to[0] - from[0];
+        var dy = to[1] - from[1];
+        var len = Math.sqrt(dx * dx + dy * dy) || 1;
+        var px = -dy / len;
+        var py = dx / len;
+        var scale = Math.min(6.4, Math.max(1.1, len * 0.068));
+        var lane = assets.indexOf(row[2]) - (assets.length - 1) / 2;
+        var sameAsset = group.filter(function (item) { return item[2] === row[2]; });
+        if (sameAsset.length > 1) lane += row[0] < row[1] ? 0.22 : -0.22;
+        var shift = lane * scale;
+        return [
+          row[0], row[1], row[2], row[3], row[4],
+          from[1] + py * shift, from[0] + px * shift,
+          to[1] + py * shift, to[0] + px * shift
+        ];
       });
     }
 
@@ -178,20 +217,20 @@
       });
     }
 
-    var ARC_TILT = {Bitcoin: -8, Ether: 10, USDC: -3, Tether: 4};
+    var ARC_LIFT = {Bitcoin: 1, Ether: 1.18, Tether: 1.36, USDC: 1.54};
 
     function arcStyle(object) {
       var row = object && CORRIDORS[object.index];
-      if (!row) return {height: 0.45, tilt: 0};
+      if (!row) return {height: 0.05, tilt: 0};
       var from = PLACES[row[0]];
       var to = PLACES[row[1]];
       var dx = to[0] - from[0];
       var dy = to[1] - from[1];
       var len = Math.sqrt(dx * dx + dy * dy) || 1;
-      var height = 5.5 / len;
+      var height = (5.5 / len) * (ARC_LIFT[row[2]] || 1);
       if (height < 0.02) height = 0.02;
-      if (height > 0.06) height = 0.06;
-      return {height: height, tilt: ARC_TILT[row[2]] || 0};
+      if (height > 0.09) height = 0.09;
+      return {height: height, tilt: 0};
     }
 
     function fitZoom(width) {
@@ -276,7 +315,7 @@
                 opacity: 0.9,
                 thickness: 1.4,
                 colorRange: colorRange,
-                sizeRange: [2, 14],
+                sizeRange: [1.4, 7],
                 targetColor: null,
                 targetArrowEnabled: true,
                 targetArrowShape: "chevron",
