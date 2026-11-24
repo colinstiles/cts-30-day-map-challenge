@@ -52,6 +52,43 @@
       font-size: 13px;
       text-shadow: 0 1px 2px #0e0e0a;
     }
+    .d27-north {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 46px;
+      height: 46px;
+      border: 1px solid rgba(242, 239, 228, 0.35);
+      border-radius: 50%;
+      background: rgba(14, 14, 10, 0.72);
+      pointer-events: none;
+    }
+    .d27-north-rose {
+      position: absolute;
+      inset: 0;
+      transform-origin: 50% 50%;
+    }
+    .d27-north-rose span {
+      position: absolute;
+      top: 3px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      line-height: 1;
+    }
+    .d27-north-rose::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 16px;
+      width: 1px;
+      height: 14px;
+      background: #f2efe4;
+      transform: translateX(-50%);
+    }
     button {
       font: inherit;
       color: #f2efe4;
@@ -69,10 +106,14 @@
   <header class="d27-bar">
     <a href="../../index.html">← Gallery</a>
     <span class="d27-kicker">Day 27 · New tool</span>
-    <span class="d27-title">Middle Tennessee-Chickamauga</span>
+    <span class="d27-title">Middle Tennessee-Chickamauga Watershed</span>
   </header>
   <div class="d27-stage" id="d27-stage">
     <img id="d27-frame" alt="Rotating 3D model of the Middle Tennessee-Chickamauga watershed" src="day-27.png">
+    <div class="d27-north" title="North">
+      <!-- Azimuth 0 looks east, so north is to the right until the orbit turns. -->
+      <div class="d27-north-rose" id="d27-rose" style="transform: rotate(298deg)"><span>N</span></div>
+    </div>
     <div class="d27-readout" id="d27-readout">Loading the orbit…</div>
   </div>
   <footer class="d27-dock">
@@ -90,10 +131,13 @@
       const stage = document.getElementById("d27-stage");
       const frame = document.getElementById("d27-frame");
       const readout = document.getElementById("d27-readout");
+      const rose = document.getElementById("d27-rose");
       const play = document.getElementById("d27-play");
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       let images = [];
       let index = 0;
+      let azimuth0 = 208;
+      let azimuthStep = 0;
       let playing = !reduced;
       let visible = true;
       let timer = 0;
@@ -106,6 +150,7 @@
         if (!images.length) return;
         index = (next + images.length) % images.length;
         frame.src = images[index].src;
+        rose.style.transform = "rotate(" + (90 + azimuth0 + index * azimuthStep) + "deg)";
         readout.textContent = "Drag to turn the basin. Frame " + (index + 1) + " of " + images.length;
       }
 
@@ -156,6 +201,8 @@
       fetch("orbit.json")
         .then(function (response) { return response.json(); })
         .then(function (orbit) {
+          azimuth0 = Number(orbit.azimuth0) || 0;
+          azimuthStep = Number(orbit.azimuthStep) || 0;
           images = Array.from({ length: orbit.frames }, function (_, i) {
             const image = new Image();
             image.src = "frames/frame-" + pad(i) + ".jpg";

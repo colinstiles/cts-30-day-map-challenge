@@ -26,7 +26,7 @@ The model is one USGS hydrologic unit, not a rectangle of terrain. HUC 06020001 
 
 Elevations are USGS 3DEP, bilinear, about 215 m. Lakes, reservoirs, and the NHD flowline network (perennial streams, artificial paths, and canals at least 1 km long) are burned into a mask. forge3d shades that mask as water. The basin is wider than forge3d's world limit, so the model is scaled down and the heights move with it. The shape is unchanged. The vertical scale is then exaggerated so the valley reads at the size of the basin. The amount is recorded in `bounds.json`.
 
-The page plays the orbit and lets you drag to turn it. The still frame is the same model from the southwest.
+The page plays the orbit and lets you drag to turn it. A north arrow in the corner turns with the camera. At the first frame the camera looks east, so north is to the right. The still frame is the same model from the southwest.
 
 ## Sources
 
