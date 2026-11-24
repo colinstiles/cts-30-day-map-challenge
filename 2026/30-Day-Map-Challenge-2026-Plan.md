@@ -49,7 +49,7 @@
 | 24 | Nov 24 | Network | Flow of crypto funds throughout the world | High |
 | 25 | Nov 25 | Is this a map? | Make a map in a non-mapping software (pandas dataframe, Notion, etc.) | High |
 | 26 | Nov 26 | Water | Watershed of North Chick Creek Gorge | High |
-| 27 | Nov 27 | New tool | something made in Sketchfab | High |
+| 27 | Nov 27 | New tool | Middle Tennessee-Chickamauga watershed in forge3d | High |
 | 28 | Nov 28 | Senses: Feeling | 3D hydro model of recent flooding in Nepal | High |
 | 29 | Nov 29 | Raster | Wildfire Suppression Difficulty Index | Moderate |
 | 30 | Nov 30 | Pen & paper | Hand-drawn with my left hand | Low |
@@ -638,6 +638,9 @@ Make this the month's signature hydrology map — a tightly focused, highly poli
 
 ### Recommended direction
 Commit to Sketchfab specifically as the new tool. Export a 3D terrain/landscape model (e.g., from ArcGIS Pro or Blender) and publish it as an interactive Sketchfab embed.
+
+### Map
+`2026/day-27/day-27.html` is the gallery map, a forge3d model of USGS hydrologic unit 06020001, Middle Tennessee-Chickamauga. The terrain is USGS 3DEP, cut to the Watershed Boundary Dataset polygon. Lakes, reservoirs, and NHD flowlines are a water mask on that surface. The page turns the model; drag scrubs the orbit. The still frame is `2026/day-27/day-27.png`. See `2026/day-27/NOTES.md`.
 
 **Expected effort:** **High**
 
