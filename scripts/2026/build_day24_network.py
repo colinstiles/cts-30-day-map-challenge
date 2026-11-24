@@ -21,8 +21,7 @@ Chainalysis).
 The base map is Natural Earth 1:50m, cached under data/2026/raw/,
 which is gitignored. The transcribed tables are
 2026/day-24/corridors.csv and 2026/day-24/senders.csv. The gallery
-sheet is 2026/day-24/day-24.png. The interactive page reads a
-simplified Natural Earth 1:110m outline at 2026/day-24/world.geojson.
+sheet is 2026/day-24/day-24.png.
 
 A corporate proxy may need the local Zscaler CA on SSL_CERT_FILE. Do
 not disable TLS verification.
@@ -36,7 +35,6 @@ Run from the repository root:
 from __future__ import annotations
 
 import argparse
-import json
 import math
 from pathlib import Path
 
@@ -55,13 +53,7 @@ DAY = ROOT / "2026" / "day-24"
 OUT_PNG = DAY / "day-24.png"
 CORRIDORS_PATH = DAY / "corridors.csv"
 SENDERS_PATH = DAY / "senders.csv"
-WORLD_PATH = DAY / "world.geojson"
 COUNTRIES_PATH = RAW / "ne_50m_admin_0_countries.geojson"
-COUNTRIES_110 = RAW / "ne_110m_admin_0_countries.geojson"
-COUNTRIES_110_URL = (
-    "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/"
-    "v5.1.2/geojson/ne_110m_admin_0_countries.geojson"
-)
 COUNTRIES_URL = (
     "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/"
     "v5.1.2/geojson/ne_50m_admin_0_countries.geojson"
@@ -273,31 +265,6 @@ def write_tables() -> None:
     )
     senders.insert(0, "period", "2023-Q3 to 2024-Q2")
     senders.to_csv(SENDERS_PATH, index=False)
-
-
-def _round_coords(value: object) -> object:
-    if isinstance(value, float):
-        return round(value, 2)
-    if isinstance(value, list):
-        return [_round_coords(item) for item in value]
-    if isinstance(value, dict):
-        return {key: _round_coords(item) for key, item in value.items()}
-    return value
-
-
-def write_world(refresh: bool) -> None:
-    """Simplified country outlines for the interactive page."""
-    if refresh or not COUNTRIES_110.is_file():
-        download(COUNTRIES_110_URL, COUNTRIES_110)
-    frame = gpd.read_file(COUNTRIES_110)
-    frame = frame[frame["ADM0_A3"] != "ATA"][["ADM0_A3", "NAME", "geometry"]].copy()
-    frame["geometry"] = frame.geometry.make_valid().simplify(0.35, preserve_topology=True)
-    frame = frame[~frame.geometry.is_empty & frame.geometry.notna()]
-    frame = frame.rename(columns={"ADM0_A3": "iso3", "NAME": "name"})
-    payload = _round_coords(json.loads(frame.to_json()))
-    DAY.mkdir(parents=True, exist_ok=True)
-    WORLD_PATH.write_text(json.dumps(payload, separators=(",", ":")), encoding="utf-8")
-    print(f"wrote {WORLD_PATH.relative_to(ROOT)}", flush=True)
 
 
 def _near_center(frame: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
@@ -600,7 +567,7 @@ def render(countries: gpd.GeoDataFrame) -> None:
     fig.text(
         0.035,
         0.955,
-        "The thickest crypto corridors",
+        "Crypto Flow Networks to and from the US",
         fontsize=26,
         color=INK,
         fontweight="medium",
@@ -638,12 +605,11 @@ def main() -> None:
     parser.add_argument(
         "--refresh",
         action="store_true",
-        help="Re-download the Natural Earth country files.",
+        help="Re-download the Natural Earth countries file.",
     )
     args = parser.parse_args()
     check_tables()
     write_tables()
-    write_world(args.refresh)
     countries = load_countries(args.refresh)
     print(f"corridors {len(CORRIDORS)} senders {len(SENDERS)}", flush=True)
     render(countries)

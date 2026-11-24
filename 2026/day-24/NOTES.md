@@ -3,6 +3,7 @@
 **Date:** November 24, 2026
 **Map:** The thickest crypto corridors
 **Sheet:** `2026/day-24/day-24.png`
+**Interactive:** `2026/day-24/day-24.html`
 
 July 2023 through June 2024, the latest four quarters in BIS Working Paper 1265 (Auer, Lewrick, and Paulick, May 2025).
 
@@ -14,9 +15,9 @@ The dots are drawing points, not cities and not exchange domiciles. The United K
 
 Germany appears because of one Bitcoin corridor, 4.89 billion dollars to the United States. It is not a top-five sender in any of the four assets.
 
-The interactive map is `2026/day-24/day-24.html`. It draws the same twenty corridors as great circles on Natural Earth, so the Indonesia links cross the Pacific. Asset buttons filter the lines. A country circle limits the list to the corridors that touch it. The sheet's dots are pushed apart for the static layout. The interactive dots sit in the body of each country.
+The gallery card opens `2026/day-24/day-24.html`, a tilted kepler.gl map. The same twenty corridors rise as 3D arcs. Thickness is billion dollars and color is the asset. The side panel filters by asset. The static sheet is the print version.
 
-Rebuild the sheet and the country outline from the repository root:
+Rebuild the sheet from the repository root:
 
 ```text
 python3 scripts/2026/build_day24_network.py
@@ -31,7 +32,5 @@ The numbers are transcribed from Tables 1 and 2 into the script. The script chec
 | Sheet | `2026/day-24/day-24.png` |
 | Interactive map | `2026/day-24/day-24.html` |
 | Drawing | `scripts/2026/build_day24_network.py` |
-| Page script | `assets/2026/js/day24-network.js` |
 | Corridors, Table 1 | `2026/day-24/corridors.csv` |
 | Senders, Table 2 | `2026/day-24/senders.csv` |
-| Country outline | `2026/day-24/world.geojson` |

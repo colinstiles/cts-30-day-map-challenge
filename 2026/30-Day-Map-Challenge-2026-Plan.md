@@ -559,7 +559,7 @@ Build on the agriculture angle but push it outward — show where Tennessee-grow
 - USA Trade Online
 
 ### Map
-`2026/day-23/day-23.png` is a static sheet of Tennessee distilled-spirits exports in fiscal year 2025. Two orthographic globes carry the flows. Line width and color distinguish the five largest foreign buyers. Jack Daniel's and George Dickel are marked on a locator of Tennessee. The lines are the state total, not a brand share. See `2026/day-23/NOTES.md`.
+`2026/day-23/day-23.png` is a static sheet of Tennessee distilled-spirits exports in fiscal year 2025. Line width is the dollars to each of the five largest foreign buyers. Jack Daniel's and George Dickel are marked as the two largest producers. The lines are the state total, not a brand share. See `2026/day-23/NOTES.md`.
 
 **Expected effort:** **Moderate**
 
@@ -582,7 +582,7 @@ This is a global network map, not a Tennessee-specific one. Focus on clean node-
 - On-chain flow data, if accessible
 
 ### Map
-`2026/day-24/day-24.png` is the five largest country-to-country flows in each of Bitcoin, Ether, USDC, and Tether, July 2023 through June 2024. Line width is billion dollars. Circle area sums the corridors drawn from that country. Those twenty links are a few percent of each asset's cross-border volume. See `2026/day-24/NOTES.md`.
+`2026/day-24/day-24.html` is the gallery map, a tilted kepler.gl map of the five largest country-to-country flows in each of Bitcoin, Ether, USDC, and Tether, July 2023 through June 2024. Each corridor rises as a 3D arc. Thickness is billion dollars and color is the asset. Circle area sums the corridors drawn from that country. The static sheet is `2026/day-24/day-24.png`. See `2026/day-24/NOTES.md`.
 
 **Expected effort:** **High**
 

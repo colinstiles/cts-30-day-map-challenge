@@ -6,33 +6,465 @@
   <title>Day 24 — The thickest crypto corridors | 30 Day Map Challenge</title>
   <meta name="description" content="The five largest country-to-country flows of Bitcoin, Ether, USDC, and Tether, July 2023 through June 2024.">
   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css">
-  <link rel="stylesheet" href="../../assets/2026/css/day24.css">
-</head>
-<body class="d24-page">
+  <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet">
   <script>
     if (new URLSearchParams(location.search).has("embed")) {
-      document.body.classList.add("d24-embed");
+      document.documentElement.classList.add("d24-embed");
+    }
+    window.esmsInitOptions = {shimMode: true};
+  </script>
+  <script src="https://unpkg.com/es-module-shims@2.8.1/dist/es-module-shims.js" crossorigin="anonymous"></script>
+  <script type="importmap-shim">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@19.1.0",
+        "react/jsx-runtime": "https://esm.sh/react@19.1.0/jsx-runtime",
+        "react-dom": "https://esm.sh/react-dom@19.1.0?external=react",
+        "react-dom/client": "https://esm.sh/react-dom@19.1.0/client?external=react",
+        "redux": "https://esm.sh/redux@5.0.1",
+        "react-redux": "https://esm.sh/react-redux@9.3.0?external=react,react-dom,redux",
+        "styled-components": "https://esm.sh/styled-components@6.1.19?external=react,react-dom"
+      }
     }
   </script>
+  <script type="module-shim">
+    import * as React from "react";
+    import * as ReactDOM from "react-dom";
+    import * as ReactDOMClient from "react-dom/client";
+    import * as Redux from "redux";
+    import * as ReactRedux from "react-redux";
+    import * as StyledComponents from "styled-components";
 
-  <div id="d24-map" role="application" aria-label="Map of the largest published crypto corridors"></div>
+    window.React = React.default || React;
+    window.ReactDOM = Object.assign({}, ReactDOM.default || ReactDOM, ReactDOMClient);
+    window.Redux = Redux.default || Redux;
+    window.ReactRedux = ReactRedux.default || ReactRedux;
+    window.styled = Object.assign(StyledComponents.default, StyledComponents);
 
-  <aside class="d24-panel" id="d24-panel">
-    <a class="d24-back" href="../../index.html">← Gallery</a>
-    <p class="d24-kicker">Day 24 · Network</p>
-    <h1>The thickest crypto corridors</h1>
-    <p class="d24-deck">
-      Five largest country-to-country flows in each asset, July 2023 through June 2024.
-      These twenty links are a few percent of the cross-border total.
-    </p>
-    <div class="d24-filters" id="d24-filters" role="group" aria-label="Assets"></div>
-    <button type="button" class="d24-clear" id="d24-clear" hidden>Show every corridor</button>
-    <ul class="d24-list" id="d24-list"></ul>
-    <p class="d24-note" id="d24-note"></p>
-  </aside>
+    function loadScript(src) {
+      return new Promise(function (resolve, reject) {
+        var script = document.createElement("script");
+        script.src = src;
+        script.crossOrigin = "anonymous";
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+      });
+    }
 
-  <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
-  <script src="../../assets/2026/js/day24-network.js"></script>
+    loadScript("https://unpkg.com/kepler.gl@3.3.0-alpha.21/umd/keplergl.min.js")
+      .then(function () {
+        document.querySelectorAll('script[type="text/kepler-bootstrap"]').forEach(function (node) {
+          var script = document.createElement("script");
+          script.text = node.textContent;
+          document.body.appendChild(script);
+        });
+      })
+      .catch(function () {
+        var status = document.getElementById("d24-status");
+        if (status) status.textContent = "The map library did not load.";
+      });
+  </script>
+  <style>
+    html, body { height: 100%; margin: 0; background: #141210; color: #f6f1e4; font-family: Lato, sans-serif; }
+    body { display: flex; flex-direction: column; overflow: hidden; }
+    .d24-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: none;
+      padding: 10px 16px;
+      background: #1b1714;
+      border-bottom: 1px solid rgba(246, 241, 228, 0.12);
+    }
+    .d24-bar a { color: #c4b8a4; font-size: 13px; text-decoration: none; }
+    .d24-bar a:hover { color: #f6f1e4; }
+    .d24-bar strong { font-weight: 400; font-size: 16px; white-space: nowrap; }
+    .d24-bar span { color: #c4b8a4; font-size: 13px; }
+    .d24-key { display: flex; gap: 14px; margin-left: auto; color: #c4b8a4; font-size: 13px; white-space: nowrap; }
+    .d24-key i { display: inline-block; width: 22px; height: 4px; margin-right: 6px; border-radius: 2px; vertical-align: middle; }
+    #frame { position: relative; flex: 1; min-height: 0; }
+    #d24-status {
+      position: absolute;
+      left: 16px;
+      bottom: 16px;
+      margin: 0;
+      color: #c4b8a4;
+      font-size: 13px;
+      pointer-events: none;
+    }
+    .d24-embed .d24-bar { display: none; }
+    .d24-embed .map-control { display: none; }
+  </style>
+</head>
+<body>
+  <header class="d24-bar">
+    <a href="../../index.html">← Gallery</a>
+    <strong>Crypto Flow Networks to and from the US</strong>
+    <span>July 2023–June 2024. In billions of dollars.</span>
+    <span class="d24-key">
+      <span><i style="background:#F0C14D"></i>Bitcoin</span>
+      <span><i style="background:#C4B5FD"></i>Ether</span>
+      <span><i style="background:#5EE0A0"></i>Tether</span>
+      <span><i style="background:#7DD3FC"></i>USDC</span>
+    </span>
+  </header>
+  <div id="frame">
+    <div id="app"></div>
+    <p id="d24-status">Loading map…</p>
+  </div>
+
+  <script type="text/kepler-bootstrap">
+    var EMBED = document.documentElement.classList.contains("d24-embed");
+    var PLACES = {
+      "United States": [-97.5, 38.5],
+      "Canada": [-100.0, 54.0],
+      "United Kingdom": [-4.5, 57.6],
+      "Germany": [11.5, 48.6],
+      "Türkiye": [35.0, 39.0],
+      "Russia": [38.0, 56.5],
+      "India": [78.8, 22.8],
+      "Indonesia": [112.0, -2.2]
+    };
+    var CORRIDORS = [
+      ["United Kingdom", "United States", "Bitcoin", 9.89, 1.7],
+      ["United States", "United Kingdom", "Bitcoin", 9.28, 1.6],
+      ["Canada", "United States", "Bitcoin", 4.94, 0.8],
+      ["Germany", "United States", "Bitcoin", 4.89, 0.8],
+      ["United States", "Canada", "Bitcoin", 4.87, 0.8],
+      ["United States", "United Kingdom", "Ether", 2.23, 1.0],
+      ["United Kingdom", "United States", "Ether", 2.09, 0.9],
+      ["United States", "Indonesia", "Ether", 1.30, 0.6],
+      ["United States", "Türkiye", "Ether", 1.27, 0.6],
+      ["Russia", "United States", "Ether", 1.26, 0.6],
+      ["United States", "United Kingdom", "USDC", 6.33, 1.9],
+      ["United Kingdom", "United States", "USDC", 6.23, 1.8],
+      ["India", "United States", "USDC", 4.21, 1.2],
+      ["United States", "India", "USDC", 4.18, 1.2],
+      ["Indonesia", "United States", "USDC", 3.85, 1.1],
+      ["United States", "Türkiye", "Tether", 5.89, 0.5],
+      ["United States", "Russia", "Tether", 5.47, 0.5],
+      ["Türkiye", "United States", "Tether", 5.24, 0.5],
+      ["Russia", "United States", "Tether", 5.00, 0.4],
+      ["United Kingdom", "United States", "Tether", 4.79, 0.4]
+    ];
+    var ASSET_COLORS = [
+      ["Bitcoin", "#F0C14D"],
+      ["Ether", "#C4B5FD"],
+      ["Tether", "#5EE0A0"],
+      ["USDC", "#7DD3FC"]
+    ];
+
+    function dataset(id, label, fields, rows) {
+      return {info: {id: id, label: label}, data: {fields: fields, rows: rows}};
+    }
+
+    function corridorRows() {
+      return CORRIDORS.map(function (row) {
+        var from = PLACES[row[0]];
+        var to = PLACES[row[1]];
+        return [row[0], row[1], row[2], row[3], row[4], from[1], from[0], to[1], to[0]];
+      });
+    }
+
+    function hubRows() {
+      var outbound = {};
+      CORRIDORS.forEach(function (row) {
+        outbound[row[0]] = (outbound[row[0]] || 0) + row[3];
+      });
+      return Object.keys(PLACES).map(function (name) {
+        var place = PLACES[name];
+        return [name, Math.round(outbound[name] * 100) / 100, place[1], place[0]];
+      });
+    }
+
+    var ARC_TILT = {Bitcoin: -8, Ether: 10, USDC: -3, Tether: 4};
+
+    function arcStyle(object) {
+      var row = object && CORRIDORS[object.index];
+      if (!row) return {height: 0.45, tilt: 0};
+      var from = PLACES[row[0]];
+      var to = PLACES[row[1]];
+      var dx = to[0] - from[0];
+      var dy = to[1] - from[1];
+      var len = Math.sqrt(dx * dx + dy * dy) || 1;
+      var height = 5.5 / len;
+      if (height < 0.02) height = 0.02;
+      if (height > 0.06) height = 0.06;
+      return {height: height, tilt: ARC_TILT[row[2]] || 0};
+    }
+
+    function fitZoom(width) {
+      var span = 270;
+      var zoom = Math.log((width / 512) * 360 / span) / Math.LN2;
+      if (!isFinite(zoom) || zoom < 0.4) zoom = 0.4;
+      if (zoom > 2.3) zoom = 2.3;
+      return Math.round(zoom * 100) / 100;
+    }
+
+    function applyCamera() {
+      var frame = document.getElementById("frame");
+      var map = store.getState().keplerGl && store.getState().keplerGl.map;
+      if (!frame || !map) return;
+      var width = frame.getBoundingClientRect().width;
+      store.dispatch(KeplerGl.wrapTo("map", KeplerGl.updateMap({
+        latitude: 38,
+        longitude: 20,
+        zoom: fitZoom(width),
+        pitch: 32,
+        bearing: 0,
+        dragRotate: true,
+        transitionDuration: 0
+      })));
+    }
+
+    function disableWorldCopies() {
+      var canvas = document.querySelector("canvas.maplibregl-canvas, canvas.mapboxgl-canvas");
+      if (!canvas) return false;
+      var roots = [canvas, canvas.parentNode, canvas.parentNode && canvas.parentNode.parentNode];
+      for (var r = 0; r < roots.length; r++) {
+        var root = roots[r];
+        if (!root) continue;
+        var keys = Object.keys(root);
+        for (var k = 0; k < keys.length; k++) {
+          if (keys[k].indexOf("__reactFiber") !== 0 && keys[k].indexOf("__reactInternalInstance") !== 0) continue;
+          var fiber = root[keys[k]];
+          for (var guard = 0; fiber && guard < 60; guard++) {
+            var inst = fiber.stateNode;
+            var map = inst && (inst._map || inst.map || inst.mapboxMap);
+            if (map && map.setRenderWorldCopies) {
+              map.setRenderWorldCopies(false);
+              return true;
+            }
+            fiber = fiber.return;
+          }
+        }
+      }
+      return false;
+    }
+
+    var colorRange = {
+      name: "Assets",
+      type: "custom",
+      category: "Custom",
+      colors: ASSET_COLORS.map(function (pair) { return pair[1]; }),
+      colorMap: ASSET_COLORS
+    };
+
+    var config = {
+      visState: {
+        filters: [{
+          dataId: "corridors",
+          id: "asset",
+          name: ["Asset"],
+          type: "multiSelect",
+          value: ["Bitcoin", "Ether", "USDC", "Tether"],
+          enlarged: false,
+          plotType: "histogram",
+          yAxis: null
+        }],
+        layers: [
+          {
+            id: "arcs",
+            type: "arc",
+            config: {
+              dataId: "corridors",
+              label: "Corridors",
+              columns: {lat0: "origin_lat", lng0: "origin_lng", lat1: "dest_lat", lng1: "dest_lng"},
+              isVisible: true,
+              visConfig: {
+                opacity: 0.9,
+                thickness: 1.4,
+                colorRange: colorRange,
+                sizeRange: [2, 14],
+                targetColor: null,
+                targetArrowEnabled: true,
+                targetArrowShape: "chevron",
+                targetArrowSize: 8
+              }
+            },
+            visualChannels: {
+              colorField: {name: "Asset", type: "string"},
+              colorScale: "ordinal",
+              sizeField: {name: "Billion dollars", type: "real"},
+              sizeScale: "sqrt"
+            }
+          },
+          {
+            id: "hubs",
+            type: "point",
+            config: {
+              dataId: "hubs",
+              label: "Countries",
+              color: [246, 241, 228],
+              columns: {lat: "lat", lng: "lng"},
+              isVisible: true,
+              visConfig: {
+                radius: 10,
+                fixedRadius: true,
+                opacity: 0.95,
+                outline: true,
+                thickness: 2,
+                strokeColor: [20, 18, 16],
+                radiusRange: [8, 22],
+                filled: true
+              },
+              textLabel: [{
+                field: {name: "Country", type: "string"},
+                color: [246, 241, 228],
+                size: 12,
+                offset: [0, 0],
+                anchor: "start",
+                alignment: "center"
+              }]
+            },
+            visualChannels: {
+              sizeField: {name: "Outbound", type: "real"},
+              sizeScale: "sqrt"
+            }
+          }
+        ],
+        interactionConfig: {
+          tooltip: {
+            fieldsToShow: {
+              corridors: [
+                {name: "From", format: null},
+                {name: "To", format: null},
+                {name: "Asset", format: null},
+                {name: "Billion dollars", format: null},
+                {name: "Share (%)", format: null}
+              ],
+              hubs: [
+                {name: "Country", format: null},
+                {name: "Outbound", format: null}
+              ]
+            },
+            enabled: true
+          },
+          brush: {size: 0.5, enabled: false},
+          geocoder: {enabled: false},
+          coordinate: {enabled: false}
+        },
+        layerBlending: "normal",
+        layerOrder: ["hubs", "arcs"]
+      },
+      mapState: {
+        bearing: 0,
+        dragRotate: true,
+        latitude: 38,
+        longitude: 20,
+        pitch: 32,
+        zoom: 1.5,
+        isSplit: false,
+        mapViewMode: "MODE_3D"
+      },
+      mapStyle: {
+        styleType: "dark-matter",
+        visibleLayerGroups: {label: true, road: false, border: true, building: false, water: true, land: true}
+      }
+    };
+
+    var reducers = Redux.combineReducers({
+      keplerGl: KeplerGl.keplerGlReducer.initialState({
+        uiState: {readOnly: EMBED, activeSidePanel: null, currentModal: null}
+      })
+    });
+    var middlewares = KeplerGl.enhanceReduxMiddleware([]);
+    var store = Redux.createStore(reducers, {}, Redux.applyMiddleware.apply(null, middlewares));
+
+    function App() {
+      var frame = document.getElementById("frame");
+      var box = frame.getBoundingClientRect();
+      var sizeState = React.useState({width: box.width, height: box.height});
+      var size = sizeState[0];
+      var setSize = sizeState[1];
+      React.useEffect(function () {
+        var observer = new ResizeObserver(function () {
+          var next = frame.getBoundingClientRect();
+          setSize({width: next.width, height: next.height});
+        });
+        observer.observe(frame);
+        applyCamera();
+        return function () { observer.disconnect(); };
+      }, []);
+      return React.createElement("div", {style: {position: "absolute", inset: 0}},
+        React.createElement(KeplerGl.KeplerGl, {
+          id: "map",
+          width: size.width,
+          height: size.height,
+          theme: "dark"
+        })
+      );
+    }
+
+    var root = ReactDOM.createRoot(document.getElementById("app"));
+    root.render(React.createElement(ReactRedux.Provider, {store: store}, React.createElement(App, null)));
+
+    (function publish() {
+      var state = store.getState();
+      if (!state.keplerGl || !state.keplerGl.map) {
+        window.setTimeout(publish, 30);
+        return;
+      }
+    store.dispatch(KeplerGl.wrapTo("map", KeplerGl.addDataToMap({
+      datasets: [
+        dataset("corridors", "Corridors", [
+          {name: "From", type: "string"},
+          {name: "To", type: "string"},
+          {name: "Asset", type: "string"},
+          {name: "Billion dollars", type: "real"},
+          {name: "Share (%)", type: "real"},
+          {name: "origin_lat", type: "real"},
+          {name: "origin_lng", type: "real"},
+          {name: "dest_lat", type: "real"},
+          {name: "dest_lng", type: "real"}
+        ], corridorRows()),
+        dataset("hubs", "Countries", [
+          {name: "Country", type: "string"},
+          {name: "Outbound", type: "real"},
+          {name: "lat", type: "real"},
+          {name: "lng", type: "real"}
+        ], hubRows())
+      ],
+      options: {centerMap: false, readOnly: EMBED},
+      config: config
+    })));
+    store.dispatch(KeplerGl.wrapTo("map", KeplerGl.setMapViewMode("MODE_3D")));
+    applyCamera();
+    (function tuneArcs() {
+      var map = store.getState().keplerGl && store.getState().keplerGl.map;
+      var arcLayer = map && map.visState.layers.filter(function (layer) {
+        return layer.id === "arcs";
+      })[0];
+      if (!arcLayer) {
+        window.setTimeout(tuneArcs, 30);
+        return;
+      }
+      var arcClass = arcLayer.constructor;
+      if (!arcClass.prototype.d24ArcHeight) {
+        var renderArcLayer = arcClass.prototype.renderLayer;
+        arcClass.prototype.renderLayer = function (opts) {
+          var deckLayers = renderArcLayer.call(this, opts);
+          if (!deckLayers || this.id !== "arcs") return deckLayers;
+          return deckLayers.map(function (deckLayer) {
+            var props = deckLayer && deckLayer.props;
+            if (!deckLayer || !deckLayer.clone || !props || !props.getSourcePosition) return deckLayer;
+            return deckLayer.clone({
+              wrapLongitude: false,
+              greatCircle: false,
+              getHeight: function (object) { return arcStyle(object).height; },
+              getTilt: function (object) { return arcStyle(object).tilt; }
+            });
+          });
+        };
+        arcClass.prototype.d24ArcHeight = true;
+        store.dispatch(KeplerGl.wrapTo("map", KeplerGl.layerVisConfigChange(arcLayer, {opacity: 0.9})));
+      }
+      applyCamera();
+      disableWorldCopies();
+      document.getElementById("d24-status").hidden = true;
+    })();
+    })();
+  </script>
 </body>
 </html>
