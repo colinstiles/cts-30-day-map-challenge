@@ -32,7 +32,7 @@ const CHALLENGE_YEARS = {
       { day: 22, date: "Nov 22", theme: "Projections", concept: "The Mere projection of Vael", tool: "Python", image: "2026/day-22/day-22.png" },
       { day: 23, date: "Nov 23", theme: "Senses: Taste", concept: "Tennessee Distilled Spirits Exports", tool: "Python", image: "2026/day-23/day-23.png" },
       { day: 24, date: "Nov 24", theme: "Network", concept: "Crypto Flow Networks to and from the US", tool: "kepler.gl", embed: "2026/day-24/day-24.html", image: "2026/day-24/day-24.png" },
-      { day: 25, date: "Nov 25", theme: "Is this a map?", concept: "TBD", tool: "Tool TBD" },
+      { day: 25, date: "Nov 25", theme: "Is this a map?", concept: "Hamilton County Elevation in Notion", tool: "Notion", embed: "2026/day-25/day-25.html", page: "https://app.notion.com/p/422592b9f5818120a7b6da1f82613e5d", pageLabel: "Notion table" },
       { day: 26, date: "Nov 26", theme: "Water", concept: "TBD", tool: "Tool TBD" },
       { day: 27, date: "Nov 27", theme: "New Tool", concept: "TBD", tool: "Sketchfab" },
       { day: 28, date: "Nov 28", theme: "Senses: Feeling", concept: "TBD", tool: "Tool TBD" },

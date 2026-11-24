@@ -600,6 +600,9 @@ This is a global network map, not a Tennessee-specific one. Focus on clean node-
 ### Recommended direction
 Pick one non-mapping tool — pandas DataFrame output, a spreadsheet grid, or Notion — and constrain yourself to it entirely. The challenge is making it still read as a map despite having no cartographic engine behind it.
 
+### Map
+The map is a Notion table, [Hamilton County elevation](https://app.notion.com/p/422592b9f5818120a7b6da1f82613e5d). Each cell is one USGS 3DEP sample, about 1.35 km on a side, kept when the cell center falls inside the Census outline of Hamilton County. North is the top row. Notion's own background colors run from blue below 700 feet to purple above 2,100 feet. The purple cell is Lookout Mountain, 2,116 feet. The red cells on the northwest are Walden's Ridge and Signal Mountain. The blue thread is the Tennessee River. The gallery repeats the same cells at `2026/day-25/day-25.html`, in stronger color than Notion's swatches. See `2026/day-25/NOTES.md`.
+
 **Expected effort:** **High**
 
 ---
