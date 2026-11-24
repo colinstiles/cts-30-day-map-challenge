@@ -1,0 +1,27 @@
+{
+  "huc8": "06020001",
+  "name": "Middle Tennessee-Chickamauga",
+  "states": "AL,GA,TN",
+  "areasqkm": 4827.14,
+  "bbox": [
+    -85.67355652709361,
+    34.439188831239846,
+    -84.53676189043286,
+    35.88408668718248
+  ],
+  "cell_m": 214.639400678333,
+  "grid": [
+    535,
+    680
+  ],
+  "elevation_m": [
+    137.4102325439453,
+    717.1797485351562
+  ],
+  "exaggeration": 4.5,
+  "display_span_m": 48000.0,
+  "water_cells": 15979,
+  "flowlines": 1806,
+  "waterbodies": 35,
+  "crs": "EPSG:4326 samples on a local north-up meter grid labeled EPSG:32616"
+}

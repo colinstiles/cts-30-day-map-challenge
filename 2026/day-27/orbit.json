@@ -1,0 +1,7 @@
+{
+  "frames": 24,
+  "pattern": "frames/frame-{i}.jpg",
+  "azimuth0": 0,
+  "azimuthStep": 15.0,
+  "heroAzimuth": 208.0
+}
