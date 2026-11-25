@@ -35,7 +35,7 @@ const CHALLENGE_YEARS = {
       { day: 25, date: "Nov 25", theme: "Is this a map?", concept: "Hamilton County Elevation in Notion", tool: "Notion", embed: "2026/day-25/day-25.html", page: "https://app.notion.com/p/422592b9f5818120a7b6da1f82613e5d", pageLabel: "Notion table" },
       { day: 26, date: "Nov 26", theme: "Water", concept: "Middle Tennessee-Chickamauga Watershed", tool: "ArcGIS Pro", image: "2026/day-26/day-26.png" },
       { day: 27, date: "Nov 27", theme: "New Tool", concept: "Middle Tennessee-Chickamauga Watershed Re-made", tool: "forge3d", embed: "2026/day-27/day-27.html", image: "2026/day-27/day-27.png" },
-      { day: 28, date: "Nov 28", theme: "Senses: Feeling", concept: "TBD", tool: "Tool TBD" },
+      { day: 28, date: "Nov 28", theme: "Senses: Feeling", concept: "2026 Floods in Nepal", tool: "Three.js", embed: "2026/day-28/day-28.html" },
       { day: 29, date: "Nov 29", theme: "Raster", concept: "TBD", tool: "Tool TBD" },
       { day: 30, date: "Nov 30", theme: "Pen & Paper", concept: "TBD", tool: "Tool TBD" }
     ]

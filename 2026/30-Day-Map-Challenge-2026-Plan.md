@@ -663,13 +663,16 @@ Source recent flood extent data for Nepal and build a 3D hydrological model over
 - DEM of the affected Nepal region
 - 3D scene/animation to show water depth and rise
 
+### Map
+`2026/day-28/day-28.html` is an oblique view of a SRTM elevation model of the Lende valley, with a 2D diffusive-wave flood routed on that surface. The film opens on the north face of Langtang Lirung, then follows the flood downstream. The drawn water surface is 250 m above the channel, the middle of the 200–300 m wave observers reported. A small inset traces the Lende channel on this model, from the glacier to the crossing. The run of about 100 km farther downstream stays in the caption. See `2026/day-28/NOTES.md`.
+
 **Expected effort:** **High**
 
 ---
 
 ## Day 29 — Raster
 **Date:** November 29  
-**Concept:** **Wildfire Suppression Difficulty Index**
+**Concept:** Wildfire Suppression Difficulty Index and LANDFIRE
 
 ### Map ideas
 1. A raster composite of terrain, access, and fuel factors forming a Suppression Difficulty Index.

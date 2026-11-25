@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 28 — Langtang Lirung | 30 Day Map Challenge</title>
+  <meta name="description" content="Simulated oblique view of the 26 August 2026 debris flow, from the north face of Langtang Lirung down the Lende Khola to Rasuwagadhi.">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+  <script>
+    if (new URLSearchParams(location.search).has("embed")) {
+      document.documentElement.classList.add("d28-embed");
+    }
+  </script>
+  <style>
+    html, body { height: 100%; margin: 0; background: #12161a; color: #f2efe4; font-family: Lato, sans-serif; }
+    body { display: flex; flex-direction: column; overflow: hidden; }
+    .d28-bar, .d28-dock {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: none;
+      padding: 10px 16px;
+      background: #1b1714;
+    }
+    .d28-bar { border-bottom: 1px solid rgba(242, 239, 228, 0.12); }
+    .d28-dock {
+      border-top: 1px solid rgba(242, 239, 228, 0.12);
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .d28-bar a { color: #c4b8a4; font-size: 13px; text-decoration: none; white-space: nowrap; }
+    .d28-kicker-static { color: #9cbb74; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+    .d28-title { font-weight: 300; font-size: 18px; }
+    .d28-sub { margin: 2px 0 0; color: #b8b5a8; font-size: 13px; font-weight: 300; }
+    .d28-heading { min-width: 0; }
+    .d28-stage { position: relative; flex: 1; min-height: 0; background: #1a2126; }
+    #d28-view { position: absolute; inset: 0; }
+    #d28-view canvas { display: block; }
+    .d28-label {
+      color: #f4f1e8;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9), 0 0 8px rgba(0, 0, 0, 0.65);
+      white-space: nowrap;
+    }
+    .d28-label small { display: block; font-weight: 400; letter-spacing: 0.02em; opacity: 0.9; }
+    .d28-inset {
+      position: absolute;
+      z-index: 2;
+      top: 12px;
+      right: 12px;
+      width: 200px;
+      height: 128px;
+      border-radius: 4px;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .d28-inset.is-on { opacity: 1; }
+    .d28-read, .d28-rose, .d28-scrim { position: absolute; z-index: 2; pointer-events: none; }
+    .d28-read { top: 12px; left: 12px; max-width: min(460px, 62%); }
+    .d28-steps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px 12px;
+      list-style: none;
+      margin: 0;
+      padding: 4px 8px;
+      width: fit-content;
+      border-radius: 4px;
+      background: rgba(8, 10, 12, 0.5);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .d28-steps li { color: rgba(242, 239, 228, 0.42); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85); }
+    .d28-steps li.is-now { color: #f2efe4; }
+    .d28-steps li.is-done { color: #9cbb74; }
+    .d28-rose {
+      right: 14px;
+      bottom: 14px;
+      z-index: 3;
+      width: 46px;
+      height: 46px;
+      border: 1px solid rgba(242, 239, 228, 0.4);
+      border-radius: 50%;
+      background: rgba(8, 10, 12, 0.84);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+    }
+    .d28-rose span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 2px;
+      height: 14px;
+      margin: -15px 0 0 -1px;
+      background: #f2efe4;
+      transform-origin: 50% 15px;
+    }
+    .d28-rose span::after {
+      content: "N";
+      position: absolute;
+      left: -5px;
+      top: -13px;
+      color: #f2efe4;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+    .d28-scrim {
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 42px 16px 12px;
+      background: linear-gradient(transparent, rgba(8, 10, 12, 0.9) 58%);
+    }
+    .d28-phase {
+      margin: 0 0 3px;
+      color: #9cbb74;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .d28-line { margin: 0; max-width: 68ch; font-size: 15px; font-weight: 300; line-height: 1.35; }
+    .d28-controls { display: flex; align-items: center; gap: 10px; flex: none; padding-top: 2px; }
+    button, input { font: inherit; }
+    button {
+      color: #f2efe4;
+      background: transparent;
+      border: 1px solid rgba(242, 239, 228, 0.28);
+      border-radius: 4px;
+      padding: 4px 10px;
+      cursor: pointer;
+    }
+    input[type="range"] { width: min(220px, 28vw); accent-color: #9cbb74; }
+    .d28-clock { color: #c4b8a4; font-size: 13px; white-space: nowrap; }
+    .d28-credit { margin: 0; color: #b8b5a8; font-size: 12px; line-height: 1.45; max-width: 78ch; }
+    html.d28-embed .d28-bar, html.d28-embed .d28-dock { display: none; }
+    @media (max-width: 720px) {
+      .d28-bar { flex-wrap: wrap; gap: 6px 12px; }
+      .d28-dock { flex-direction: column; }
+      .d28-line { font-size: 14px; }
+      .d28-inset { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="d28-bar">
+    <a href="../../index.html">← Gallery</a>
+    <span class="d28-kicker-static">Day 28 · Feeling</span>
+    <div class="d28-heading">
+      <div class="d28-title">Nepal Floods, 2026</div>
+      <p class="d28-sub">Lende Khola, from Langtang Lirung to Rasuwagadhi. A simulated sequence of 26 August 2026.</p>
+    </div>
+  </header>
+  <div class="d28-stage">
+    <div id="d28-view" role="application" aria-label="Oblique view of the Lende valley during the 26 August 2026 debris flow"></div>
+    <div class="d28-read">
+      <ol class="d28-steps" id="d28-steps">
+        <li data-phase="fail">Slope failure</li>
+        <li data-phase="quake">M5.2</li>
+        <li data-phase="flow">Debris flow and flood</li>
+        <li data-phase="ruin">Destruction</li>
+      </ol>
+    </div>
+    <div class="d28-rose" id="d28-rose" title="North. The film starts looking east, up the valley."><span id="d28-rose-arrow"></span></div>
+    <canvas id="d28-inset" class="d28-inset" width="400" height="256" aria-hidden="true"></canvas>
+    <div class="d28-scrim">
+      <p class="d28-phase" id="d28-phase">Before 08:37 NPT</p>
+      <p class="d28-line" id="d28-line" aria-live="polite"></p>
+    </div>
+  </div>
+  <footer class="d28-dock">
+    <p class="d28-credit">
+      Rendered oblique view of an elevation model; not real footage and not a hazard map. Vertical scale is 1.15. 
+      The flood's path is an uncalibrated 2D diffusive-wave routing: 28 m of water on about 2 km² of the release, 
+      Manning n = 0.045. The drawn surface is 250 m above the channel, the middle of the 200–300 m wave observers reported at the border, not the model's own depth. The crossing is marked so the sequence can be read. Those shapes are not a survey. 
+      The failure, the M5.2 and later M4.2 signals, and the run of about 100 km follow the USGS Landslide Hazards Program preliminary page of 28 August 2026. 
+      The fall from about 5,200 m onto the glacier near 3,800 m, and the 08:37 and 08:45 times, follow Nepal’s NDRRMA Bhotekoshi–Trishuli update. 
+      Elevation is AWS Terrain tiles, mostly SRTM, with pits filled. Imagery is Esri World Imagery. USGS spells the river Lende; Nepali sources also use Lhende.
+    </p>
+    <div class="d28-controls">
+      <button type="button" id="d28-play" aria-pressed="true">Pause</button>
+      <button type="button" id="d28-replay">Replay</button>
+      <input type="range" id="d28-slider" min="0" max="540" value="0" step="1" aria-label="Moment in the sequence">
+      <span class="d28-clock" id="d28-clock">0:00</span>
+    </div>
+  </footer>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module" src="../../assets/2026/js/day28-valley.js?v=30"></script>
+</body>
+</html>
