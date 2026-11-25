@@ -36,7 +36,7 @@ const CHALLENGE_YEARS = {
       { day: 26, date: "Nov 26", theme: "Water", concept: "Middle Tennessee-Chickamauga Watershed", tool: "ArcGIS Pro", image: "2026/day-26/day-26.png" },
       { day: 27, date: "Nov 27", theme: "New Tool", concept: "Middle Tennessee-Chickamauga Watershed Re-made", tool: "forge3d", embed: "2026/day-27/day-27.html", image: "2026/day-27/day-27.png" },
       { day: 28, date: "Nov 28", theme: "Senses: Feeling", concept: "2026 Floods in Nepal", tool: "Three.js", embed: "2026/day-28/day-28.html" },
-      { day: 29, date: "Nov 29", theme: "Raster", concept: "TBD", tool: "Tool TBD" },
+      { day: 29, date: "Nov 29", theme: "Raster", concept: "Tennessee large-fire odds under a 2047 climate", tool: "Python, LANDFIRE, FSim", embed: "2026/day-29/day-29.html", image: "2026/day-29/day-29.png" },
       { day: 30, date: "Nov 30", theme: "Pen & Paper", concept: "TBD", tool: "Tool TBD" }
     ]
   }

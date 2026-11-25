@@ -371,10 +371,13 @@ function start() {
   }
 
   function writeReadout() {
-    const height = TERRAIN.heights[mode];
     const pct = Math.round(shares[mode] * 100);
-    const where = mode === "platform" ? "the platform" : "the rock";
-    readout.textContent = `${pct}% in sight from ${where} · ${height} m up`;
+    if (mode === "platform") {
+      readout.textContent = `${pct}% is within the viewshed of the tower`;
+      return;
+    }
+    const height = TERRAIN.heights[mode];
+    readout.textContent = `${pct}% in sight from the rock · ${height} m up`;
   }
 
   function writeCredit() {

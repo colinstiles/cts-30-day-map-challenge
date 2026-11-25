@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 29 — Same fuels, a 2047 climate | 30 Day Map Challenge</title>
+  <meta name="description" content="Tennessee raster of LANDFIRE fuels and FSim large-fire burn probability under a 2047 climate.">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/2026/css/day29.css">
+  <script>
+    if (new URLSearchParams(location.search).get("embed") === "1") {
+      document.documentElement.classList.add("d29-embed");
+    }
+  </script>
+</head>
+<body>
+  <div class="d29-stage" id="d29-stage">
+    <img id="d29-map" alt="Tennessee fuel raster. Brightness is mid-century large-fire burn probability.">
+  </div>
+
+  <header class="d29-chrome">
+    <a class="d29-back" href="../../index.html">← Gallery</a>
+    <p class="d29-kicker">Day 29 · Raster</p>
+    <h1>Same fuels, a 2047 climate</h1>
+    <p class="d29-summary" id="d29-summary"></p>
+  </header>
+
+  <footer class="d29-dock">
+    <aside class="d29-readout" id="d29-readout" hidden>
+      <p class="d29-fuel" id="d29-fuel"></p>
+      <p id="d29-recent"></p>
+      <p id="d29-future"></p>
+      <p id="d29-delta"></p>
+      <p id="d29-slope"></p>
+    </aside>
+    <div class="d29-modes" role="group" aria-label="Raster">
+      <button type="button" data-mode="threat" aria-pressed="true">Threat</button>
+      <button type="button" data-mode="fuels" aria-pressed="false">Fuels</button>
+      <button type="button" data-mode="change" aria-pressed="false">Change</button>
+    </div>
+    <div class="d29-legend" id="d29-legend"></div>
+    <p class="d29-note" id="d29-note"></p>
+  </footer>
+
+  <script src="../../assets/2026/js/day29-raster.js"></script>
+</body>
+</html>

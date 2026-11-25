@@ -1,0 +1,244 @@
+{
+  "summary": "With fuels held still, expected large-fire area falls from about 21,700 acres a year to about 18,900. Half the burnable cells decline and 30% rise. The median stays 1 year in 2,500.",
+  "cellMeters": 270.0,
+  "bpScale": 0.03129999712109566,
+  "threatPercentile": 0.004149999935179949,
+  "changeScale": 0.0013599998783320189,
+  "burnableAcres": 21053878,
+  "expectedAcresRecent": 21700,
+  "expectedAcresFuture": 18900,
+  "shareHigher": 0.300622373266527,
+  "shareLower": 0.5006767902857064,
+  "medianRecent": 0.00039999998989515007,
+  "medianFuture": 0.00039999998989515007,
+  "recentPercentile": 0.005009999964386225,
+  "fuels": [
+    {
+      "index": 1,
+      "code": 91,
+      "name": "urban",
+      "group": "nonburnable"
+    },
+    {
+      "index": 2,
+      "code": 93,
+      "name": "agriculture",
+      "group": "nonburnable"
+    },
+    {
+      "index": 3,
+      "code": 98,
+      "name": "water",
+      "group": "nonburnable"
+    },
+    {
+      "index": 4,
+      "code": 99,
+      "name": "barren",
+      "group": "nonburnable"
+    },
+    {
+      "index": 5,
+      "code": 101,
+      "name": "GR1 short sparse dry grass",
+      "group": "grass"
+    },
+    {
+      "index": 6,
+      "code": 102,
+      "name": "GR2 low dry grass",
+      "group": "grass"
+    },
+    {
+      "index": 7,
+      "code": 103,
+      "name": "GR3 coarse humid grass",
+      "group": "grass"
+    },
+    {
+      "index": 8,
+      "code": 105,
+      "name": "GR5 low humid grass",
+      "group": "grass"
+    },
+    {
+      "index": 9,
+      "code": 121,
+      "name": "GS1 low dry grass-shrub",
+      "group": "grass-shrub"
+    },
+    {
+      "index": 10,
+      "code": 122,
+      "name": "GS2 moderate dry grass-shrub",
+      "group": "grass-shrub"
+    },
+    {
+      "index": 11,
+      "code": 123,
+      "name": "GS3 moderate humid grass-shrub",
+      "group": "grass-shrub"
+    },
+    {
+      "index": 12,
+      "code": 124,
+      "name": "GS4 high humid grass-shrub",
+      "group": "grass-shrub"
+    },
+    {
+      "index": 13,
+      "code": 141,
+      "name": "SH1 low dry shrub",
+      "group": "shrub"
+    },
+    {
+      "index": 14,
+      "code": 142,
+      "name": "SH2 moderate dry shrub",
+      "group": "shrub"
+    },
+    {
+      "index": 15,
+      "code": 143,
+      "name": "SH3 moderate humid shrub",
+      "group": "shrub"
+    },
+    {
+      "index": 16,
+      "code": 144,
+      "name": "SH4 low humid timber-shrub",
+      "group": "shrub"
+    },
+    {
+      "index": 17,
+      "code": 146,
+      "name": "SH6 low humid shrub",
+      "group": "shrub"
+    },
+    {
+      "index": 18,
+      "code": 147,
+      "name": "SH7 very high dry shrub",
+      "group": "shrub"
+    },
+    {
+      "index": 19,
+      "code": 149,
+      "name": "SH9 very high humid shrub",
+      "group": "shrub"
+    },
+    {
+      "index": 20,
+      "code": 161,
+      "name": "TU1 low dry timber-grass-shrub",
+      "group": "timber-understory"
+    },
+    {
+      "index": 21,
+      "code": 162,
+      "name": "TU2 moderate humid timber-shrub",
+      "group": "timber-understory"
+    },
+    {
+      "index": 22,
+      "code": 163,
+      "name": "TU3 moderate humid timber-grass-shrub",
+      "group": "timber-understory"
+    },
+    {
+      "index": 23,
+      "code": 165,
+      "name": "TU5 very high dry timber-shrub",
+      "group": "timber-understory"
+    },
+    {
+      "index": 24,
+      "code": 181,
+      "name": "TL1 compact conifer litter",
+      "group": "timber-litter"
+    },
+    {
+      "index": 25,
+      "code": 182,
+      "name": "TL2 broadleaf litter",
+      "group": "timber-litter"
+    },
+    {
+      "index": 26,
+      "code": 183,
+      "name": "TL3 moderate conifer litter",
+      "group": "timber-litter"
+    },
+    {
+      "index": 27,
+      "code": 184,
+      "name": "TL4 small downed logs",
+      "group": "timber-litter"
+    },
+    {
+      "index": 28,
+      "code": 185,
+      "name": "TL5 high conifer litter",
+      "group": "timber-litter"
+    },
+    {
+      "index": 29,
+      "code": 186,
+      "name": "TL6 moderate broadleaf litter",
+      "group": "timber-litter"
+    },
+    {
+      "index": 30,
+      "code": 188,
+      "name": "TL8 long-needle litter",
+      "group": "timber-litter"
+    },
+    {
+      "index": 31,
+      "code": 189,
+      "name": "TL9 very high broadleaf litter",
+      "group": "timber-litter"
+    },
+    {
+      "index": 32,
+      "code": 201,
+      "name": "SB1 low activity fuel",
+      "group": "slash"
+    }
+  ],
+  "groups": [
+    {
+      "id": "grass",
+      "color": "#ba9a56"
+    },
+    {
+      "id": "grass-shrub",
+      "color": "#a86c3a"
+    },
+    {
+      "id": "shrub",
+      "color": "#945234"
+    },
+    {
+      "id": "timber-understory",
+      "color": "#7a462e"
+    },
+    {
+      "id": "timber-litter",
+      "color": "#603c2c"
+    },
+    {
+      "id": "slash",
+      "color": "#462c24"
+    },
+    {
+      "id": "nonburnable",
+      "color": "#3a403a"
+    }
+  ],
+  "notes": {
+    "threat": "Brightness is the annual chance a large fire burns the cell under 2040\u20132054 weather. The scale tops out at the 98th percentile, 1 year in 241. Color is the fuel group.",
+    "fuels": "LANDFIRE LF2022 fire-behavior fuel model. Relief is LF2020 elevation.",
+    "change": "Ember where the 2047 probability is higher than 2004\u20132018. Slate where it is lower. The stretch is the 98th percentile of the absolute difference."
+  }
+}

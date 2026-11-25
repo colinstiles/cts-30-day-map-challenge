@@ -176,11 +176,50 @@ body.viewshed-page {
   left: 16px;
   right: 16px;
   bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
   padding: 12px 14px 10px;
   background: rgba(21, 21, 15, 0.88);
   border: 1px solid #3A3B2D;
   border-radius: 8px;
   backdrop-filter: blur(8px);
+}
+
+.viewshed-dock-main {
+  min-width: 0;
+}
+
+.viewshed-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.viewshed-author img {
+  display: block;
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+
+.viewshed-author p {
+  margin: 0;
+  color: var(--text-color, #F2EFE4);
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.viewshed-author a {
+  color: var(--text-color-muted, #B8B5A8);
+  text-decoration: none;
+}
+
+.viewshed-author a:hover {
+  color: var(--primary-color, #9CBB74);
 }
 
 .viewshed-controls {
@@ -280,6 +319,15 @@ body.viewshed-page {
 
   .viewshed-compass {
     display: none;
+  }
+
+  .viewshed-dock {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .viewshed-author {
+    align-self: flex-end;
   }
 
   .viewshed-embed .viewshed-readout {

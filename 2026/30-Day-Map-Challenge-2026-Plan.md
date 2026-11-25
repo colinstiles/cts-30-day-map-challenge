@@ -672,7 +672,7 @@ Source recent flood extent data for Nepal and build a 3D hydrological model over
 
 ## Day 29 — Raster
 **Date:** November 29  
-**Concept:** Wildfire Suppression Difficulty Index and LANDFIRE
+**Concept:** Future wildfire threat on a LANDFIRE fuel grid
 
 ### Map ideas
 1. A raster composite of terrain, access, and fuel factors forming a Suppression Difficulty Index.
@@ -685,6 +685,9 @@ Build or source a Suppression Difficulty Index raster (terrain slope, road acces
 ### Potential data
 - USFS Suppression Difficulty Index (where available)
 - Slope/terrain, road network, fuel model data
+
+### Map
+`2026/day-29/day-29.html` is a 270 m raster of Tennessee. Hue is the LANDFIRE fuel group. Brightness is FSim annual large-fire burn probability for 2040–2054, from Riley et al. 2025, on a 2020 LANDFIRE landscape held still. A second raster shows where that probability rises or falls against 2004–2018. With fuels held still, expected large-fire area on burnable land falls from about 21,700 acres a year to about 18,900. See `2026/day-29/NOTES.md`.
 
 **Expected effort:** **Moderate**
 
@@ -818,7 +821,7 @@ If the month becomes difficult to sustain, prioritize these maps as likely portf
 5. **Day 22 — Projections:** A newly designed map projection
 6. **Day 26 — Water:** North Chickamauga Creek Gorge watershed
 7. **Day 28 — Feeling:** 3D hydro model of recent Nepal flooding
-8. **Day 29 — Raster:** Wildfire Suppression Difficulty Index
+8. **Day 29 — Raster:** Future large-fire odds on a LANDFIRE fuel grid
 
 The remaining maps can provide experimentation, lighter workload, or opportunities to learn new techniques.
 
