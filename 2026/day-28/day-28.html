@@ -138,7 +138,11 @@
     input[type="range"] { width: min(220px, 28vw); accent-color: #9cbb74; }
     .d28-clock { color: #c4b8a4; font-size: 13px; white-space: nowrap; }
     .d28-credit { margin: 0; color: #b8b5a8; font-size: 12px; line-height: 1.45; max-width: 78ch; }
-    html.d28-embed .d28-bar, html.d28-embed .d28-dock { display: none; }
+    html.d28-embed .d28-bar,
+    html.d28-embed .d28-dock,
+    html.d28-embed .d28-read,
+    html.d28-embed .d28-rose,
+    html.d28-embed .d28-inset { display: none; }
     @media (max-width: 720px) {
       .d28-bar { flex-wrap: wrap; gap: 6px 12px; }
       .d28-dock { flex-direction: column; }
