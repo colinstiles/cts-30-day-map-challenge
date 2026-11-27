@@ -8,12 +8,14 @@
   var note = document.getElementById("d29-note");
   var legend = document.getElementById("d29-legend");
   var readout = document.getElementById("d29-readout");
+  var box = document.getElementById("d29-aoi");
+  var stateButton = document.getElementById("d29-state");
   var fuelLine = document.getElementById("d29-fuel");
   var recentLine = document.getElementById("d29-recent");
   var futureLine = document.getElementById("d29-future");
   var deltaLine = document.getElementById("d29-delta");
   var slopeLine = document.getElementById("d29-slope");
-  var buttons = Array.prototype.slice.call(document.querySelectorAll(".d29-modes button"));
+  var buttons = Array.prototype.slice.call(document.querySelectorAll(".d29-modes button[data-mode]"));
 
   var MODES = {
     threat: "day-29.png",
@@ -29,10 +31,11 @@
   var panX = 0;
   var panY = 0;
   var base = 1;
-  var dragging = false;
-  var dragX = 0;
-  var dragY = 0;
+  var selecting = false;
+  var anchorX = 0;
+  var anchorY = 0;
   var mode = "threat";
+  var MAX_VIEW = 32;
 
   function simulatedYears(probability) {
     if (!(probability > 0)) return "No simulated large fire";
@@ -80,16 +83,65 @@
     img.style.transform = "translate(" + left + "px, " + top + "px)";
   }
 
-  function imagePixel(clientX, clientY) {
+  function imagePoint(clientX, clientY) {
     var rect = stage.getBoundingClientRect();
-    var width = img.naturalWidth * base * view;
-    var height = img.naturalHeight * base * view;
+    var scale = base * view;
+    var width = img.naturalWidth * scale;
+    var height = img.naturalHeight * scale;
     var left = (rect.width - width) / 2 + panX;
     var top = (rect.height - height) / 2 + panY;
     return {
-      x: Math.floor((clientX - rect.left - left) / (base * view)),
-      y: Math.floor((clientY - rect.top - top) / (base * view))
+      x: (clientX - rect.left - left) / scale,
+      y: (clientY - rect.top - top) / scale
     };
+  }
+
+  function imagePixel(clientX, clientY) {
+    var point = imagePoint(clientX, clientY);
+    return { x: Math.floor(point.x), y: Math.floor(point.y) };
+  }
+
+  function showState() {
+    view = 1;
+    panX = 0;
+    panY = 0;
+    apply();
+  }
+
+  function placeBox(x0, y0, x1, y1) {
+    var rect = stage.getBoundingClientRect();
+    var left = Math.min(x0, x1) - rect.left;
+    var top = Math.min(y0, y1) - rect.top;
+    box.hidden = false;
+    box.style.left = left + "px";
+    box.style.top = top + "px";
+    box.style.width = Math.abs(x1 - x0) + "px";
+    box.style.height = Math.abs(y1 - y0) + "px";
+  }
+
+  function zoomToBox(ax, ay, bx, by) {
+    if (!img.naturalWidth || !base) return;
+    var a = imagePoint(ax, ay);
+    var b = imagePoint(bx, by);
+    var x0 = Math.max(0, Math.min(a.x, b.x));
+    var y0 = Math.max(0, Math.min(a.y, b.y));
+    var x1 = Math.min(img.naturalWidth, Math.max(a.x, b.x));
+    var y1 = Math.min(img.naturalHeight, Math.max(a.y, b.y));
+    var boxW = x1 - x0;
+    var boxH = y1 - y0;
+    if (boxW < 2 || boxH < 2) return;
+    var rect = stage.getBoundingClientRect();
+    var next = Math.min(rect.width / (boxW * base), rect.height / (boxH * base));
+    view = Math.min(MAX_VIEW, Math.max(1, next));
+    var centerX = (x0 + x1) / 2;
+    var centerY = (y0 + y1) / 2;
+    panX = (img.naturalWidth / 2 - centerX) * base * view;
+    panY = (img.naturalHeight / 2 - centerY) * base * view;
+    if (view === 1) {
+      panX = 0;
+      panY = 0;
+    }
+    apply();
   }
 
   function showReadout(event) {
@@ -164,31 +216,48 @@
     if (event.key === "1") setMode("threat");
     if (event.key === "2") setMode("fuels");
     if (event.key === "3") setMode("change");
+    if (event.key === "Escape") showState();
   });
 
+  if (stateButton) stateButton.addEventListener("click", showState);
+
   stage.addEventListener("pointermove", function (event) {
-    if (dragging) {
-      panX += event.clientX - dragX;
-      panY += event.clientY - dragY;
-      dragX = event.clientX;
-      dragY = event.clientY;
-      apply();
-    }
+    if (selecting) placeBox(anchorX, anchorY, event.clientX, event.clientY);
     if (!embed) showReadout(event);
   });
 
   stage.addEventListener("pointerdown", function (event) {
-    if (embed || view === 1) return;
-    dragging = true;
-    dragX = event.clientX;
-    dragY = event.clientY;
+    if (embed || event.button !== 0) return;
+    selecting = true;
+    anchorX = event.clientX;
+    anchorY = event.clientY;
+    placeBox(anchorX, anchorY, anchorX, anchorY);
     stage.setPointerCapture(event.pointerId);
+    event.preventDefault();
   });
 
-  stage.addEventListener("pointerup", function () { dragging = false; });
+  stage.addEventListener("pointerup", function (event) {
+    if (!selecting) return;
+    selecting = false;
+    box.hidden = true;
+    var moved = Math.hypot(event.clientX - anchorX, event.clientY - anchorY);
+    if (moved >= 8) zoomToBox(anchorX, anchorY, event.clientX, event.clientY);
+    if (!embed) showReadout(event);
+  });
+
+  stage.addEventListener("pointercancel", function () {
+    selecting = false;
+    box.hidden = true;
+  });
+
+  stage.addEventListener("dblclick", function (event) {
+    if (embed) return;
+    event.preventDefault();
+    showState();
+  });
+
   stage.addEventListener("pointerleave", function () {
-    dragging = false;
-    readout.hidden = true;
+    if (!selecting) readout.hidden = true;
   });
 
   stage.addEventListener("wheel", function (event) {
@@ -196,7 +265,7 @@
     event.preventDefault();
     var previous = view;
     var factor = event.deltaY < 0 ? 1.12 : 1 / 1.12;
-    view = Math.min(8, Math.max(1, previous * factor));
+    view = Math.min(MAX_VIEW, Math.max(1, previous * factor));
     var rect = stage.getBoundingClientRect();
     var pointerX = event.clientX - rect.left;
     var pointerY = event.clientY - rect.top;

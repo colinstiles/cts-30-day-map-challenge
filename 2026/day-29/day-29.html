@@ -14,8 +14,9 @@
   </script>
 </head>
 <body>
-  <div class="d29-stage" id="d29-stage">
+  <div class="d29-stage" id="d29-stage" aria-label="Map. Drag a box to zoom. The cell under the pointer stays listed.">
     <img id="d29-map" alt="Tennessee fuel raster. Brightness is mid-century large-fire burn probability.">
+    <div class="d29-aoi" id="d29-aoi" hidden></div>
   </div>
 
   <header class="d29-chrome">
@@ -37,7 +38,9 @@
       <button type="button" data-mode="threat" aria-pressed="true">Threat</button>
       <button type="button" data-mode="fuels" aria-pressed="false">Fuels</button>
       <button type="button" data-mode="change" aria-pressed="false">Change</button>
+      <button type="button" id="d29-state">Whole state</button>
     </div>
+    <p class="d29-hint">Drag a box to zoom.</p>
     <div class="d29-legend" id="d29-legend"></div>
     <p class="d29-note" id="d29-note"></p>
   </footer>
