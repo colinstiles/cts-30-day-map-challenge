@@ -26,6 +26,7 @@ Run from the repository root:
 
 from __future__ import annotations
 
+import csv
 import json
 import urllib.request
 from pathlib import Path
@@ -46,6 +47,7 @@ LF_TIF = RAW / "lf" / "j58ab8aabe86b41588b12b8bd614853c4.tif"
 BP_RECENT = RAW / "fsim" / "bp2011.tif"
 BP_FUTURE = RAW / "fsim" / "bp2047.tif"
 COUNTIES = RAW / "tennessee_counties.geojson"
+COUNTY_CHANGE = RAW / "county_change.csv"
 CELL_M = 270.0
 ACRE_M2 = 4046.8564224
 
@@ -152,7 +154,7 @@ def load_counties():
     return counties
 
 
-def state_mask(shape: tuple[int, int], transform, crs) -> np.ndarray:
+def state_mask(shape: tuple[int, int], transform, crs, all_touched: bool = True) -> np.ndarray:
     counties = load_counties().to_crs(crs)
     state = counties.dissolve()
     burned = rasterize(
@@ -161,7 +163,7 @@ def state_mask(shape: tuple[int, int], transform, crs) -> np.ndarray:
         transform=transform,
         fill=0,
         dtype="uint8",
-        all_touched=True,
+        all_touched=all_touched,
     )
     return burned.astype(bool)
 
@@ -237,13 +239,42 @@ def read_bp(path: Path, bounds, transform, crs, shape: tuple[int, int]) -> np.nd
     return destination
 
 
-def one_in(probability: float) -> str:
+def simulated_years(probability: float) -> str:
+    """Say how often the cell burned, not a fire-return interval.
+
+    Riley et al. define burn probability as times burned divided by
+    simulated years, and they say that ratio is not a return interval.
+    """
     if not np.isfinite(probability) or probability <= 0:
         return "no simulated large fire"
-    years = 1.0 / probability
-    if years >= 10:
-        return f"1 year in {years:,.0f}"
-    return f"{probability * 100:.2f}% in a year"
+    per_10k = probability * 10000.0
+    if per_10k >= 100:
+        return f"{per_10k / 100:.2f}% of simulated years"
+    if per_10k >= 10:
+        return f"{per_10k:.1f} of 10,000 simulated years"
+    return f"{per_10k:.2f} of 10,000 simulated years"
+
+
+def rounded_acres(probability_sum: float) -> int:
+    return int(round(probability_sum * CELL_M * CELL_M / ACRE_M2 / 100.0) * 100)
+
+
+def county_declines() -> tuple[int, int] | None:
+    """Count Tennessee counties whose published mean burn probability falls."""
+    if not COUNTY_CHANGE.exists():
+        return None
+    decline = 0
+    total = 0
+    with COUNTY_CHANGE.open(newline="", encoding="utf-8") as handle:
+        for row in csv.DictReader(handle):
+            if row["STATE_NAME"] != "Tennessee":
+                continue
+            total += 1
+            if float(row["mean_BP_Percent_Change"]) < 0:
+                decline += 1
+    if total == 0:
+        return None
+    return decline, total
 
 
 def crop_box(mask: np.ndarray, pad: int = 8) -> tuple[int, int, int, int]:
@@ -373,20 +404,28 @@ def main() -> None:
     Image.fromarray(values, "RGB").save(OUT / "values.png", optimize=True)
     Image.fromarray(recent_pack, "RGB").save(OUT / "recent.png", optimize=True)
 
+    # Acre totals use cell centers inside the state, every fuel class.
+    # LF2022 non-burnable ground still carries some 2020-landscape
+    # probability, so a burnable-only sum would drop real simulated area.
+    # The picture still leaves that ground dark.
+    counted = state_mask(fuel.shape, transform, crs, all_touched=False) & ~missing
     median_recent = float(np.median(recent[burnable]))
     median_future = float(np.median(future[burnable]))
     recent_p98 = float(np.percentile(recent[burnable], 98))
     share_up = float(np.mean(future[burnable] > recent[burnable] + 1e-8))
     share_down = float(np.mean(future[burnable] < recent[burnable] - 1e-8))
-    cell_acres = CELL_M * CELL_M / ACRE_M2
-    acres = int(round(int(burnable.sum()) * cell_acres))
-    expected_recent = int(round(float(recent[burnable].sum()) * cell_acres / 100.0) * 100)
-    expected_future = int(round(float(future[burnable].sum()) * cell_acres / 100.0) * 100)
+    acres = int(round(int(burnable.sum()) * CELL_M * CELL_M / ACRE_M2))
+    expected_recent = rounded_acres(float(recent[counted].sum()))
+    expected_future = rounded_acres(float(future[counted].sum()))
+    declines = county_declines()
+    county_sentence = ""
+    if declines is not None:
+        fell, counties = declines
+        county_sentence = f" Published county means fall in {fell} of {counties} counties."
     summary = (
-        f"With fuels held still, expected large-fire area falls from about "
-        f"{expected_recent:,} acres a year to about {expected_future:,}. "
-        f"Half the burnable cells decline and {share_up * 100:.0f}% rise. "
-        f"The median stays {one_in(median_recent)}."
+        f"Summed over Tennessee, the burn probabilities come to about "
+        f"{expected_recent:,} acres a year under 2004–2018 weather and about "
+        f"{expected_future:,} under 2040–2054 weather.{county_sentence}"
     )
     fuels_meta = [
         {
@@ -419,9 +458,9 @@ def main() -> None:
         "groups": groups,
         "notes": {
             "threat": (
-                "Brightness is the annual chance a large fire burns the cell "
+                "Brightness is the share of simulated years a large fire burned the cell "
                 f"under 2040–2054 weather. The scale tops out at the 98th percentile, "
-                f"{one_in(scale98)}. Color is the fuel group."
+                f"{simulated_years(scale98)}. Color is the fuel group."
             ),
             "fuels": "LANDFIRE LF2022 fire-behavior fuel model. Relief is LF2020 elevation.",
             "change": (

@@ -11,9 +11,9 @@
 
 Threat brightens each cell by the annual chance a large fire burns it under weather for 2040–2054. The hue is the LANDFIRE fuel group. Fuels is that fuel mosaic on its own. Change warms where the 2047 probability is higher than 2004–2018 and cools where it is lower. The state outline is the Tennessee STS county polygons, dissolved. Agriculture, urban, water, and barren are LANDFIRE non-burnable and stay dark.
 
-The pointer reads the cell: fuel model, both probabilities, the percent change, and slope.
+The pointer reads the cell: fuel model, both probabilities as a share of simulated years, the percent change, and slope. Burn probability is times burned divided by simulated years. It is not a fire-return interval, so the pointer does not say "1 year in N."
 
-On burnable land, about 21.1 million acres, expected large-fire area falls from about 21,700 acres a year to about 18,900. Half the cells decline and 30% rise. The median stays 1 year in 2,500. The figures are rewritten into `meta.json` by the build script.
+Summed over every Tennessee cell whose center falls in the state, the probabilities come to about 23,400 acres a year under 2004–2018 weather and about 20,400 under 2040–2054 weather. That is a sum of cell probabilities, not the footprint of one fire. In the published county table, the mean falls in 75 of 95 counties. The largest falls are the eastern mountain counties. The rises are small and mostly in the west. The picture leaves LF2022 urban, agriculture, water, and barren dark, but those cells still hold about 1,800 acres a year of simulated probability from the 2020 landscape, and the acre total keeps them. A burnable-only sum is about 21,700 to 18,900 and the same 13% drop. The figures are rewritten into `meta.json` by the build script.
 
 ## What the model is
 
@@ -26,6 +26,8 @@ This is not a new fire-spread model. It is the Riley et al. 2025 FSim experiment
 The drawn fuel grid is LF2022 FBFM40. The LANDFIRE Product Service no longer serves LF2020 fuels. LF2022 is the closest fuel mosaic still on that service. Elevation and slope are LF2020, the topographic vintage in the FSim landscape. The national burn-probability grid is the same projection and cell size, with this extract's origin 30 m off the national origin. Probabilities are joined with nearest neighbor.
 
 The threat stretch tops out at the 98th percentile of the 2047 probability on burnable cells, so a few hot cells do not flatten the rest. The hover uses the stored probability, not the stretch.
+
+Checked against the source grids: nearest neighbor onto this extract matches sampling the national raster at the cell centers. The same 13% drop appears on the national grid with no resample. The state mask of cell centers is about 26.97 million acres, in line with the state's area. The county means are the authors' own table, `Data/CountyChange/county_change.csv`.
 
 ## Sources
 

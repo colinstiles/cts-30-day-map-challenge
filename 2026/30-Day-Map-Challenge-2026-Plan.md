@@ -687,7 +687,7 @@ Build or source a Suppression Difficulty Index raster (terrain slope, road acces
 - Slope/terrain, road network, fuel model data
 
 ### Map
-`2026/day-29/day-29.html` is a 270 m raster of Tennessee. Hue is the LANDFIRE fuel group. Brightness is FSim annual large-fire burn probability for 2040–2054, from Riley et al. 2025, on a 2020 LANDFIRE landscape held still. A second raster shows where that probability rises or falls against 2004–2018. With fuels held still, expected large-fire area on burnable land falls from about 21,700 acres a year to about 18,900. See `2026/day-29/NOTES.md`.
+`2026/day-29/day-29.html` is a 270 m raster of Tennessee. Hue is the LANDFIRE fuel group. Brightness is FSim annual large-fire burn probability for 2040–2054, from Riley et al. 2025, on a 2020 LANDFIRE landscape held still. A second raster shows where that probability rises or falls against 2004–2018. Summed over the state, the burn probabilities come to about 23,400 acres a year under recent weather and about 20,400 under the 2047 climate. Published county means fall in 75 of 95 counties. See `2026/day-29/NOTES.md`.
 
 **Expected effort:** **Moderate**
 

@@ -34,11 +34,12 @@
   var dragY = 0;
   var mode = "threat";
 
-  function oneIn(probability) {
+  function simulatedYears(probability) {
     if (!(probability > 0)) return "No simulated large fire";
-    var years = 1 / probability;
-    if (years >= 10) return "1 year in " + Math.round(years).toLocaleString("en-US");
-    return (probability * 100).toFixed(2) + "% in a year";
+    var per = probability * 10000;
+    if (per >= 100) return (per / 100).toFixed(2) + "% of simulated years";
+    if (per >= 10) return per.toFixed(1) + " of 10,000 simulated years";
+    return per.toFixed(2) + " of 10,000 simulated years";
   }
 
   function decode(high, low) {
@@ -108,8 +109,8 @@
     var future = decode(sample[0], sample[1]);
     var recent = decode(other[0], other[1]);
     fuelLine.textContent = fuel.name;
-    recentLine.textContent = "2004–2018 · " + oneIn(recent);
-    futureLine.textContent = "2040–2054 · " + oneIn(future);
+    recentLine.textContent = "2004–2018 · " + simulatedYears(recent);
+    futureLine.textContent = "2040–2054 · " + simulatedYears(future);
     if (recent > 0) {
       var pct = ((future - recent) / recent) * 100;
       var sign = pct > 0 ? "+" : "";

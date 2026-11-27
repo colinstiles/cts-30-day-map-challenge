@@ -1,12 +1,12 @@
 {
-  "summary": "With fuels held still, expected large-fire area falls from about 21,700 acres a year to about 18,900. Half the burnable cells decline and 30% rise. The median stays 1 year in 2,500.",
+  "summary": "Summed over Tennessee, the burn probabilities come to about 23,400 acres a year under 2004\u20132018 weather and about 20,400 under 2040\u20132054 weather. Published county means fall in 75 of 95 counties.",
   "cellMeters": 270.0,
   "bpScale": 0.03129999712109566,
   "threatPercentile": 0.004149999935179949,
   "changeScale": 0.0013599998783320189,
   "burnableAcres": 21053878,
-  "expectedAcresRecent": 21700,
-  "expectedAcresFuture": 18900,
+  "expectedAcresRecent": 23400,
+  "expectedAcresFuture": 20400,
   "shareHigher": 0.300622373266527,
   "shareLower": 0.5006767902857064,
   "medianRecent": 0.00039999998989515007,
@@ -237,7 +237,7 @@
     }
   ],
   "notes": {
-    "threat": "Brightness is the annual chance a large fire burns the cell under 2040\u20132054 weather. The scale tops out at the 98th percentile, 1 year in 241. Color is the fuel group.",
+    "threat": "Brightness is the share of simulated years a large fire burned the cell under 2040\u20132054 weather. The scale tops out at the 98th percentile, 41.5 of 10,000 simulated years. Color is the fuel group.",
     "fuels": "LANDFIRE LF2022 fire-behavior fuel model. Relief is LF2020 elevation.",
     "change": "Ember where the 2047 probability is higher than 2004\u20132018. Slate where it is lower. The stretch is the 98th percentile of the absolute difference."
   }
